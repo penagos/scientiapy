@@ -33,8 +33,11 @@
             </div>
         </nav>
     </div>
-    <div id="content">
+    <div class="container" id="content">
         {% block content %}{% endblock %}
+    </div>
+    <div class="container" id="footer">
+        <div class="text-center">Footer</div>
     </div>
 
     <script src="{% static '/js/jquery-3.5.1.slim.min.js' %}">
