@@ -4,7 +4,6 @@ from .models import Question
 
 # Create your views here.
 def index(request):
-    questions = Question.objects.order_by('-title')[:5]
+    questions = Question.objects.all
     context = {'questions': questions}
-    context = {}
     return render(request, 'questions/index.html', context)
