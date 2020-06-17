@@ -5,6 +5,7 @@
 
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap-4.5.0/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/fancybox3/jquery.fancybox.min.css' %}">
 </head>
 
 <body>
@@ -30,7 +31,7 @@
                 </ul>
                 <form class="form-inline my-2 my-md-0">
                     <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-                    <a class="btn" href="#">Login</a>
+                    <a data-fancybox data-type="ajax" data-src="{% url 'user:login' %}" class="btn" href="javascript:;">Login</a>
                     <a class="btn btn-primary" href="#">Register</a>
                 </form>
             </div>
@@ -43,7 +44,8 @@
         <span class="text-muted font-weight-light">&copy; Scientiapy 2020. Designed by <a href="http://www.penagos.co" target="_blank">Luis</a>.</span>
     </div>
 
-    <script src="{% static '/js/jquery-3.5.1.slim.min.js' %}">
-    <script src="{% static '/js/bootstrap-4.5.0/bootstrap.min.js' %}">
+    <script src="{% static '/js/jquery-3.5.1.min.js' %}"></script>
+    <script src="{% static '/js/bootstrap-4.5.0/bootstrap.min.js' %}"></script>
+    <script src="{% static '/js/fancybox3/jquery.fancybox.min.js' %}"></script>
 </body>
 </html>
