@@ -33,7 +33,7 @@
                 <form class="form-inline my-2 my-md-0">
                     <input class="form-control" type="text" placeholder="Search" aria-label="Search">
                     <a data-fancybox data-type="ajax" data-src="{% url 'user:login' %}" class="btn" href="javascript:;">Login</a>
-                    <a class="btn btn-primary" href="#">Register</a>
+                    <a href="{% url 'user:join' %}" class="btn btn-primary">Register</a>
                 </form>
             </div>
         </dic>
