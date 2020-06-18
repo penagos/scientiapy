@@ -2,3 +2,18 @@
     overflow: hidden;
     padding: 0px;
 }
+
+.question p {
+    margin-bottom: 0.4rem;
+}
+
+.question-stat {
+    padding: .5rem 1rem;
+    width: 50%;
+    text-align: center;
+}
+
+ul.sidelist {
+    font-size: 0.8rem;
+    padding-left: 18px;
+}
