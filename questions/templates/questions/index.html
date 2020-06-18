@@ -26,7 +26,7 @@
                     </ul>
                 </div>
                 <div class="col-lg-10 question">
-                    <h6><a href="#" class="text-decoration-none">{{ question.title }}</a></h6>
+                    <h6><a href="{% url 'questions:view' question.id %}" class="text-decoration-none">{{ question.title }}</a></h6>
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis justo eu ante dictum fermentum. Morbi tempor pellentesque nisi faucibus euismod. 
                     </p>

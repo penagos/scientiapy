@@ -7,3 +7,7 @@ def index(request):
     questions = Question.objects.all
     context = {'questions': questions}
     return render(request, 'questions/index.html', context)
+
+def view(request, qid):
+    context = {}
+    return render(request, 'questions/view.html', context)
