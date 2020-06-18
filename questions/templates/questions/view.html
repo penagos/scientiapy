@@ -1,1 +1,26 @@
-this is the view
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4" id="content">
+    <div class="row">
+        <div class="col-lg-9">
+            <h2>Question Title</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis justo eu ante dictum fermentum. Morbi tempor pellentesque nisi faucibus euismod. Nunc tempor imperdiet diam, sed efficitur purus faucibus sit amet. Vivamus egestas dolor vel felis pulvinar accumsan. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Morbi urna tellus, consequat ac luctus sed, vestibulum in tellus. Sed sit amet ultricies sem. Aliquam luctus sit amet ipsum tincidunt dictum. Duis enim tortor, euismod sit amet ante in, lobortis tempus lectus. 
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <textarea id="editor" class="form-control"></textarea>
+        <script>
+            $(document).ready(function() {
+                var easyMDE = new EasyMDE({element: $('#editor')[0]});
+            });
+        </script>
+    </div>
+    <div class="col-lg-3">
+
+    </div>
+</div>
+{% endblock %}
