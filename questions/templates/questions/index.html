@@ -19,13 +19,13 @@
             
             {% for question in questions %}
             <div class="row mb-4">
-                <div class="col-lg-1">
+                <div class="col-lg-1 col-md-2 col-sm-2 d-none d-sm-block">
                     <ul class="list-group">
                         <li class="list-group-item bg-success text-white question-stat">5</li>
                         <li class="list-group-item question-stat">8</li>
                     </ul>
                 </div>
-                <div class="col-lg-11 question">
+                <div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 question">
                     <h6><a href="{% url 'questions:view' question.id %}" class="text-decoration-none">{{ question.title }}</a></h6>
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis justo eu ante dictum fermentum. Morbi tempor pellentesque nisi faucibus euismod. 
