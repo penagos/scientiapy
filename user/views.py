@@ -26,3 +26,7 @@ def join(request):
 def logoff(request):
     logout(request)
     return redirect('/')
+
+def forgotpassword(request):
+    context = {}
+    return render(request, 'user/forgotpassword.html', context)

@@ -18,6 +18,18 @@ ul.sidelist {
     padding-left: 18px;
 }
 
+/* AJAX form loader spinner overlay */
+.loader {
+    display: none;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.7)
+}
+
 /* TODO: replace with nice images */
 #loginBackground {
     background-color: #feb236;
