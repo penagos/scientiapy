@@ -51,6 +51,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-12">
+                    {% if user.is_authenticated %}
                     <form method="POST" action="{% url 'questions:save' question.id %}">
                         {% csrf_token %}
                         <textarea name="post" id="postEditor"></textarea>
@@ -63,6 +64,11 @@
                             });
                         </script>
                     </form>
+                    {% else %}
+                    <div class="alert alert-primary" role="alert">
+                        Please <a data-fancybox data-type="ajax" data-src="{% url 'user:login' %}" href="javascript:;">login</a> to post comments. <a href="{% url 'user:join' %}">Need an account</a>?
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
