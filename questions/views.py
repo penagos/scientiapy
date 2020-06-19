@@ -11,7 +11,10 @@ def index(request):
 
 def view(request, qid):
     question = get_object_or_404(Question, pk=qid)
-    context = {'question': question}
+
+    # Fetch all posts which are tied to this question
+    posts = Post.objects.filter(question=question.id)
+    context = {'question': question, 'posts': posts}
     return render(request, 'questions/view.html', context)
 
 def save(request, qid):
