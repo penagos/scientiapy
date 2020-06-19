@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, logout
+from django.contrib.auth import authenticate, logout, login as auth_login
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
 
@@ -9,6 +9,7 @@ def login(request):
         user = authenticate(username=request.POST['username'], password=request.POST['password'])
         if user is not None:
             # Successful login
+            auth_login(request, user);
             return JsonResponse({'success': True})
         else:
             # Failure

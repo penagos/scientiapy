@@ -24,10 +24,10 @@
                             <form id="loginForm" class="mt-4" method="POST" action="{% url 'user:login' %}">
                                 {% csrf_token %}
                                 <div class="form-group mb-3">
-                                    <input type="text" name="username" placeholder="Username" required="" autofocus="1" class="form-control rounded-pill border-0 shadow-sm px-4">
+                                    <input type="text" name="username" value="luis" placeholder="Username" required="" autofocus="1" class="form-control rounded-pill border-0 shadow-sm px-4">
                                 </div>
                                 <div class="form-group mb-3">
-                                    <input type="password" name="password" placeholder="Password" required="" class="form-control rounded-pill border-0 shadow-sm px-4 text-primary">
+                                    <input type="password" name="password" value="luis" placeholder="Password" required="" class="form-control rounded-pill border-0 shadow-sm px-4 text-primary">
                                 </div>
                                 <div class="custom-control custom-checkbox mb-3">
                                     <input id="rememberPassword" type="checkbox" class="custom-control-input">
@@ -44,20 +44,24 @@
 
                             <script>
                                 $("#loginForm").submit(function() {
+                                    var form = $(this);
                                     $('#loginLoader').fadeIn('fast', function() {
                                         $.ajax({
-                                            data: $(this).serialize(),
-                                            type: $(this).attr('method'),
-                                            url: $(this).attr('action'),
+                                            data: form.serialize(),
+                                            type: form.attr('method'),
+                                            url:  form.attr('action'),
                                             success: function(response) {
-                                                if (!response.success) {
+                                                if (response.success) {
+                                                    // TODO: check if originated from standard login page.
+                                                    // If so, redirect to HTTP request origin
+                                                    location.reload();
+                                                } else {
                                                     $('#loginError').html(errorMessage(response.message));
                                                 }
                                             },
                                             complete: function() {
                                                 $('#loginLoader').fadeOut('fast');
                                             }
-
                                         });
                                     });
 
