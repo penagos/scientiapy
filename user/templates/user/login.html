@@ -1,7 +1,7 @@
 <div class="container" style="max-width: 800px;">
     <div class="row no-gutter">
         <!-- The image half -->
-        <div class="col-md-6 d-none d-md-flex bg-image"></div>
+        <div class="col-md-6 d-none d-md-flex" id="loginBackground"></div>
 
 
         <!-- The content half -->
@@ -13,7 +13,9 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <h3>Sign in</h3>
-                            <form class="mt-4">
+                            <div id="loginError"></div>
+                            <form id="loginForm" class="mt-4" method="POST" action="{% url 'user:login' %}">
+                                {% csrf_token %}
                                 <div class="form-group mb-3">
                                     <input type="text" placeholder="Username" required="" autofocus="1" class="form-control rounded-pill border-0 shadow-sm px-4">
                                 </div>
@@ -29,6 +31,21 @@
                                     <p><a href="{% url 'user:join' %}">Don't have an account?</a></p>
                                 </div>
                             </form>
+
+                            <script>
+                                $("#loginForm").submit(function() {
+                                    $.ajax({
+                                        data: $(this).serialize(),
+                                        type: $(this).attr('method'),
+                                        url: $(this).attr('action'),
+                                        success: function(response) {
+                                            $('#loginError').html(response);
+                                        }
+                                    });
+
+                                    return false;
+                                });
+                            </script>
                         </div>
                     </div>
                 </div><!-- End -->

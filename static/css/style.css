@@ -17,3 +17,11 @@ ul.sidelist {
     font-size: 0.8rem;
     padding-left: 18px;
 }
+
+/* TODO: replace with nice images */
+#loginBackground {
+    background-color: #feb236;
+}
+#joinBackground {
+    background-color: #86af49;
+}
