@@ -9,7 +9,7 @@ def login(request):
         user = authenticate(username=request.POST['username'], password=request.POST['password'])
         if user is not None:
             # Successful login
-            auth_login(request, user);
+            auth_login(request, user)
             return JsonResponse({'success': True})
         else:
             # Failure

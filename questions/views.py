@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -19,15 +20,19 @@ def view(request, qid):
     return render(request, 'questions/view.html', context)
 
 def save(request, qid):
-    # Posted to when there is a new post or an edit
-    question = get_object_or_404(Question, pk=qid)
+    # User must be logged in
+    if request.user.is_authenticated:
+        raise PermissionDenied
+    else:
+        # Posted to when there is a new post or an edit
+        question = get_object_or_404(Question, pk=qid)
 
-    # Perform validation on post
-    body = request.POST['post']
-    post = Post(question=question, body=body)
-    post.save()
+        # Perform validation on post
+        body = request.POST['post']
+        post = Post(question=question, body=body)
+        post.save()
 
-    return HttpResponseRedirect(reverse('questions:view', args=(question.id,)))
+        return HttpResponseRedirect(reverse('questions:view', args=(question.id,)))
 
 def new(request):
     context = {}
