@@ -42,8 +42,9 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <form method="POST" action="">
-                        <textarea id="postEditor"></textarea>
+                    <form method="POST" action="{% url 'questions:save' question.id %}">
+                        {% csrf_token %}
+                        <textarea name="post" id="postEditor"></textarea>
                         <div class="text-right">
                             <button type="submit" class="btn btn-primary">Post</button>
                         </div>
