@@ -4,23 +4,74 @@
 <div class="container mt-4" id="content">
     <div class="row">
         <div class="col-lg-9">
-            <h2>Question Title</h2>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis justo eu ante dictum fermentum. Morbi tempor pellentesque nisi faucibus euismod. Nunc tempor imperdiet diam, sed efficitur purus faucibus sit amet. Vivamus egestas dolor vel felis pulvinar accumsan. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Morbi urna tellus, consequat ac luctus sed, vestibulum in tellus. Sed sit amet ultricies sem. Aliquam luctus sit amet ipsum tincidunt dictum. Duis enim tortor, euismod sit amet ante in, lobortis tempus lectus. 
-            </p>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Question Title</h2>
+                    <hr>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis justo eu ante dictum fermentum. Morbi tempor pellentesque nisi faucibus euismod. Nunc tempor imperdiet diam, sed efficitur purus faucibus sit amet. Vivamus egestas dolor vel felis pulvinar accumsan. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Morbi urna tellus, consequat ac luctus sed, vestibulum in tellus. Sed sit amet ultricies sem. Aliquam luctus sit amet ipsum tincidunt dictum. Duis enim tortor, euismod sit amet ante in, lobortis tempus lectus. 
+                    </p>
+                    <span class="badge badge-primary">Primary</span>
+                    <span class="badge badge-primary">Primary</span>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-lg-12">
+                    <ul class="nav nav-tabs justify-content-end">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Votes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">New</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Old</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis justo eu ante dictum fermentum. Morbi tempor pellentesque nisi faucibus euismod. Nunc tempor imperdiet diam, sed efficitur purus faucibus sit amet. Vivamus egestas dolor vel felis pulvinar accumsan. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Morbi urna tellus, consequat ac luctus sed, vestibulum in tellus. Sed sit amet ultricies sem. Aliquam luctus sit amet ipsum tincidunt dictum. Duis enim tortor, euismod sit amet ante in, lobortis tempus lectus. 
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <form method="POST" action="">
+                        <textarea id="postEditor"></textarea>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary">Post</button>
+                        </div>
+                        <script>
+                            $(document).ready(function() {
+                                var easyMDE = new EasyMDE({element: document.getElementById('postEditor')});
+                            });
+                        </script>
+                    </form>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <textarea id="editor" class="form-control"></textarea>
-        <script>
-            $(document).ready(function() {
-                var easyMDE = new EasyMDE({element: $('#editor')[0]});
-            });
-        </script>
-    </div>
-    <div class="col-lg-3">
-
+        <div class="col-lg-3">
+            <div class="mb-4">
+                <h6 class="font-weight-bold">Recent Posts</h6>
+                <ul class="sidelist">
+                    <li>Etiam justo ipsum, ultrices id nibh in</li>
+                    <li>Etiam justo ipsum, ultrices id nibh in</li>
+                    <li>Etiam justo ipsum, ultrices id nibh in</li>
+                    <li>Etiam justo ipsum, ultrices id nibh in</li>
+                    <li>Etiam justo ipsum, ultrices id nibh in</li>
+                    <li>Etiam justo ipsum, ultrices id nibh in</li>
+                    <li>Etiam justo ipsum, ultrices id nibh in</li>
+                    <li>Etiam justo ipsum, ultrices id nibh in</li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
