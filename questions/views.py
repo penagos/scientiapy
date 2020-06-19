@@ -21,7 +21,7 @@ def view(request, qid):
 
 def save(request, qid):
     # User must be logged in
-    if request.user.is_authenticated:
+    if not request.user.is_authenticated:
         raise PermissionDenied
     else:
         # Posted to when there is a new post or an edit
