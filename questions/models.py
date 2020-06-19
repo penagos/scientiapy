@@ -9,4 +9,4 @@ class Question(models.Model):
  
 class Post(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    body = models.TextField
+    body = models.TextField()
