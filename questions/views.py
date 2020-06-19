@@ -28,3 +28,7 @@ def save(request, qid):
     post.save()
 
     return HttpResponseRedirect(reverse('questions:view', args=(question.id,)))
+
+def new(request):
+    context = {}
+    return render(request, 'questions/new.html', context)
