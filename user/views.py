@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.contrib.auth import authenticate, logout
+from django.shortcuts import redirect, render
 from django.http import JsonResponse
-from django.contrib.auth import authenticate
 
 # Create your views here.
 def login(request):
@@ -9,12 +9,12 @@ def login(request):
         user = authenticate(username=request.POST['username'], password=request.POST['password'])
         if user is not None:
             # Successful login
-            success = True
+            return JsonResponse({'success': True})
         else:
             # Failure
-            success = False
+            return JsonResponse({'success': False, 'message': 'Could not log you in'})
 
-        return JsonResponse({'login': success})
+        
     else:
         context = {}
         return render(request, 'user/login.html', context)
@@ -22,3 +22,7 @@ def login(request):
 def join(request):
     context = {}
     return render(request, 'user/join.html', context)
+
+def logoff(request):
+    logout(request)
+    return redirect('/')

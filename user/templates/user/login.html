@@ -39,7 +39,9 @@
                                         type: $(this).attr('method'),
                                         url: $(this).attr('action'),
                                         success: function(response) {
-                                            $('#loginError').html(response);
+                                            if (!response.success) {
+                                                $('#loginError').html(errorMessage(response.message));
+                                            }
                                         }
                                     });
 

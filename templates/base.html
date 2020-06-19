@@ -35,8 +35,24 @@
                 </ul>
                 <form class="form-inline my-2 my-md-0">
                     <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-                    <a data-fancybox data-type="ajax" data-src="{% url 'user:login' %}" class="btn" href="javascript:;">Login</a>
-                    <a href="{% url 'user:join' %}" class="btn btn-primary">Register</a>
+
+                     {% if user.is_authenticated %}
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="accountActions" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    My Account
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="accountActions">
+                                    <a class="dropdown-item" href="#">Profile</a>
+                                    <a class="dropdown-item" href="#">Settings</a>
+                                    <a class="dropdown-item" href="{% url 'user:logout' %}">Logout</a>
+                                </div>
+                            </li>
+                        </ul>
+                     {% else %}
+                        <a data-fancybox data-type="ajax" data-src="{% url 'user:login' %}" class="btn" href="javascript:;">Login</a>
+                        <a href="{% url 'user:join' %}" class="btn btn-primary">Register</a>
+                    {% endif %}
                 </form>
             </div>
         </dic>
