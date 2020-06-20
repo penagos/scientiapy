@@ -18,3 +18,8 @@ class Post(models.Model):
     published_date = models.DateTimeField(default=datetime.now)
     edit_date = models.DateTimeField(null=True, blank=True)
     body = models.TextField()
+
+class Votes(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    date = models.DateTimeField(default=datetime.now)
