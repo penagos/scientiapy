@@ -19,7 +19,12 @@ class Post(models.Model):
     edit_date = models.DateTimeField(null=True, blank=True)
     body = models.TextField()
 
-class Votes(models.Model):
+class Vote(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    date = models.DateTimeField(default=datetime.now)
+
+class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date = models.DateTimeField(default=datetime.now)
