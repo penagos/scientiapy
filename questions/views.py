@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -7,8 +8,11 @@ from .models import Post, Question
 
 # Create your views here.
 def index(request):
-    questions = Question.objects.all
-    context = {'questions': questions}
+    questions = Question.objects.all()
+    paginator = Paginator(questions, 2)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {'questions': page_obj}
     return render(request, 'questions/index.html', context)
 
 def view(request, qid):
