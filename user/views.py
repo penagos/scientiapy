@@ -31,3 +31,7 @@ def logoff(request):
 def forgotpassword(request):
     context = {}
     return render(request, 'user/forgotpassword.html', context)
+
+def profile(request, uid):
+    context = {}
+    return render(request, 'user/profile.html', context)

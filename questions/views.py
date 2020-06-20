@@ -8,7 +8,12 @@ from .models import Post, Question
 
 # Create your views here.
 def index(request):
-    questions = Question.objects.all()
+    # If a search was made, filter on needle
+    if request.GET.get('q') is not None:
+        questions = Question.objects.filter(title__icontains=request.GET['q'])
+    else:
+        questions = Question.objects.all()
+
     paginator = Paginator(questions, 2)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
