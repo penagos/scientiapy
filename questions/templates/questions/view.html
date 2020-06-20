@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load markdown %}
 {% block content %}
 <div class="container mt-4" id="content">
     <div class="row">
@@ -43,7 +43,7 @@
                             </ul>
                         </div>
                         <div class="col-lg-11">
-                            <p class="text-dark">{{ post.body }}</p>
+                            <p class="text-dark">{{ post.body|markdownify|safe }}</p>
                             <hr>
                             <p class="small text-muted text-right">Posted on {{ post.published_date }} by <a href="{% url 'user:profile' post.author.id %}">{{ post.author.username }}</a></p>
                         </div>

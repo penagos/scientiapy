@@ -11,52 +11,53 @@
 
     <script src="{% static '/js/jquery-3.5.1.min.js' %}"></script>
 </head>
-
 <body>
-    
     <nav class="navbar navbar-expand-lg navbar-light bg-light rounded">
         <div class="container">
-            <a class="navbar-brand" href="/">Scientiapy</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+        <div class="d-flex flex-grow-1">
+            <a href="/" class="navbar-brand">Codeply</a>
+            <a class="nav-link" href="{% url 'questions:index' %}">Questions <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="#">New</a>
+            <a class="nav-link" href="#">Unanswered</a>
+            <form class="mr-2 my-auto w-100 d-inline-block order-1" method="GET" action="{% url 'questions:index' %}">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control border border-right-0" placeholder="Search...">
+                    <span class="input-group-append">
+                        <button class="btn btn-outline-dark border border-left-0" type="button">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </form>
+        </div>
+        <button class="navbar-toggler order-0" type="button" data-toggle="collapse" data-target="#navbar7">
             <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarsExample09">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'questions:index' %}">Questions <span class="sr-only">(current)</span></a>
+        </button>
+        <div class="navbar-collapse collapse flex-shrink-1 flex-grow-0 order-last" id="navbar7">
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="accountActions" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ user.username }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="accountActions">
+                                <a class="dropdown-item" href="#">Profile</a>
+                                <a class="dropdown-item" href="#">Settings</a>
+                                <a class="dropdown-item" href="{% url 'user:logout' %}">Logout</a>
+                            </div>
+                        </li>
+                        <li class="nav-item"><a class="btn btn-primary" href="{% url 'questions:new' %}">Ask Question</a></li>
+                {% else %}
+                    <li class="nav-item">
+                        <a data-fancybox data-type="ajax" data-src="{% url 'user:login' %}" class="btn" href="javascript:;">Login</a> 
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="#">New</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#">Unanswered</a>
-                    </li>
-                </ul>
-                <form class="form-inline my-2 my-md-0" method="GET" action="{% url 'questions:index' %}">
-                    <input class="form-control" type="text" name="q" placeholder="Search" aria-label="Search">
-
-                     {% if user.is_authenticated %}
-                        <ul class="navbar-nav">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="accountActions" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    My Account
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="accountActions">
-                                    <a class="dropdown-item" href="#">Profile</a>
-                                    <a class="dropdown-item" href="#">Settings</a>
-                                    <a class="dropdown-item" href="{% url 'user:logout' %}">Logout</a>
-                                </div>
-                            </li>
-                            <li class="nav-item"><a class="btn btn-primary" href="{% url 'questions:new' %}">Ask Question</a></li>
-                        </ul>
-                     {% else %}
-                        <a data-fancybox data-type="ajax" data-src="{% url 'user:login' %}" class="btn" href="javascript:;">Login</a>
                         <a href="{% url 'user:join' %}" class="btn btn-primary">Register</a>
-                    {% endif %}
-                </form>
-            </div>
-        </dic>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+        </div>
     </nav>
 
     {% block content %}{% endblock %}
@@ -65,7 +66,7 @@
         <span class="text-muted font-weight-light">&copy; Scientiapy 2020. Designed by <a href="http://www.penagos.co" target="_blank">Luis</a>.</span>
     </div>
 
-    <script src="{% static '/js/bootstrap-4.5.0/bootstrap.min.js' %}"></script>
+    <!--<script src="{% static '/js/bootstrap-4.5.0/bootstrap.min.js' %}"></script>-->
     <script src="{% static '/js/bootstrap-4.5.0/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static '/js/fancybox3/jquery.fancybox.min.js' %}"></script>
     <script src="{% static '/js/easymde/easymde.min.js' %}"></script>
