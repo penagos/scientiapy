@@ -29,7 +29,7 @@ def save(request, qid):
 
         # Perform validation on post
         body = request.POST['post']
-        post = Post(question=question, body=body)
+        post = Post(question=question, author=request.user, body=body)
         post.save()
 
         return HttpResponseRedirect(reverse('questions:view', args=(question.id,)))
