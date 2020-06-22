@@ -58,7 +58,11 @@
                                     <hr>
                                 </div>
                                 <div class="comment-poster">
-                                    <p class="small"><a href="">Post comment</a></p>
+                                    {% if user.is_authenticated %}
+                                        <p class="small"><a href="">Post comment</a></p>
+                                    {% else %}
+                                        <p class="small">Please <a data-fancybox data-type="ajax" data-src="{% url 'user:login' %}" href="javascript:;">login</a> to post a comment.</p>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
