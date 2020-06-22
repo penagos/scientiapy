@@ -14,7 +14,8 @@ def index(request):
     else:
         questions = Question.objects.all()
 
-    paginator = Paginator(questions, 2)
+    # TODO: make this setting customizable from admin panel
+    paginator = Paginator(questions, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {'questions': page_obj, 'count': questions.count}

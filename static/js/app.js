@@ -8,6 +8,11 @@ $('.commentPoster').on('click', function(event) {
     event.preventDefault();
 });
 
+$('.load-more').on('click', function(event) {
+    alert("load more clicked");
+    event.preventDefault();
+});
+
 $(document).ready(function() {
     $('[data-toggle="tooltip"]').tooltip();
 });
