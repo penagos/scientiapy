@@ -4,7 +4,10 @@ function errorMessage(msg) {
 
 $('.commentPoster').on('click', function(event) {
     // Show mini comment poster textbox
-    alert("comment poster clicked");
+    var target = $(this).data('target');
+    var poster = '<input type="text" class="form-control" name="comment" placeholder="Comment">';
+
+    $(`#${target}`).html(poster);
     event.preventDefault();
 });
 
