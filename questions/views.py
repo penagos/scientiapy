@@ -17,7 +17,7 @@ def index(request):
     paginator = Paginator(questions, 2)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    context = {'questions': page_obj}
+    context = {'questions': page_obj, 'count': questions.count}
     return render(request, 'questions/index.html', context)
 
 def view(request, qid):
