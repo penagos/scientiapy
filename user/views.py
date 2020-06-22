@@ -35,3 +35,7 @@ def forgotpassword(request):
 def profile(request, uid):
     context = {}
     return render(request, 'user/profile.html', context)
+
+def settings(request, uid):
+    context = {}
+    return render(request, 'user/settings.html', context)

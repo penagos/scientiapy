@@ -30,6 +30,11 @@ ul.sidelist {
     background: rgba(255, 255, 255, 0.7)
 }
 
+.load-more:hover {
+    background: #F7F7F7;
+    transition: 0.5s;
+}
+
 /* TODO: replace with nice images */
 #loginBackground {
     background-color: #feb236;
