@@ -68,9 +68,20 @@
                         </div>
                     </div>
                 {% endfor %}
+
+                <div class="row mb-4">
+                    <div class="col-lg-12">
+                        <div class="card text-center">
+                            <div class="card-header">
+                               <a href="">Load 42 more answers</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-lg-12">
+                    <h4 class="mb-3">Post an Answer</h4>
                     {% if user.is_authenticated %}
                     <form method="POST" action="{% url 'questions:save' question.id %}">
                         {% csrf_token %}
@@ -86,7 +97,7 @@
                     </form>
                     {% else %}
                     <div class="alert alert-primary" role="alert">
-                        Please <a data-fancybox data-type="ajax" data-src="{% url 'user:login' %}" href="javascript:;">login</a> to post comments. <a href="{% url 'user:join' %}">Need an account</a>?
+                        Please <a data-fancybox data-type="ajax" data-src="{% url 'user:login' %}" href="javascript:;">login</a> to post an answer. <a href="{% url 'user:join' %}">Need an account</a>?
                     </div>
                     {% endif %}
                 </div>

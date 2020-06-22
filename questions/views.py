@@ -45,4 +45,8 @@ def save(request, qid):
 
 def new(request):
     context = {}
-    return render(request, 'questions/new.html', context)
+    return render(request, 'questions/edit.html', context)
+
+def edit(request):
+    context = {}
+    return render(request, 'questions/edit.html', context)
