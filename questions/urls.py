@@ -8,4 +8,5 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('questions/save/', views.save, name="save"),
     path('questions/new/', views.new, name="new"),
+    path('questions/edit/<int:pid>/', views.edit, name="edit"),
 ]

@@ -35,12 +35,25 @@ def save(request):
         # Perform validation on post
         body = request.POST['post']
         pid = int(request.POST['pid'])
-        qid = int(request.POST['qid'])
+        qid = request.POST.get('gid', 0)
 
         # Posted to when there is a new post or an edit. If the post ID is
         # non-zero we are editing. If the question_id is non-zero we are
         # posting a reply. Otherwise we are posting a new question
-        if qid == 0:
+        if pid:
+            # Update existing answer or question
+            post = get_object_or_404(Post, pk=pid)
+
+            # If this is a question, update the title
+            if post.post_type == PostType.QUESTION:
+                post.title = request.POST['title']
+                qid = post.id
+            else:
+                qid = post.parent_id.id
+
+            post.body = request.POST['post']
+            post.save()
+        elif qid == 0:
             name = request.POST['title'];
             question = Post(title=name,
                             body=body,
@@ -58,9 +71,16 @@ def save(request):
         return HttpResponseRedirect(reverse('questions:view', args=(qid,)))
 
 def new(request):
-    context = {}
+    context = {'action': 'New Question', 'isNewQuestion': True}
     return render(request, 'questions/edit.html', context)
 
-def edit(request):
-    context = {}
+def edit(request, pid):
+    post = get_object_or_404(Post, pk=pid)
+
+    if post.post_type == PostType.ANSWER:
+        action = 'Editing Answer'
+    else:
+        action = 'Editing Question'
+
+    context = {'post': post, 'action': action}
     return render(request, 'questions/edit.html', context)

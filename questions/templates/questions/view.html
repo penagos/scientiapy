@@ -11,6 +11,10 @@
                     <p>
                         {{ question.body|markdownify|safe }}
                     </p>
+                    <hr>
+                    <p class="small text-muted">
+                        <a href="{% url 'questions:edit' question.id %}">Edit</a>
+                    </a><br>
                     <span class="badge badge-primary">Primary</span>
                     <span class="badge badge-primary">Primary</span>
                 </div>
@@ -46,6 +50,9 @@
                             <div class="post">
                                 <p class="text-dark">{{ post.body|markdownify|safe }}</p>
                                 <hr>
+                                <p class="small text-muted">
+                                    <a href="{% url 'questions:edit' post.id %}">Edit</a>
+                                </a><br>
                                 <p class="small text-muted text-right">Posted on {{ post.published_date }} by <a href="{% url 'user:profile' post.author.id %}">{{ post.author.username }}</a></p>
                             </div>
                             <div class="comments">
