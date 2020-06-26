@@ -34,8 +34,13 @@ def save(request):
     else:
         # Perform validation on post
         body = request.POST['post']
-        pid = int(request.POST['pid'])
-        qid = request.POST.get('gid', 0)
+        pid = request.POST['pid']
+        qid = request.POST.get('qid', 0)
+
+        if pid == "":
+            pid = 0
+        else:
+            pid = int(pid)
 
         # Posted to when there is a new post or an edit. If the post ID is
         # non-zero we are editing. If the question_id is non-zero we are
