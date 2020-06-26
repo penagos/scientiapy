@@ -12,7 +12,7 @@ def index(request):
     if request.GET.get('q') is not None:
         questions = Question.objects.filter(title__icontains=request.GET['q'])
     else:
-        questions = Question.objects.all()
+        questions = Question.objects.all().order_by('-id')
 
     # TODO: make this setting customizable from admin panel
     paginator = Paginator(questions, 10)
@@ -34,11 +34,18 @@ def save(request, qid):
     if not request.user.is_authenticated:
         raise PermissionDenied
     else:
-        # Posted to when there is a new post or an edit
-        question = get_object_or_404(Question, pk=qid)
-
         # Perform validation on post
         body = request.POST['post']
+
+        # Posted to when there is a new post or an edit
+        # If the post ID is 0, we are making a new question
+        if qid == 0:
+            name = request.POST['title'];
+            question = Question(title=name)
+            question.save()
+            qid = question.pk
+
+        question = get_object_or_404(Question, pk=qid)
         post = Post(question=question, author=request.user, body=body)
         post.save()
 
