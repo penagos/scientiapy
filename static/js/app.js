@@ -5,7 +5,8 @@ function errorMessage(msg) {
 $('.commentPoster').on('click', function(event) {
     // Show mini comment poster textbox
     var target = $(this).data('target');
-    var poster = '<input type="text" class="form-control" name="comment" placeholder="Comment">';
+    var postid = $(this).data('postid');
+    var poster = `<input type="hidden" name="pid" value="${postid}"><input type="text" class="form-control" name="comment" placeholder="Comment">`;
 
     $(`#${target}`).html(poster);
     event.preventDefault();

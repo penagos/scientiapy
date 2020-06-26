@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
-from .models import Post, PostType
+from .models import Comment, Post, PostType
 
 # Create your views here.
 def index(request):
@@ -33,9 +33,10 @@ def save(request):
         raise PermissionDenied
     else:
         # Perform validation on post
-        body = request.POST['post']
+        body = request.POST.get('body', "")
         pid = request.POST['pid']
         qid = request.POST.get('qid', 0)
+        comment = request.POST.get('comment', "")
 
         if pid == "":
             pid = 0
@@ -45,7 +46,13 @@ def save(request):
         # Posted to when there is a new post or an edit. If the post ID is
         # non-zero we are editing. If the question_id is non-zero we are
         # posting a reply. Otherwise we are posting a new question
-        if pid:
+        if comment != "":
+            post = get_object_or_404(Post, pk=pid)
+            comment = Comment(post=post,
+                              author=request.user,
+                              body=comment)
+            qid = post.parent_id.id
+        elif pid:
             # Update existing answer or question
             post = get_object_or_404(Post, pk=pid)
 
