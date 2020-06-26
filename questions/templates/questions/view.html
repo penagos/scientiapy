@@ -56,14 +56,14 @@
                                 <p class="small text-muted text-right">Posted on {{ post.published_date }} by <a href="{% url 'user:profile' post.author.id %}">{{ post.author.username }}</a></p>
                             </div>
                             <div class="comments">
-                                <div class="comment">
-                                    <p class="small">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vulputate ac massa a rutrum. Nam sodales rutrum turpis, vel eleifend mi tempor in. In hac habitasse platea dictumst. Curabitur vitae sagittis felis. Nam orci ex, accumsan eu ornare at, tristique pellentesque mi. Nulla eu sollicitudin nisl. <span class="text-black-50">Posted by <a href="#">User</a> 50 minutes ago</span></p>
-                                    <hr>
-                                </div>
-                                <div class="comment">
-                                    <p class="small">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vulputate ac massa a rutrum. Nam sodales rutrum turpis, vel eleifend mi tempor in. In hac habitasse platea dictumst. Curabitur vitae sagittis felis. Nam orci ex, accumsan eu ornare at, tristique pellentesque mi. Nulla eu sollicitudin nisl. <span class="text-black-50">Posted by <a href="#">User</a> 50 minutes ago</span></p>
-                                    <hr>
-                                </div>
+                                {% for comment in post.comment_set.all %}
+                                    <div class="comment">
+                                        <p class="small">
+                                            {{ comment.body }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                {% endfor %}
                                 <div class="comment-poster">
                                     {% if user.is_authenticated %}
                                         <form method="POST" action="{% url 'questions:save' %}">

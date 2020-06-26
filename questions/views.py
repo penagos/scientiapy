@@ -23,7 +23,7 @@ def index(request):
 
 def view(request, qid):
     question = get_object_or_404(Post, pk=qid)
-    posts = Post.objects.filter(parent_id=qid)
+    posts = Post.getPosts(qid)
     context = {'question': question, 'answers': posts}
     return render(request, 'questions/view.html', context)
 
@@ -33,7 +33,7 @@ def save(request):
         raise PermissionDenied
     else:
         # Perform validation on post
-        body = request.POST.get('body', "")
+        body = request.POST.get('post', "")
         pid = request.POST['pid']
         qid = request.POST.get('qid', 0)
         comment = request.POST.get('comment', "")
@@ -51,6 +51,7 @@ def save(request):
             comment = Comment(post=post,
                               author=request.user,
                               body=comment)
+            comment.save()
             qid = post.parent_id.id
         elif pid:
             # Update existing answer or question

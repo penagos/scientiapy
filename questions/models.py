@@ -19,6 +19,13 @@ class Post(models.Model):
     edit_date = models.DateTimeField(null=True, blank=True)
     body = models.TextField()
 
+    @staticmethod
+    def getPosts(qid):
+        # objects.filter(parent_id=qid)
+        posts = Post.objects.prefetch_related('comment_set').filter(parent_id=qid)
+        #posts = Post.objects.filter(pk = 1, )
+        return posts
+
 class Vote(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
