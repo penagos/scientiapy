@@ -4,15 +4,15 @@ from django.conf import settings
 from django.db import models
 
 # Create your models here.
-class Question(models.Model):
-    title = models.CharField(max_length=128)
+class PostType(models.TextChoices):
+    QUESTION = 'QQ', 'question'
+    ANSWER = 'AA', 'answer'
 
-    def __str__(self):
-        return self.title
- 
 class Post(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    post_type = models.CharField(max_length=2, choices=PostType.choices)
+    title = models.CharField(max_length=128, null=True, blank=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    parent_id = models.ForeignKey('Post', blank=True, null=True, on_delete=models.CASCADE)
 
     # Need to pass function and not function() to eval at insertion time
     published_date = models.DateTimeField(default=datetime.now)

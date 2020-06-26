@@ -4,15 +4,15 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
-from .models import Post, Question
+from .models import Post, PostType
 
 # Create your views here.
 def index(request):
     # If a search was made, filter on needle
     if request.GET.get('q') is not None:
-        questions = Question.objects.filter(title__icontains=request.GET['q'])
+        questions = Post.objects.filter(title__icontains=request.GET['q'], post_type=PostType.QUESTION)
     else:
-        questions = Question.objects.all().order_by('-id')
+        questions = Post.objects.filter(post_type=PostType.QUESTION).order_by('-id')
 
     # TODO: make this setting customizable from admin panel
     paginator = Paginator(questions, 10)
@@ -22,34 +22,40 @@ def index(request):
     return render(request, 'questions/index.html', context)
 
 def view(request, qid):
-    question = get_object_or_404(Question, pk=qid)
-
-    # Fetch all posts which are tied to this question
-    posts = Post.objects.filter(question=question.id)
-    context = {'question': question, 'posts': posts}
+    question = get_object_or_404(Post, pk=qid)
+    posts = Post.objects.filter(parent_id=qid)
+    context = {'question': question, 'answers': posts}
     return render(request, 'questions/view.html', context)
 
-def save(request, qid):
+def save(request):
     # User must be logged in
     if not request.user.is_authenticated:
         raise PermissionDenied
     else:
         # Perform validation on post
         body = request.POST['post']
+        pid = int(request.POST['pid'])
+        qid = int(request.POST['qid'])
 
-        # Posted to when there is a new post or an edit
-        # If the post ID is 0, we are making a new question
+        # Posted to when there is a new post or an edit. If the post ID is
+        # non-zero we are editing. If the question_id is non-zero we are
+        # posting a reply. Otherwise we are posting a new question
         if qid == 0:
             name = request.POST['title'];
-            question = Question(title=name)
+            question = Post(title=name,
+                            body=body,
+                            author=request.user,
+                            post_type=PostType.QUESTION)
             question.save()
             qid = question.pk
+        else:
+            post = Post(author=request.user,
+                        body=body,
+                        parent_id=get_object_or_404(Post, pk=qid),
+                        post_type=PostType.ANSWER)
+            post.save()
 
-        question = get_object_or_404(Question, pk=qid)
-        post = Post(question=question, author=request.user, body=body)
-        post.save()
-
-        return HttpResponseRedirect(reverse('questions:view', args=(question.id,)))
+        return HttpResponseRedirect(reverse('questions:view', args=(qid,)))
 
 def new(request):
     context = {}

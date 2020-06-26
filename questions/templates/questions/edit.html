@@ -7,7 +7,9 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h2>New Question</h2>
-                    <form method="POST" action="{% url 'questions:save' 0 %}">
+                    <form method="POST" action="{% url 'questions:save' %}">
+                        <input type="hidden" name="pid" value="0">
+                        <input type="hidden" name="qid" value="0">
                         {% csrf_token %}
                         <div class="form-group">
                             <input type="text" class="form-control" name="title" placeholder="Question Title">
