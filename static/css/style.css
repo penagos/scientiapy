@@ -12,6 +12,16 @@
     width: 100%;
     text-align: center;
 }
+.postFlashHide {
+    transition: visibility 0s 2s, opacity 2s linear;
+}
+.postFlash {
+    background: #ffca60;
+    -webkit-transition:background 1.5s;
+    -moz-transition:background 1.5s;
+    -o-transition:background 1.5s;
+    transition:background 1.5s
+}
 
 ul.sidelist {
     font-size: 0.8rem;

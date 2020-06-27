@@ -8,7 +8,13 @@ function handlePostFlash() {
         var hash = window.location.hash.substring(1);
         var identifier = new RegExp('^[pc]+[0-9]+$');
         if (identifier.test(hash)) {
-            console.log('todo');
+            console.log("flashing");
+            $(`#${hash}`).toggleClass("postFlash");
+            setTimeout(function() {
+                console.log("out");
+                $(`#${hash}`).toggleClass("postFlash");
+                $(`#${hash}`).toggleClass("postFlashHide");
+            }, 1500);
         }
     }
 }
