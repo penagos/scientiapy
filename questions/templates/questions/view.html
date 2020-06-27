@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load markdown %}
 {% block content %}
+{% load static %}
 <div class="container mt-4" id="content">
     <div class="row">
         <div class="col-lg-9">
@@ -41,10 +42,11 @@
                 {% for post in answers %}
                     <div class="row mb-4">
                         <div class="col-lg-1">
-                            <ul class="list-group">
-                                <li class="list-group-item bg-success text-white question-stat">5</li>
-                                <li class="list-group-item question-stat">8</li>
-                            </ul>
+                            <div class="upvote-container text-center">
+                                <a href="#"><img src="{% static '/img/open-iconic/svg/caret-top.svg' %}" alt="Up vote" class="upvote" title="+1 vote"></a>
+                                <h5 class="upvote-count">34</h5>
+                                <a href="#"><img src="{% static '/img/open-iconic/svg/caret-bottom.svg' %}" alt="Up vote" class="upvote" title="-1 vote"></a>
+                            </div>
                         </div>
                         <div class="col-lg-11">
                             <div class="post">

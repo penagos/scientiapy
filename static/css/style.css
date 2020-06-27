@@ -35,9 +35,20 @@ ul.sidelist {
     transition: 0.5s;
 }
 
+.upvote {
+    width: 36px;
+    height: 36px;
+}
+
+.upvote-count {
+    margin-bottom: 0px;
+}
+
 /* TODO: replace with nice images */
 #loginBackground {
-    background-color: #feb236;
+    /* background-color: #feb236; */
+    background-image: url('/static/img/login.jpg');
+    background-size: cover;
 }
 #joinBackground {
     background-color: #86af49;
