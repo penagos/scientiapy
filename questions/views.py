@@ -116,8 +116,16 @@ def save(request):
 
         return HttpResponseRedirect(reverse('questions:view', args=(qid,)) + anchor)
 
-def new(request):
+def ask(request):
     context = {'action': 'New Question', 'isNewQuestion': True}
+    return render(request, 'questions/edit.html', context)
+
+def new(request):
+    context = {}
+    return render(request, 'questions/edit.html', context)
+
+def unanswered(request):
+    context = {}
     return render(request, 'questions/edit.html', context)
 
 def edit(request, pid):

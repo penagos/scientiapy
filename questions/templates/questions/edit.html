@@ -24,12 +24,14 @@
                                 });
                             </script>
                         </div>
+                        {% if post.title or isNewQuestion %}
                         <div class="form-group">
                             <input type="text" class="form-control" name="tags" placeholder="Enter to save" data-role="tagsinput" value="{{ post.tags }}">
                         </div>
+                        {% endif %}
                         <div class="form-group">
                             <div class="text-right">
-                                <button type="submit" class="btn btn-primary">Post</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
                             </div>
                         </div>
                     </form>
