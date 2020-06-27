@@ -34,6 +34,21 @@ $('.load-more').on('click', function(event) {
     event.preventDefault();
 });
 
+$('#sortByVotes').on('click', function(event) {
+    alert("sort by votes clicked");
+    event.preventDefault();
+});
+
+$('#sortByNew').on('click', function(event) {
+    alert("sort by new clicked");
+    event.preventDefault();
+});
+
+$('#sortByOld').on('click', function(event) {
+    alert("sort by old clicked");
+    event.preventDefault();
+});
+
 $(document).ready(function() {
     $('[data-toggle="tooltip"]').tooltip();
 });
