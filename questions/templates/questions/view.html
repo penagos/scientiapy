@@ -49,17 +49,17 @@
                         <div class="col-lg-11">
                             <div class="post">
                                 <p class="text-dark">{{ post.body|markdownify|safe }}</p>
-                                <hr>
                                 <p class="small text-muted">
                                     <a href="{% url 'questions:edit' post.id %}">Edit</a>
                                 </a><br>
                                 <p class="small text-muted text-right">Posted on {{ post.published_date }} by <a href="{% url 'user:profile' post.author.id %}">{{ post.author.username }}</a></p>
+                                <hr>
                             </div>
                             <div class="comments">
                                 {% for comment in post.comment_set.all %}
                                     <div class="comment">
                                         <p class="small">
-                                            {{ comment.body }}
+                                            {{ comment.body }}. <span class="text-muted">Posted {{ comment.date }} by <a href="{% url 'user:profile' comment.author.id %}">{{ comment.author.username }}</a></span>
                                         </p>
                                         <hr>
                                     </div>
