@@ -4,6 +4,13 @@ from django.conf import settings
 from django.db import models
 
 # Create your models here.
+class Tag(models.Model):
+    title = models.CharField(max_length=32)
+
+    @staticmethod
+    def getOrCreate(name):
+        return Tag.objects.update_or_create(title=name)[0]
+
 class PostType(models.TextChoices):
     QUESTION = 'QQ', 'question'
     ANSWER = 'AA', 'answer'
@@ -19,12 +26,18 @@ class Post(models.Model):
     edit_date = models.DateTimeField(null=True, blank=True)
     body = models.TextField()
 
+    # We cache tags on each question to avoid needing to traverse tags table
+    tags = models.CharField(max_length=256, null=True, blank=True)
+
     @staticmethod
     def getPosts(qid):
-        # objects.filter(parent_id=qid)
-        posts = Post.objects.prefetch_related('comment_set').filter(parent_id=qid)
-        #posts = Post.objects.filter(pk = 1, )
-        return posts
+        return Post.objects.prefetch_related('comment_set').filter(parent_id=qid)
+
+    @staticmethod
+    def updateTag(post, tag):
+        # If the tag does not already exist create a new one
+        tag = Tag.getOrCreate(tag)
+        PostTag.update(tag, post)
 
 class Vote(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
@@ -37,9 +50,10 @@ class Comment(models.Model):
     date = models.DateTimeField(default=datetime.now)
     body = models.TextField()
 
-class Tag(models.Model):
-    title = models.CharField(max_length=32)
-
 class PostTag(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+
+    @staticmethod
+    def update(tid, pid):
+        PostTag.objects.update_or_create(post=pid, tag=tid)

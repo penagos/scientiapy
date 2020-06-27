@@ -54,6 +54,11 @@ ul.sidelist {
     height: 36px;
 }
 
+.accepted {
+    width: 36px;
+    height: 36px;
+}
+
 .upvote-count {
     margin-bottom: 0px;
 }

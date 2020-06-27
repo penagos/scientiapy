@@ -39,7 +39,7 @@ def save(request):
         comment = request.POST.get('comment', "")
 
         # Only set for question edits
-        tags = request.POST.get('tags', "")
+        tags = request.POST.get('tags', "").lower()
 
         if pid == "":
             pid = 0
@@ -70,6 +70,13 @@ def save(request):
                 qid = post.parent_id.id
 
             post.body = request.POST['post']
+            post.tags = tags
+
+            # Handle tags
+            tags = tags.split(',')
+            for tag in tags:
+                Post.updateTag(post, tag)
+
             post.save()
             anchor = '#p' + str(pid)
         elif qid == 0:
@@ -97,12 +104,16 @@ def new(request):
     return render(request, 'questions/edit.html', context)
 
 def edit(request, pid):
-    post = get_object_or_404(Post, pk=pid)
-
-    if post.post_type == PostType.ANSWER:
-        action = 'Editing Answer'
+    # Ensure user is logged in
+    if not request.user.is_authenticated:
+        raise PermissionDenied
     else:
-        action = 'Editing Question'
+        post = get_object_or_404(Post, pk=pid)
 
-    context = {'post': post, 'action': action}
-    return render(request, 'questions/edit.html', context)
+        if post.post_type == PostType.ANSWER:
+            action = 'Editing Answer'
+        else:
+            action = 'Editing Question'
+
+        context = {'post': post, 'action': action}
+        return render(request, 'questions/edit.html', context)
