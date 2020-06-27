@@ -38,6 +38,9 @@ def save(request):
         qid = request.POST.get('qid', 0)
         comment = request.POST.get('comment', "")
 
+        # Only set for question edits
+        tags = request.POST.get('tags', "")
+
         if pid == "":
             pid = 0
         else:
