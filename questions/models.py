@@ -39,6 +39,11 @@ class Post(models.Model):
         tag = Tag.getOrCreate(tag)
         PostTag.update(tag, post)
 
+    @staticmethod
+    def getRelated(post):
+        # Get related questions
+        return Post.objects.filter(title__icontains=post.title, post_type=PostType.QUESTION)
+
 class Vote(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

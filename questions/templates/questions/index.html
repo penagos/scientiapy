@@ -32,7 +32,7 @@
                         <span class="float-right"><small class="text-muted">Posted {{ question.published_date }} by <a href="{% url 'user:profile' question.author.id %}" data-toggle="tooltip" data-placement="top" title="Additional Info">{{ question.author.username }}</a></small></span>
                         
                         {% for tag in question.tags %}
-                            <span class="badge badge-primary">{{ tag }}</span>
+                            <span class="badge badge-primary"><a href="" class="text-decoration-none">{{ tag }}</a></span>
                         {% endfor %}
                     </div>
                 </div>

@@ -35,7 +35,12 @@ def view(request, qid):
     if question.tags is not None:
         question.tags = question.tags.split(',')
 
-    context = {'question': question, 'answers': posts}
+    # Fetch related questions
+    related = Post.getRelated(question)
+
+    context = {'question': question,
+               'answers': posts,
+               'related': related}
     return render(request, 'questions/view.html', context)
 
 def save(request):

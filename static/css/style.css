@@ -38,6 +38,10 @@ pre code {
 .badge {
     padding: 0.5em 0.6em;
 }
+.badge a {
+    color: #FFFFFF;
+    dusplay: block;
+}
 
 ul.sidelist {
     font-size: 0.8rem;

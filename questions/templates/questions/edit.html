@@ -13,11 +13,11 @@
 
                         {% if post.title or isNewQuestion %}
                         <div class="form-group">
-                            <input type="text" class="form-control" name="title" placeholder="Question Title" value="{{ post.title|default_if_none:"" }}">
+                            <input type="text" class="form-control" name="title" placeholder="Question Title" value="{{ post.title|default_if_none:"" }}" required>
                         </div>
                         {% endif %}
                         <div class="form-group">
-                            <textarea name="post" id="postEditor">{{ post.body|default_if_none:"" }}</textarea>
+                            <textarea name="post" id="postEditor" required>{{ post.body|default_if_none:"" }}</textarea>
                             <script>
                                 $(document).ready(function() {
                                     var easyMDE = new EasyMDE({element: document.getElementById('postEditor')});
