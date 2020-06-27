@@ -98,7 +98,7 @@ def save(request):
             anchor = '#p' + str(pid)
         elif qid == 0:
             # New question
-            name = request.POST['title'];
+            name = request.POST['title']
             question = Post(title=name,
                             body=body,
                             author=request.user,
