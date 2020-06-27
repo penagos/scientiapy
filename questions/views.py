@@ -64,6 +64,7 @@ def save(request):
             # If this is a question, update the title
             if post.post_type == PostType.QUESTION:
                 post.title = request.POST['title']
+                
                 qid = post.id
             else:
                 qid = post.parent_id.id
