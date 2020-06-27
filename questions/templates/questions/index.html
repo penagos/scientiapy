@@ -28,8 +28,8 @@
                     </div>
                     <div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 question">
                         <h6><a href="{% url 'questions:view' question.id %}" class="text-decoration-none">{{ question.title }}</a></h6>
-                        <p>{{ question.body }}</p>
-                        <span class="float-right"><small class="text-muted">Posted 5 days ago by <a href="#" data-toggle="tooltip" data-placement="top" title="Additional Info">Name</a></small></span>
+                        <p>{{ question.body|truncatechars:255 }}</p>
+                        <span class="float-right"><small class="text-muted">Posted {{ question.published_date }} by <a href="{% url 'user:profile' question.author.id %}" data-toggle="tooltip" data-placement="top" title="Additional Info">{{ question.author.username }}</a></small></span>
                         <span class="badge badge-primary">Primary</span>
                         <span class="badge badge-primary">Primary</span>
                     </div>
