@@ -53,6 +53,7 @@ def save(request):
                               body=comment)
             comment.save()
             qid = post.parent_id.id
+            anchor = '#c' + str(comment.pk)
         elif pid:
             # Update existing answer or question
             post = get_object_or_404(Post, pk=pid)
@@ -66,7 +67,9 @@ def save(request):
 
             post.body = request.POST['post']
             post.save()
+            anchor = '#p' + str(pid)
         elif qid == 0:
+            # New question
             name = request.POST['title'];
             question = Post(title=name,
                             body=body,
@@ -74,14 +77,16 @@ def save(request):
                             post_type=PostType.QUESTION)
             question.save()
             qid = question.pk
+            anchor = '#p' + str(qid)
         else:
             post = Post(author=request.user,
                         body=body,
                         parent_id=get_object_or_404(Post, pk=qid),
                         post_type=PostType.ANSWER)
             post.save()
+            anchor = '#p' + str(post.pk)
 
-        return HttpResponseRedirect(reverse('questions:view', args=(qid,)))
+        return HttpResponseRedirect(reverse('questions:view', args=(qid,)) + anchor)
 
 def new(request):
     context = {'action': 'New Question', 'isNewQuestion': True}
