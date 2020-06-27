@@ -17,13 +17,24 @@ def index(request):
     # TODO: make this setting customizable from admin panel
     paginator = Paginator(questions, 10)
     page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    page_obj = list(paginator.get_page(page_number))
+
+    # Convert comma separated tags to list for easy display
+    for post in page_obj:
+        if post.tags is not None:
+            post.tags = post.tags.split(',')
+
     context = {'questions': page_obj, 'count': questions.count}
     return render(request, 'questions/index.html', context)
 
 def view(request, qid):
     question = get_object_or_404(Post, pk=qid)
     posts = Post.getPosts(qid)
+
+    # Make tags iterable for easy display
+    if question.tags is not None:
+        question.tags = question.tags.split(',')
+
     context = {'question': question, 'answers': posts}
     return render(request, 'questions/view.html', context)
 
@@ -73,9 +84,10 @@ def save(request):
             post.tags = tags
 
             # Handle tags
-            tags = tags.split(',')
-            for tag in tags:
-                Post.updateTag(post, tag)
+            if tags != '':
+                tags = tags.split(',')
+                for tag in tags:
+                    Post.updateTag(post, tag)
 
             post.save()
             anchor = '#p' + str(pid)

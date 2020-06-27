@@ -17,8 +17,10 @@
                         Posted on {{ question.published_date }} by <a href="{% url 'user:profile' question.author.id %}">{{ question.author.username }}</a>.
                     </p><br>
                     <a href="{% url 'questions:edit' question.id %}">Edit</a>
-                    <span class="badge badge-primary">Primary</span>
-                    <span class="badge badge-primary">Primary</span>
+
+                    {% for tag in question.tags %}
+                        <span class="badge badge-primary">{{ tag }}</span>
+                    {% endfor %}
                 </div>
             </div>
 
