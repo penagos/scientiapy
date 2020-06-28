@@ -19,6 +19,28 @@ function handlePostFlash() {
     }
 }
 
+function votePost(postID, voteType) {
+    var token = Cookies.get('csrftoken');
+    alert(token);
+    $.ajax({
+        data: form.serialize(),
+        type: form.attr('method'),
+        url:  form.attr('action'),
+        success: function(response) {
+            if (response.success) {
+                
+            } else {
+                $('#loginError').html(errorMessage(response.message));
+            }
+
+            // Update post vote count with +1. Even though someone else could
+            // have also upvoted in the same time, if we fetch the latest count
+            // from the DB it may not "seem" like our vote was successfully
+            // applied
+        }
+    });
+}
+
 $('.commentPoster').on('click', function(event) {
     // Show mini comment poster textbox
     var target = $(this).data('target');
@@ -46,6 +68,18 @@ $('#sortByNew').on('click', function(event) {
 
 $('#sortByOld').on('click', function(event) {
     alert("sort by old clicked");
+    event.preventDefault();
+});
+
+$('.upVote').on('click', function(event) {
+    var postID = $(this).data('post');
+    votePost(postID, 1);
+    event.preventDefault();
+});
+
+$('.downVote').on('click', function(event) {
+    var postID = $(this).data('post');
+    votePost(postID, 2);
     event.preventDefault();
 });
 

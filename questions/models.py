@@ -29,6 +29,9 @@ class Post(models.Model):
     # We cache tags on each question to avoid needing to traverse tags table
     tags = models.CharField(max_length=256, null=True, blank=True)
 
+    # Cache vote count on each question for easy access
+    votes = models.IntegerField(default=0)
+
     @staticmethod
     def getPosts(qid):
         return Post.objects.prefetch_related('comment_set').filter(parent_id=qid)

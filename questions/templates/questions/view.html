@@ -15,17 +15,17 @@
                 <div class="col-lg-1 col-sm-1 d-none d-sm-block">
                     <div class="upvote-container text-center">
                         {% if user.is_authenticated %}
-                            <a href="#"><img src="{% static '/img/open-iconic/svg/caret-top.svg' %}" alt="Up vote" class="upvote" title="+1 vote"></a>
+                            <a class="upVote" data-post="{{ question.id }}" href="#"><img src="{% static '/img/open-iconic/svg/caret-top.svg' %}" alt="Up vote" class="upvote" title="+1 vote"></a>
                         {% else %}
                             <a data-fancybox data-type="ajax" data-src="{% url 'user:login' %}" href="javascript:;">
                                 <img src="{% static '/img/open-iconic/svg/caret-top.svg' %}" alt="Up vote" class="upvote" title="+1 vote">
                             </a>
                         {% endif %}
 
-                        <h5 class="upvote-count">34</h5>
+                        <h5 class="upvote-count">{{ question.votes }}</h5>
 
                         {% if user.is_authenticated %}
-                            <a href="#"><img src="{% static '/img/open-iconic/svg/caret-bottom.svg' %}" alt="Down vote" class="upvote" title="-1 vote"></a>
+                            <a class="downVote" data-post="{{ question.id }}" href="#"><img src="{% static '/img/open-iconic/svg/caret-bottom.svg' %}" alt="Down vote" class="upvote" title="-1 vote"></a>
                         {% else %}
                             <a data-fancybox data-type="ajax" data-src="{% url 'user:login' %}" href="javascript:;">
                                 <img src="{% static '/img/open-iconic/svg/caret-bottom.svg' %}" alt="Down vote" class="upvote" title="-1 vote">
@@ -78,17 +78,17 @@
                         <div class="col-lg-1 col-sm-1 d-none d-sm-block">
                             <div class="upvote-container text-center">
                                 {% if user.is_authenticated %}
-                                    <a href="#"><img src="{% static '/img/open-iconic/svg/caret-top.svg' %}" alt="Up vote" class="upvote" title="+1 vote"></a>
+                                    <a class="upVote" data-post="{{ question.id }}" href="#"><img src="{% static '/img/open-iconic/svg/caret-top.svg' %}" alt="Up vote" class="upvote" title="+1 vote"></a>
                                 {% else %}
                                     <a data-fancybox data-type="ajax" data-src="{% url 'user:login' %}" href="javascript:;">
                                         <img src="{% static '/img/open-iconic/svg/caret-top.svg' %}" alt="Up vote" class="upvote" title="+1 vote">
                                     </a>
                                 {% endif %}
 
-                                <h5 class="upvote-count">34</h5>
+                                <h5 class="upvote-count">{{ post.votes }}</h5>
 
                                 {% if user.is_authenticated %}
-                                    <a href="#"><img src="{% static '/img/open-iconic/svg/caret-bottom.svg' %}" alt="Down vote" class="upvote" title="-1 vote"></a>
+                                    <a class="downVote" data-post="{{ question.id }}" href="#"><img src="{% static '/img/open-iconic/svg/caret-bottom.svg' %}" alt="Down vote" class="upvote" title="-1 vote"></a>
                                 {% else %}
                                     <a data-fancybox data-type="ajax" data-src="{% url 'user:login' %}" href="javascript:;">
                                         <img src="{% static '/img/open-iconic/svg/caret-bottom.svg' %}" alt="Down vote" class="upvote" title="-1 vote">
