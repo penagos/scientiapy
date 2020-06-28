@@ -85,14 +85,8 @@ def save(request):
             else:
                 qid = post.parent_id.id
 
-            post.body = request.POST['post']
-            post.tags = tags
-
-            # Handle tags
-            if tags != '':
-                tags = tags.split(',')
-                for tag in tags:
-                    Post.updateTag(post, tag)
+            post.body = body
+            post.tags = handleTags(post, tags)
 
             post.save()
             anchor = '#p' + str(pid)
@@ -103,6 +97,9 @@ def save(request):
                             body=body,
                             author=request.user,
                             post_type=PostType.QUESTION)
+
+            question.save()
+            question.tags = handleTags(question, tags)
             question.save()
             qid = question.pk
             anchor = '#p' + str(qid)
@@ -142,3 +139,13 @@ def edit(request, pid):
 
         context = {'post': post, 'action': action}
         return render(request, 'questions/edit.html', context)
+
+# Utility functions
+def handleTags(post, tags):
+    # Handle tags
+    if tags != '':
+        tagsSplit = tagsSplit.split(',')
+        for tag in tagsSplit:
+            Post.updateTag(post, tag)
+    
+    return tags
