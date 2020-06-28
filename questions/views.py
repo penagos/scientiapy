@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
@@ -21,7 +22,7 @@ def index(request):
 
     # Convert comma separated tags to list for easy display
     for post in page_obj:
-        if post.tags is not None:
+        if post.tags is not None and post.tags is not '':
             post.tags = post.tags.split(',')
 
     context = {'questions': page_obj, 'count': questions.count}
@@ -109,7 +110,9 @@ def save(request):
                 qid = post.parent_id.id
 
             post.body = body
+            post.edit_date = datetime.now()
             post.tags = handleTags(post, tags)
+            post.author_edit = request.user
 
             post.save()
             anchor = '#p' + str(pid)
@@ -159,6 +162,9 @@ def edit(request, pid):
             action = 'Editing Answer'
         else:
             action = 'Editing Question'
+
+        if post.tags is None:
+            post.tags = ''
 
         context = {'post': post, 'action': action}
         return render(request, 'questions/edit.html', context)

@@ -32,9 +32,6 @@
                             </a>
                         {% endif %}
                     </div>
-                    <div class="text-center">
-                        <a href="#"><img src="{% static '/img/open-iconic/svg/check.svg' %}" alt="Accepted answer" class="accepted" title="Accepted answer"></a>
-                    </div>
                 </div>
                 <div class="col-lg-11 col-sm-11 col-xs-12">
                     <p>
@@ -42,7 +39,10 @@
                     </p>
                     <hr>
                     <p class="small text-muted text-right">
-                        Posted on {{ question.published_date }} by <a href="{% url 'user:profile' question.author.id %}">{{ question.author.username }}</a>.
+                        Posted on {{ question.published_date }} by <a href="{% url 'user:profile' question.author.id %}">{{ question.author.username }}</a>.<br>
+                        {% if question.author_edit %}
+                        Last edited on {{ question.edit_date }} by <a href="{% url 'user:profile' question.author_edit.id %}">{{ question.author_edit.username }}</a>.
+                        {% endif %}
                     </p><br>
 
                     {% if user.is_authenticated %}
@@ -107,7 +107,12 @@
                                         <a href="{% url 'questions:edit' post.id %}">Edit</a>
                                     </a><br>
                                 {% endif %}
-                                <p class="small text-muted text-right">Posted on {{ post.published_date }} by <a href="{% url 'user:profile' post.author.id %}">{{ post.author.username }}</a></p>
+                                <p class="small text-muted text-right">
+                                    Posted on {{ post.published_date }} by <a href="{% url 'user:profile' post.author.id %}">{{ post.author.username }}</a><br>
+                                    {% if post.author_edit %}
+                                    Last edited on {{ post.edit_date }} by <a href="{% url 'user:profile' post.author_edit.id %}">{{ post.author_edit.username }}</a>.
+                                    {% endif %}
+                                </p>
                                 <hr>
                             </div>
                             <div class="comments">
