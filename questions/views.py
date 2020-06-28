@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from .models import Comment, Post, PostType
@@ -42,6 +42,29 @@ def view(request, qid):
                'answers': posts,
                'related': related}
     return render(request, 'questions/view.html', context)
+
+def vote(request):
+    # User must be logged in
+    if not request.user.is_authenticated:
+        raise PermissionDenied
+    else:
+        # Find post, update vote count
+        # TODO: do not let a user vote more than once
+        # TODO: add error handling
+        pid = request.POST['pid']
+        voteType = request.POST['type']
+        post = get_object_or_404(Post, pk=pid)
+
+        if voteType == 1:
+            voteType = 1
+            post.votes += 1
+        else:
+            voteType = -1
+            post.votes -= 1
+
+        post.save()
+        return JsonResponse({'success': True,
+                             'type': voteType})
 
 def save(request):
     # User must be logged in

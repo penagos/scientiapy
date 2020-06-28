@@ -1,3 +1,7 @@
+function csrfSafeMethod(method) {
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
 function errorMessage(msg) {
     return `<div class="alert alert-danger alert-dismissible fade show" role="alert">${msg}</div>`;
 }
@@ -20,23 +24,23 @@ function handlePostFlash() {
 }
 
 function votePost(postID, voteType) {
-    var token = Cookies.get('csrftoken');
-    alert(token);
-    $.ajax({
-        data: form.serialize(),
-        type: form.attr('method'),
-        url:  form.attr('action'),
+    $.post({
+        data: {
+            pid: postID,
+            type: voteType
+        },
+        url:  '/questions/vote/',
         success: function(response) {
-            if (response.success) {
-                
-            } else {
-                $('#loginError').html(errorMessage(response.message));
-            }
-
             // Update post vote count with +1. Even though someone else could
             // have also upvoted in the same time, if we fetch the latest count
             // from the DB it may not "seem" like our vote was successfully
             // applied
+            if (response.success) {
+                var votes = parseInt($(`#postVotes${postID}`).html());
+                $(`#postVotes${postID}`).html((votes + response.type).toString());
+            } else {
+                alert('error');
+            }
         }
     });
 }
@@ -85,4 +89,13 @@ $('.downVote').on('click', function(event) {
 
 $(document).ready(function() {
     $('[data-toggle="tooltip"]').tooltip();
+    var csrftoken = Cookies.get('csrftoken');
+
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
 });
