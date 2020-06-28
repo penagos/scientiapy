@@ -52,7 +52,7 @@ def vote(request):
         # TODO: do not let a user vote more than once
         # TODO: add error handling
         pid = request.POST['pid']
-        voteType = request.POST['type']
+        voteType = int(request.POST['type'])
         post = get_object_or_404(Post, pk=pid)
 
         if voteType == 1:
@@ -167,7 +167,7 @@ def edit(request, pid):
 def handleTags(post, tags):
     # Handle tags
     if tags != '':
-        tagsSplit = tagsSplit.split(',')
+        tagsSplit = tags.split(',')
         for tag in tagsSplit:
             Post.updateTag(post, tag)
     
