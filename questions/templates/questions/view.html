@@ -44,7 +44,10 @@
                     <p class="small text-muted text-right">
                         Posted on {{ question.published_date }} by <a href="{% url 'user:profile' question.author.id %}">{{ question.author.username }}</a>.
                     </p><br>
+
+                    {% if user.is_authenticated %}
                     <a href="{% url 'questions:edit' question.id %}">Edit</a>
+                    {% endif %}
 
                     {% for tag in question.tags %}
                         <span class="badge badge-primary">{{ tag }}</span>
@@ -99,9 +102,11 @@
                         <div class="col-lg-11">
                             <div class="post">
                                 <p class="text-dark">{{ post.body|markdownify|safe }}</p>
-                                <p class="small text-muted">
-                                    <a href="{% url 'questions:edit' post.id %}">Edit</a>
-                                </a><br>
+                                {% if user.is_authenticated %}
+                                    <p class="small text-muted">
+                                        <a href="{% url 'questions:edit' post.id %}">Edit</a>
+                                    </a><br>
+                                {% endif %}
                                 <p class="small text-muted text-right">Posted on {{ post.published_date }} by <a href="{% url 'user:profile' post.author.id %}">{{ post.author.username }}</a></p>
                                 <hr>
                             </div>
