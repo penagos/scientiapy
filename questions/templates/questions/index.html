@@ -25,8 +25,15 @@
                             <h6 class="mb-0">{{ question.votes }}</h6>
                             <p class="small">Votes</p>
 
-                            <h6 class="mb-0">0</h6>
-                            <p class="small">Views</p>
+                            {% if question.accepted_id %}
+                                <div class="accepted-container">
+                                    <h6 class="mb-0">1</h6>
+                                    <p class="small">Ans.</p>
+                                </div>
+                            {% else %}
+                                <h6 class="mb-0">0</h6>
+                                <p class="small">Views</p>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 question">
