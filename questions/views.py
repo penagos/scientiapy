@@ -44,6 +44,19 @@ def view(request, qid):
                'related': related}
     return render(request, 'questions/view.html', context)
 
+def accept(request):
+    # User must be logged in
+    if not request.user.is_authenticated:
+        raise PermissionDenied
+    else:
+        pid = request.POST['pid']
+        qid = request.POST['qid']
+        question = get_object_or_404(Post, pk=qid)
+        answer = get_object_or_404(Post, pk=pid)
+        question.accepted_id = answer
+        question.save()
+        return JsonResponse({'success': True})
+
 def vote(request):
     # User must be logged in
     if not request.user.is_authenticated:

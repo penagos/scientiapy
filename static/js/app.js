@@ -45,6 +45,27 @@ function votePost(postID, voteType) {
     });
 }
 
+function acceptAnswer(questionID, postID) {
+    $.post({
+        data: {
+            pid: postID,
+            qid: questionID
+        },
+        url:  '/questions/accept/',
+        success: function(response) {
+            // Update post vote count with +1. Even though someone else could
+            // have also upvoted in the same time, if we fetch the latest count
+            // from the DB it may not "seem" like our vote was successfully
+            // applied
+            if (response.success) {
+                alert("accept successful");
+            } else {
+                alert('error');
+            }
+        }
+    });
+}
+
 $('.commentPoster').on('click', function(event) {
     // Show mini comment poster textbox
     var target = $(this).data('target');
@@ -84,6 +105,13 @@ $('.upVote').on('click', function(event) {
 $('.downVote').on('click', function(event) {
     var postID = $(this).data('post');
     votePost(postID, 2);
+    event.preventDefault();
+});
+
+$('.accept').on('click', function(event) {
+    var postID = $(this).data('post');
+    var questionID = $(this).data('question');
+    acceptAnswer(questionID, postID);
     event.preventDefault();
 });
 

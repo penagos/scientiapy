@@ -95,9 +95,17 @@
                                     </a>
                                 {% endif %}
                             </div>
+                            {% if user.is_authenticated and not question.accepted_id %}
                             <div class="text-center">
-                                <a href="#"><img src="{% static '/img/open-iconic/svg/check.svg' %}" alt="Accepted answer" class="accepted" title="Accepted answer"></a>
+                                <a class="accept" data-post="{{ post.id }}" data-question="{{ question.id }}" href="javascript:;"><img src="{% static '/img/open-iconic/svg/check.svg' %}" alt="Accepted answer" class="accepted" title="Accepted answer"></a>
                             </div>
+                            {% endif %}
+
+                            {% if question.accepted_id.id == post.id %}
+                            <div class="text-center">
+                                <img src="{% static '/img/open-iconic/svg/check.svg' %}" alt="Accepted answer" class="accepted" title="Accepted answer">
+                            </div>
+                            {% endif %}
                         </div>
                         <div class="col-lg-11 col-sm-11 col-xs-12">
                             <div class="post">
