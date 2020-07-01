@@ -33,7 +33,7 @@ def view(request, qid):
     posts = Post.getPosts(qid)
 
     # Make tags iterable for easy display
-    if question.tags is not None:
+    if question.tags is not None and question.tags is not '':
         question.tags = question.tags.split(',')
 
     # Fetch related questions
@@ -163,6 +163,10 @@ def new(request):
 def unanswered(request):
     context = {}
     return render(request, 'questions/edit.html', context)
+
+def delete(request, pid):
+    context = {'post': pid}
+    return render(request, 'questions/delete.html', context)
 
 def edit(request, pid):
     # Ensure user is logged in

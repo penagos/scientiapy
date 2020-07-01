@@ -46,11 +46,11 @@
                     </p><br>
 
                     {% if user.is_authenticated %}
-                    <a href="{% url 'questions:edit' question.id %}">Edit</a>
+                    <a href="{% url 'questions:edit' question.id %}">Edit</a> | <a href="{% url 'questions:delete' question.id %}">Delete</a><br>
                     {% endif %}
 
                     {% for tag in question.tags %}
-                        <span class="badge badge-primary">{{ tag }}</span>
+                        <span class="badge badge-primary"><a href="{% url 'questions:index' %}?tag={{ tag }}">{{ tag }}</a></span>
                     {% endfor %}
                 </div>
             </div>
@@ -72,7 +72,12 @@
             </div>
 
             <div class="tab-content">
-                <h4>Answers</h4>
+                {% if answers|length == 1%}
+                    <h4>1 Answer</h4>
+                {% else %}
+                    <h4>{{ answers|length }} Answers</h4>
+                {% endif %}
+
                 {% for post in answers %}
                     <div id="p{{ post.id }}" class="row mb-4">
                         <div class="col-lg-1 col-sm-1 d-none d-sm-block">
