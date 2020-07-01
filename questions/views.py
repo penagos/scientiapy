@@ -2,16 +2,29 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
+from itertools import chain
 from .models import Comment, Post, PostType
 
 # Create your views here.
 def index(request):
     # If a search was made, filter on needle
     if request.GET.get('q') is not None:
-        questions = Post.objects.filter(title__icontains=request.GET['q'], post_type=PostType.QUESTION)
+        # Search across tags, answers and questions
+        # TODO: rank by number of hits
+        query = request.GET.get('q')
+        questions = Post.objects.filter(Q(title__icontains=query) | Q(body__icontains=query))
+
+        # Walk result set and prune accordingly
+        questionsFiltered = []
+        for q in questions:
+            if q.post_type is not PostType.QUESTION:
+                q = q.parent_id
+            questionsFiltered.append(q)
+        questions = questionsFiltered
     else:
         questions = Post.objects.filter(post_type=PostType.QUESTION).order_by('-id')
 
@@ -25,7 +38,7 @@ def index(request):
         if post.tags is not None and post.tags is not '':
             post.tags = post.tags.split(',')
 
-    context = {'questions': page_obj, 'count': questions.count}
+    context = {'questions': page_obj, 'count': len(questions)}
     return render(request, 'questions/index.html', context)
 
 def view(request, qid):
