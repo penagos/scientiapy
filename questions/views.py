@@ -191,6 +191,10 @@ def handleTags(post, tags):
     # Handle tags
     if tags != '':
         tagsSplit = tags.split(',')
+
+        # If we removed tags, update the table accordingly
+        Post.removeTags(post, tagsSplit)
+
         for tag in tagsSplit:
             Post.updateTag(post, tag)
     

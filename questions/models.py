@@ -11,6 +11,14 @@ class Tag(models.Model):
     def getOrCreate(name):
         return Tag.objects.update_or_create(title=name)[0]
 
+class PostTag(models.Model):
+    post = models.ForeignKey('Post', on_delete=models.CASCADE)
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+
+    @staticmethod
+    def update(tid, pid):
+        PostTag.objects.update_or_create(post=pid, tag=tid)
+
 class PostType(models.TextChoices):
     QUESTION = 'QQ', 'question'
     ANSWER = 'AA', 'answer'
@@ -45,6 +53,14 @@ class Post(models.Model):
         PostTag.update(tag, post)
 
     @staticmethod
+    def removeTags(post, tags):
+        tags = PostTag.objects.filter(post=post)
+
+        for tag in list(tags):
+            if tag.tag.title not in tags:
+                PostTag.objects.filter(pk=tag.id).delete()
+
+    @staticmethod
     def getRelated(post):
         # Get related questions
         return Post.objects.filter(title__icontains=post.title, post_type=PostType.QUESTION)
@@ -59,11 +75,3 @@ class Comment(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date = models.DateTimeField(default=datetime.now)
     body = models.TextField()
-
-class PostTag(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
-
-    @staticmethod
-    def update(tid, pid):
-        PostTag.objects.update_or_create(post=pid, tag=tid)
