@@ -9,6 +9,7 @@ urlpatterns = [
     path('questions/save/', views.save, name="save"),
     path('questions/ask/', views.ask, name="ask"),
     path('questions/new/', views.new, name="new"),
+    path('questions/tags/', views.tags, name="tags"),
     path('questions/unanswered/', views.unanswered, name="unanswered"),
     path('questions/edit/<int:pid>/', views.edit, name="edit"),
     path('questions/delete/<int:pid>/', views.delete, name="delete"),

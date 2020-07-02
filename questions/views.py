@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from itertools import chain
-from .models import Comment, Post, PostType
+from .models import Comment, Post, PostType, Tag
 
 # Create your views here.
 def index(request):
@@ -182,7 +182,13 @@ def new(request):
 
 def unanswered(request):
     context = {}
-    return render(request, 'questions/edit.html', context)
+    return render(request, 'questions/edit.html', context)\
+
+def tags(request):
+    # Fetch tags and question counts
+    tags = Tag.objects.all()
+    context = {'tags': tags}
+    return render(request, 'questions/tags.html', context)
 
 def delete(request, pid):
     context = {'post': pid}

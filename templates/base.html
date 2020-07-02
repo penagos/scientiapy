@@ -20,8 +20,7 @@
         <div class="d-flex flex-grow-1">
             <a href="/" class="navbar-brand">Scientiapy</a>
             <a class="nav-link" href="{% url 'questions:index' %}">Questions <span class="sr-only">(current)</span></a>
-            <a class="nav-link" href="{% url 'questions:new' %}">New</a>
-            <a class="nav-link" href="{% url 'questions:unanswered' %}">Unanswered</a>
+            <a class="nav-link" href="{% url 'questions:tags' %}">Tags</a>
             <form class="mr-2 my-auto w-100 d-inline-block order-1" method="GET" action="{% url 'questions:index' %}">
                 <div class="input-group">
                     <input type="text" name="q" class="form-control border border-right-0" placeholder="Search...">
