@@ -16,10 +16,10 @@ def index(request):
 
     if request.GET.get('q') is not None:
         # Search across tags, answers and questions
-        # TODO: rank by number of hits
+        # Puts questions before answer hits
         query = request.GET.get('q')
         title = 'Search Results for "{}"'.format(query)
-        questions = Post.objects.filter(Q(title__icontains=query) | Q(body__icontains=query) | Q(tags__icontains=query))
+        questions = Post.objects.filter(Q(title__icontains=query) | Q(body__icontains=query) | Q(tags__icontains=query)).order_by('-post_type')
 
         # Walk result set and prune accordingly
         questionsFiltered = []
