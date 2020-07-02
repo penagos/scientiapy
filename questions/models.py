@@ -66,6 +66,12 @@ class Post(models.Model):
         # Get related questions
         return Post.objects.filter(title__icontains=post.title, post_type=PostType.QUESTION)
 
+
+    @staticmethod
+    def getRecentQuestions():
+        # Get new questions
+        return Post.objects.filter(post_type=PostType.QUESTION).order_by('-published_date')[:5]
+
 class Vote(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

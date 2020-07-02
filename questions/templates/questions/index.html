@@ -88,14 +88,9 @@
             <div class="mb-4">
                 <h6 class="font-weight-bold">Recent Posts</h6>
                 <ul class="sidelist">
-                    <li>Etiam justo ipsum, ultrices id nibh in</li>
-                    <li>Etiam justo ipsum, ultrices id nibh in</li>
-                    <li>Etiam justo ipsum, ultrices id nibh in</li>
-                    <li>Etiam justo ipsum, ultrices id nibh in</li>
-                    <li>Etiam justo ipsum, ultrices id nibh in</li>
-                    <li>Etiam justo ipsum, ultrices id nibh in</li>
-                    <li>Etiam justo ipsum, ultrices id nibh in</li>
-                    <li>Etiam justo ipsum, ultrices id nibh in</li>
+                    {% for q in recent %}
+                        <li><a href="{% url 'questions:view' q.id %}">{{ q.title }}</a></li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
