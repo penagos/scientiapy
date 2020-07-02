@@ -2,7 +2,7 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
-from django.db.models import Q
+from django.db.models import Count, Q
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -19,7 +19,7 @@ def index(request):
         # Puts questions before answer hits
         query = request.GET.get('q')
         title = 'Search Results for "{}"'.format(query)
-        questions = Post.objects.filter(Q(title__icontains=query) | Q(body__icontains=query) | Q(tags__icontains=query)).order_by('-post_type')
+        questions = Post.objects.filter(Q(title__icontains=query) | Q(body__icontains=query) | Q(tags__icontains=query)).annotate(answers=Count('post')).order_by('-post_type')
 
         # Walk result set and prune accordingly
         questionsFiltered = []
@@ -31,19 +31,19 @@ def index(request):
     elif request.GET.get('tag') is not None:
         query = request.GET.get('tag')
         title = 'Questions tagged "{}"'.format(query)
-        questions = Post.objects.filter(Q(tags__icontains=query))
+        questions = Post.objects.filter(Q(tags__icontains=query)).annotate(answers=Count('post'))
     else:
-        questions = Post.objects.filter(post_type=PostType.QUESTION).order_by('-id')
-
-    # TODO: make this setting customizable from admin panel
-    paginator = Paginator(questions, 10)
-    page_number = request.GET.get('page')
-    page_obj = list(paginator.get_page(page_number))
+        questions = Post.objects.filter(post_type=PostType.QUESTION).annotate(answers=Count('post')).order_by('-id')
 
     # Convert comma separated tags to list for easy display
-    for post in page_obj:
+    for post in questions:
         if post.tags is not None and post.tags is not '':
             post.tags = post.tags.split(',')
+
+    # TODO: make this setting customizable from admin panel
+    paginator = Paginator(questions, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number) #list(paginator.get_page(page_number))
 
     context = {'questions': page_obj, 'count': len(questions), 'title': title}
     return render(request, 'questions/index.html', context)

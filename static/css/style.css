@@ -74,12 +74,19 @@ ul.sidelist {
     height: 36px;
 }
 
+.answer-container {
+    color: #FFFFFF;
+    padding: 4px;
+    border-radius: 4px;
+}
+.answer-container p {
+    margin-bottom: 0px;
+}
 .accepted-container {
     background: rgb(57, 132, 94);
-    color: #FFFFFF;
-    padding-left: 5px;
-    padding-right: 5px;
-    border-radius: 4px;
+}
+.unanswered-container {
+    background: rgb(163, 41, 41);
 }
 
 .accepted {

@@ -26,14 +26,14 @@
                             <p class="small">Votes</p>
 
                             {% if question.accepted_id %}
-                                <div class="accepted-container">
-                                    <h6 class="mb-0">1</h6>
-                                    <p class="small">Ans.</p>
-                                </div>
+                                <div class="answer-container accepted-container">
                             {% else %}
-                                <h6 class="mb-0">0</h6>
-                                <p class="small">Views</p>
+                                <div class="answer-container unanswered-container">
                             {% endif %}
+
+                                <h6 class="mb-0">{{ question.answers }}</h6>
+                                <p class="small">Ans</p>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 question">
