@@ -48,7 +48,14 @@ def index(request):
     # Recent sidebar
     recent = Post.getRecentQuestions()
 
-    context = {'questions': page_obj, 'count': len(questions), 'title': title, 'recent': recent}
+    # Hot posts sidebar
+    hot = Post.getHotQuestions()
+
+    context = {'questions': page_obj,
+               'count': len(questions),
+               'title': title,
+               'recent': recent,
+               'hot': hot}
     return render(request, 'questions/index.html', context)
 
 def view(request, qid):

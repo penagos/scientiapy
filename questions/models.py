@@ -67,6 +67,10 @@ class Post(models.Model):
         # Get related questions
         return Post.objects.filter(title__icontains=post.title, post_type=PostType.QUESTION)
 
+    @staticmethod
+    def getHotQuestions():
+        # Get "hot" questions
+        return Post.objects.filter(post_type=PostType.QUESTION).annotate(answers=Count('post')).order_by('-answers')[:5]
 
     @staticmethod
     def getRecentQuestions():
