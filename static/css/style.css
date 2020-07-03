@@ -48,8 +48,12 @@ pre code {
 }
 
 ul.sidelist {
+    list-style-type: none;
     font-size: 0.8rem;
     padding-left: 18px;
+}
+ul.sidelist li {
+    line-height: 2em;
 }
 
 /* AJAX form loader spinner overlay */

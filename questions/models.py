@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.conf import settings
 from django.db import models
+from django.db.models import Count
 
 # Create your models here.
 class Tag(models.Model):
@@ -70,7 +71,7 @@ class Post(models.Model):
     @staticmethod
     def getRecentQuestions():
         # Get new questions
-        return Post.objects.filter(post_type=PostType.QUESTION).order_by('-published_date')[:5]
+        return Post.objects.filter(post_type=PostType.QUESTION).annotate(answers=Count('post')).order_by('-published_date')[:5]
 
 class Vote(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
