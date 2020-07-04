@@ -94,7 +94,7 @@ class Post(models.Model):
     @staticmethod
     def getRecentQuestionsByUser(uid, count):
         # Get X most recent questions by user
-        return Post.objects.filter(post_type=PostType.QUESTION, author=uid).order_by('-published_date')[:count]
+        return Post.objects.filter(post_type=PostType.QUESTION, author=uid).annotate(answers=Count('post')).order_by('-published_date')[:count]
 
     @staticmethod
     def getRecentAnswersByUser(uid, count):

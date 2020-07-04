@@ -1,7 +1,8 @@
 from django.contrib.auth import authenticate, logout, login as auth_login
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, redirect, render
-from django.http import JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
+from django.urls import reverse
 from questions.models import Post
 
 # Create your views here.
@@ -23,8 +24,12 @@ def login(request):
         return render(request, 'user/login.html', context)
 
 def join(request):
-    context = {}
-    return render(request, 'user/join.html', context)
+    # If logged in, redirect to index
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('questions:index'))
+    else:
+        context = {}
+        return render(request, 'user/join.html', context)
 
 def logoff(request):
     logout(request)

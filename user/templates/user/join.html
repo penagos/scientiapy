@@ -37,8 +37,8 @@
                                     <label for="agreeTOSPrivacy" class="custom-control-label">I agree to the <a data-fancybox data-type="ajax" data-src="{% url 'legal:termsofservice' %}" href="javascript:;">terms of service</a> and <a data-fancybox data-type="ajax" data-src="{% url 'legal:privacypolicy' %}" href="javascript:;">privacy policy</a></label>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm">Sign in</button>
-                                <div class="text-center d-flex justify-content-between mt-2"
-                                    <p><a href="{% url 'user:login' %}">Have an account?</a></p>
+                                <div class="text-center d-flex justify-content-between mt-2">
+                                    <p><a data-fancybox data-type="ajax" data-src="{% url 'user:login' %}" href="javascript:;">Have an account?</a></p>
                                 </div>
                             </form>
                         </div>
