@@ -77,6 +77,16 @@ class Post(models.Model):
         # Get new questions
         return Post.objects.filter(post_type=PostType.QUESTION).annotate(answers=Count('post')).order_by('-published_date')[:5]
 
+    @staticmethod
+    def getRecentQuestionsByUser(uid, count):
+        # Get X most recent questions by user
+        return Post.objects.filter(post_type=PostType.QUESTION, author=uid).order_by('-published_date')[:count]
+
+    @staticmethod
+    def getRecentAnswersByUser(uid, count):
+        # Get X most recent answers by user
+        return Post.objects.filter(post_type=PostType.ANSWER, author=uid).order_by('-published_date')[:count]
+
 class Vote(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

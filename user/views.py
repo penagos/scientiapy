@@ -1,6 +1,8 @@
 from django.contrib.auth import authenticate, logout, login as auth_login
-from django.shortcuts import redirect, render
+from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404, redirect, render
 from django.http import JsonResponse
+from questions.models import Post
 
 # Create your views here.
 def login(request):
@@ -33,7 +35,13 @@ def forgotpassword(request):
     return render(request, 'user/forgotpassword.html', context)
 
 def profile(request, uid):
-    context = {}
+    user = get_object_or_404(User, pk=uid)
+    recentQuestions = Post.getRecentQuestionsByUser(uid, 5)
+    recentAnswers = Post.getRecentAnswersByUser(uid, 5)
+
+    context = {'user': user,
+               'recentQuestions': recentQuestions,
+               'recentAnswers': recentAnswers}
     return render(request, 'user/profile.html', context)
 
 def settings(request, uid):
