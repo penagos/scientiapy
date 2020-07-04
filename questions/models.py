@@ -92,6 +92,11 @@ class Post(models.Model):
         return Post.objects.filter(post_type=PostType.QUESTION).annotate(answers=Count('post')).order_by('-published_date')[:5]
 
     @staticmethod
+    def getUnansweredQuestions():
+        # Get unanswered questions
+        return Post.objects.filter(post_type=PostType.QUESTION).annotate(answers=Count('post')).order_by('answers')[:5]
+
+    @staticmethod
     def getRecentQuestionsByUser(uid, count):
         # Get X most recent questions by user
         return Post.objects.filter(post_type=PostType.QUESTION, author=uid).annotate(answers=Count('post')).order_by('-published_date')[:count]

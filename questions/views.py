@@ -41,9 +41,9 @@ def index(request):
             post.tags = post.tags.split(',')
 
     # TODO: make this setting customizable from admin panel
-    paginator = Paginator(questions, 5)
+    paginator = Paginator(questions, 10)
     page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number) #list(paginator.get_page(page_number))
+    page_obj = paginator.get_page(page_number)
 
     # Recent sidebar
     recent = Post.getRecentQuestions()
@@ -51,11 +51,15 @@ def index(request):
     # Hot posts sidebar
     hot = Post.getHotQuestions()
 
+    # Unanswered questions sidebar
+    unanswered = Post.getUnansweredQuestions()
+
     context = {'questions': page_obj,
                'count': len(questions),
                'title': title,
                'recent': recent,
-               'hot': hot}
+               'hot': hot,
+               'unanswered': unanswered}
     return render(request, 'questions/index.html', context)
 
 def view(request, qid):
