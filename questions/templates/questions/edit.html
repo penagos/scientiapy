@@ -26,7 +26,12 @@
                         </div>
                         {% if post.title or isNewQuestion %}
                         <div class="form-group">
-                            <input type="text" class="form-control" name="tags" placeholder="Enter to save" data-role="tagsinput" value="{{ post.tags }}">
+                            <label for="userTags">Tag Users <span class="text-muted">(optionally notify these users when there is any activity)</span></label>
+                            <input type="text" id="userTags" class="form-control" name="userTags" placeholder="Enter to save" data-role="tagsinput" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="questionTags">Tags</label>
+                            <input type="text" id="questionTags" class="form-control" name="tags" placeholder="Enter to save" data-role="tagsinput" value="{{ post.tags }}">
                         </div>
                         {% endif %}
                         <div class="form-group">
