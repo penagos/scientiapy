@@ -58,7 +58,7 @@ function acceptAnswer(questionID, postID) {
             // from the DB it may not "seem" like our vote was successfully
             // applied
             if (response.success) {
-                alert("accept successful");
+                window.location.reload();
             } else {
                 alert('error');
             }

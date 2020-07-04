@@ -20,7 +20,10 @@
                             <textarea name="post" id="postEditor">{{ post.body|default_if_none:"" }}</textarea>
                             <script>
                                 $(document).ready(function() {
-                                    var easyMDE = new EasyMDE({element: document.getElementById('postEditor')});
+                                    var easyMDE = new EasyMDE({
+                                                    element: document.getElementById('postEditor'),
+                                                    maxHeight: '500px',
+                                                });
                                 });
                             </script>
                         </div>
