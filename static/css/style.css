@@ -50,10 +50,10 @@ pre code {
 ul.sidelist {
     list-style-type: none;
     font-size: 0.8rem;
-    padding-left: 18px;
+    padding-left: 0px;
 }
 ul.sidelist li {
-    line-height: 2em;
+    line-height: 2.2em;
 }
 
 /* AJAX form loader spinner overlay */

@@ -196,7 +196,7 @@
                 <h6 class="font-weight-bold">Related Questions</h6>
                 <ul class="sidelist">
                     {% for q in related %}
-                        <li><a href="{% url 'questions:view' q.id %}">{{ q.title }}</a></li>
+                        <li><span class="badge badge-success">{{ q.answers }}</span> <a href="{% url 'questions:view' q.id %}">{{ q.title }}</a></li>
                     {% endfor %}
                 </ul>
             </div>

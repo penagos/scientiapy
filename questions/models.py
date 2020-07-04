@@ -1,8 +1,9 @@
 from datetime import datetime
+from functools import reduce
 
 from django.conf import settings
 from django.db import models
-from django.db.models import Count
+from django.db.models import Count, Q
 
 # Create your models here.
 class Tag(models.Model):
@@ -64,8 +65,16 @@ class Post(models.Model):
 
     @staticmethod
     def getRelated(post):
-        # Get related questions
-        return Post.objects.filter(title__icontains=post.title, post_type=PostType.QUESTION)
+        # Get related questions by either title or tag
+        # TODO: remove this once DB data has been normalized
+        keywords = post.title.split(' ')
+
+        if isinstance(post.tags, list):
+            keywords += post.tags
+        else:
+            keywords += post.tags.split(',')
+
+        return Post.objects.filter(reduce(lambda x, y: x | y, [Q(title__icontains=word) for word in keywords]), post_type=PostType.QUESTION).annotate(answers=Count('post'))[:10]
 
     @staticmethod
     def getHotQuestions():
