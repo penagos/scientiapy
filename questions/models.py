@@ -73,10 +73,11 @@ class Post(models.Model):
         # TODO: remove this once DB data has been normalized
         keywords = post.title.split(' ')
 
-        if isinstance(post.tags, list):
-            keywords += post.tags
-        else:
-            keywords += post.tags.split(',')
+        if post.tags is not None:
+            if isinstance(post.tags, list):
+                keywords += post.tags
+            else:
+                keywords += post.tags.split(',')
 
         return Post.objects.filter(reduce(lambda x, y: x | y, [Q(title__icontains=word) for word in keywords]), post_type=PostType.QUESTION).annotate(answers=Count('post'))[:10]
 
