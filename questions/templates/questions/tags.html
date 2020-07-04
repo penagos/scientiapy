@@ -12,9 +12,9 @@
             <div class="col-sm-3 mt-4">
                 <div class="card p-4">
                     <div class="card-block">
-                        <h4 class="card-title"><span class="badge badge-primary"><a href="{% url 'questions:index' %}?tag={{ tag.title }}" class="text-decoration-none">{{ tag.title }}</a></span></h4>
-                        <p class="card-text">{{ tag.description|default_if_none:""  }}</p>
-                        <p class="card-text"><small class="text-muted">X questions</small></p>
+                        <h4 class="card-title"><span class="badge badge-primary"><a href="{% url 'questions:index' %}?tag={{ tag.tag__title }}" class="text-decoration-none">{{ tag.tag__title }}</a></span></h4>
+                        <p class="card-text">{{ tag.tag__description|default_if_none:""  }}</p>
+                        <p class="card-text"><small class="text-muted">{{ tag.posts }} questions</small></p>
                     </div>
                 </div>
             </div>

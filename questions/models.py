@@ -22,6 +22,10 @@ class PostTag(models.Model):
     def update(tid, pid):
         PostTag.objects.update_or_create(post=pid, tag=tid)
 
+    @staticmethod
+    def getAllTags():
+        return PostTag.objects.values('tag__title', 'tag__description').annotate(posts=Count('post')).order_by('-posts')
+
 class PostType(models.TextChoices):
     QUESTION = 'QQ', 'question'
     ANSWER = 'AA', 'answer'
