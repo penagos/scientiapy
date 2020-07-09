@@ -87,7 +87,7 @@ def accept(request):
         qid = request.POST['qid']
         question = get_object_or_404(Post, pk=qid)
         answer = get_object_or_404(Post, pk=pid)
-        question.accepted_id = answer
+        question.accepted = answer
         question.save()
         return JsonResponse({'success': True})
 

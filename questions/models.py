@@ -35,8 +35,8 @@ class Post(models.Model):
     title = models.CharField(max_length=128, null=True, blank=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     author_edit = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, related_name='author_editid')
-    parent_id = models.ForeignKey('Post', blank=True, null=True, on_delete=models.CASCADE)
-    accepted_id = models.ForeignKey('Post', blank=True, null=True, on_delete=models.CASCADE, related_name='accepted_idfk')
+    parent = models.ForeignKey('Post', blank=True, null=True, on_delete=models.CASCADE)
+    accepted = models.ForeignKey('Post', blank=True, null=True, on_delete=models.CASCADE, related_name='accepted_idfk')
 
     # Need to pass function and not function() to eval at insertion time
     published_date = models.DateTimeField(default=datetime.now)
