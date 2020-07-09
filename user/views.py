@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from questions.models import Post
+from user.models import Profile
 
 # Create your views here.
 def login(request):
@@ -41,6 +42,7 @@ def forgotpassword(request):
 
 def profile(request, uid):
     user = get_object_or_404(User, pk=uid)
+    user.profile = Profile.objects.get_or_create(user=user)[0]
     recentQuestions = Post.getRecentQuestionsByUser(uid, 5)
     recentAnswers = Post.getRecentAnswersByUser(uid, 5)
 
