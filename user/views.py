@@ -29,8 +29,12 @@ def join(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('questions:index'))
     else:
-        context = {}
-        return render(request, 'user/join.html', context)
+        # Handle post requests for new users
+        if request.method == "POST":
+            return JsonResponse({'success': True})
+        else:
+            context = {}
+            return render(request, 'user/join.html', context)
 
 def logoff(request):
     logout(request)
