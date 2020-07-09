@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from itertools import chain
 from .models import Comment, Post, PostTag, PostType, Tag
+from user.models import Profile
 
 # Create your views here.
 def index(request):
@@ -102,6 +103,8 @@ def vote(request):
         pid = request.POST['pid']
         voteType = int(request.POST['type'])
         post = get_object_or_404(Post, pk=pid)
+        user = get_object_or_404(User, pk=post.author.id)
+        user.profile = Profile.objects.get_or_create(user=user)[0]
 
         if voteType == 1:
             voteType = 1
@@ -111,6 +114,10 @@ def vote(request):
             post.votes -= 1
 
         post.save()
+
+        user.profile.reputation += voteType
+        user.profile.save()
+
         return JsonResponse({'success': True,
                              'type': voteType})
 
