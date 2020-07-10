@@ -31,7 +31,14 @@ def join(request):
     else:
         # Handle post requests for new users
         if request.method == "POST":
-            return JsonResponse({'success': True})
+            username = request.POST['username']
+            password = request.POST['password']
+            password2 = request.POST['password2']
+            email = request.POST['email']
+
+            user = authenticate(username=username, password=password)
+            auth_login(request, user)
+            return redirect('questions:index')
         else:
             context = {}
             return render(request, 'user/join.html', context)
