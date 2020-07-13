@@ -7,6 +7,10 @@ from questions.models import Post
 from user.models import Profile
 
 # Create your views here.
+def activate(request):
+    return JsonResponse({'success': True})
+
+
 def login(request):
     # Handle both POST and GET requests
     if request.method == "POST":
