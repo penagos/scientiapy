@@ -11,7 +11,7 @@ def activate(request):
     return JsonResponse({'success': True})
 
 
-def login(request):
+def login(request): 
     # Handle both POST and GET requests
     if request.method == "POST":
         user = authenticate(username=request.POST['username'], password=request.POST['password'])
@@ -40,7 +40,10 @@ def join(request):
             password2 = request.POST['password2']
             email = request.POST['email']
 
-            user = authenticate(username=username, password=password)
+            user = User.objects.create_user(username, email, password)
+            user.save()
+
+            user = authenticate(username=username,password=password)
             auth_login(request, user)
             return redirect('questions:index')
         else:
