@@ -184,9 +184,10 @@ def save(request):
             qid = question.pk
             anchor = '#p' + str(qid)
         else:
+            question = get_object_or_404(Post, pk=qid)
             post = Post(author=request.user,
                         body=body,
-                        parent_id=get_object_or_404(Post, pk=qid),
+                        parent_id=question.id,
                         post_type=PostType.ANSWER)
             post.save()
             anchor = '#p' + str(post.pk)
