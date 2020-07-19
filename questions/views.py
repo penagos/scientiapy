@@ -204,7 +204,7 @@ def new(request):
 
 def unanswered(request):
     context = {}
-    return render(request, 'questions/edit.html', context)\
+    return render(request, 'questions/edit.html', context)
 
 def tags(request):
     # Fetch tags and question counts

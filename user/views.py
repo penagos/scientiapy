@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from questions.models import Post
-from user.models import Profile
+from user.models import Profile, Setting
 
 # Create your views here.
 def activate(request):
@@ -70,5 +70,17 @@ def profile(request, uid):
     return render(request, 'user/profile.html', context)
 
 def settings(request, uid):
-    context = {}
-    return render(request, 'user/settings.html', context)
+    if not request.user.is_authenticated:
+        raise PermissionDenied
+    else:
+        if request.method == "POST":
+            receiveDigests = request.POST['receive_digests']
+
+            setting = get_object_or_404(Setting, pk=request.user.id)
+            setting.receive_digests = receiveDigests
+            setting.save()
+
+            return HttpResponseRedirect(reverse('user:settings', args=(request.user.id,)))
+        else:
+            context = {}
+            return render(request, 'user/settings.html', context)
