@@ -32,7 +32,7 @@ class PostType(models.TextChoices):
 
 class Post(models.Model):
     post_type = models.CharField(max_length=2, choices=PostType.choices)
-    title = models.CharField(max_length=128, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     author_edit = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, related_name='author_editid')
     parent = models.ForeignKey('Post', blank=True, null=True, on_delete=models.CASCADE)

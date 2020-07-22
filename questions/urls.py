@@ -4,8 +4,8 @@ from . import views
 
 app_name = 'questions'
 urlpatterns = [
-    path('questions/<int:qid>/', views.view, name="view"),
     path('', views.index, name='index'),
+    path('questions/<int:qid>/', views.view, name="view"),
     path('questions/save/', views.save, name="save"),
     path('questions/ask/', views.ask, name="ask"),
     path('questions/new/', views.new, name="new"),
