@@ -26,7 +26,7 @@ def index(request):
         questionsFiltered = []
         for q in questions:
             if q.post_type != PostType.QUESTION.value:
-                q = Post.objects.filter(pk=q.parent_id)[0]
+                q = Post.objects.filter(pk=q.parent_id).annotate(answers=Count('post')).order_by('-post_type')[0]
             questionsFiltered.append(q)
         questions = questionsFiltered
     elif request.GET.get('tag') is not None:

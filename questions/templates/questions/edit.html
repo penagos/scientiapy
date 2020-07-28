@@ -4,53 +4,71 @@
 <div class="container mt-4" id="content">
     <div class="row">
         <div class="col-lg-9">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2>{{ action }}</h2>
-                    <form method="POST" action="{% url 'questions:save' %}">
-                        <input type="hidden" name="pid" value="{{ post.id|default_if_none:"0" }}">
-                        {% csrf_token %}
 
-                        {% if post.title or isNewQuestion %}
-                        <div class="form-group">
-                            <input type="text" class="form-control" name="title" placeholder="Question Title" value="{{ post.title|default_if_none:"" }}" required>
-                        </div>
-                        {% endif %}
-                        <div class="form-group">
-                            <textarea name="post" id="postEditor">{{ post.body|default_if_none:"" }}</textarea>
-                            <script>
-                                $(document).ready(function() {
-                                    var easyMDE = new EasyMDE({
-                                                    element: document.getElementById('postEditor'),
-                                                    maxHeight: '500px',
-                                                });
-                                });
-                            </script>
-                        </div>
-                        {% if post.title or isNewQuestion %}
-                        <div class="form-group">
-                            <label for="userTags">Tag Users <span class="text-muted">(optionally notify these users when there is any activity)</span></label>
-                            <input type="text" id="userTags" class="form-control" name="userTags" placeholder="Enter to save" data-role="tagsinput" value="">
-                        </div>
-                        <div class="form-group">
-                            <label for="questionTags">Tags</label>
-                            <input type="text" id="questionTags" class="form-control" name="tags" placeholder="Enter to save" data-role="tagsinput" value="{{ post.tags }}">
-                        </div>
-                        {% endif %}
-                        <div class="form-group">
-                            <div class="text-right">
-                                <button type="submit" class="btn btn-primary">Save</button>
-                            </div>
-                        </div>
-                    </form>
+            <h2>{{ action }}</h2>
+            <form method="POST" action="{% url 'questions:save' %}">
+                <input type="hidden" name="pid" value="{{ post.id|default_if_none:"0" }}">
+                {% csrf_token %}
+
+                {% if post.title or isNewQuestion %}
+                <div class="form-group">
+                    <input type="text" class="form-control" name="title" placeholder="Question Title" value="{{ post.title|default_if_none:"" }}" required>
                 </div>
-            </div>
+                {% endif %}
+                <div class="form-group">
+                    <textarea name="post" id="postEditor">{{ post.body|default_if_none:"" }}</textarea>
+                    <script>
+                        $(document).ready(function() {
+                            var easyMDE = new EasyMDE({
+                                element: document.getElementById('postEditor'),
+                                maxHeight: '500px',
+                            });
+                        });
+                    </script>
+                </div>
+                {% if post.title or isNewQuestion %}
+                <div class="form-group">
+                    <label for="userTags">Tag Users <span class="text-muted">(optionally notify these users when there is any activity)</span></label>
+                    <input type="text" id="userTags" class="form-control" name="userTags" placeholder="Enter to add" data-role="tagsinput" value="">
+                </div>
+                <div id="questionTagsContainer" class="form-group">
+                    <label for="questionTags">Tags</label>
+                    <input id="questionTags" type="text" class="form-control typeahead" name="tags" placeholder="Enter to add" value="{{ post.tags }}">
+                    <script type="text/javascript">
+                        const tags = new Bloodhound({
+                            datumTokenizer: datum => Bloodhound.tokenizers.whitespace(datum.value),
+                            queryTokenizer: Bloodhound.tokenizers.whitespace,
+                            remote: {
+                                wildcard: '%QUERY',
+                                url: 'http://api.themoviedb.org/3/search/movie?query=%QUERY&api_key=f22e6ce68f5e5002e71c20bcba477e7d',
+                                // Map the remote source JSON array to a JavaScript object array
+                                transform: response => $.map(response.results, movie => ({
+                                    value: movie.original_title
+                                }))
+                            }
+                        });
+
+                        // Instantiate the Typeahead UI
+                        $('.typeahead').typeahead(null, {
+                            display: 'value',
+                            source: tags
+                        });
+                    </script>
+                </div>
+                {% endif %}
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-light">Cancel</a>
+                </div>
+            </form>
         </div>
         <div class="col-lg-3">
             <div class="card mb-4 box-shadow">
                 <div class="card-body">
                     <h6 class="font-weight-bold">Supported Markdown</h6>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <p class="card-text">
+                        The editor supports any valid Markdown syntax. For examples, see <a href="https://www.markdownguide.org/basic-syntax/" target="_blank">this webpage</a>.
+                    </p>
                 </div>
             </div>
         </div>
