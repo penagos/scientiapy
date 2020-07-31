@@ -19,31 +19,33 @@
 
             {% if count > 0 %}
                 {% for question in questions %}
-                <div class="row mb-4">
-                    <div class="col-lg-1 col-md-2 col-sm-2 d-none d-sm-block">
-                        <div class="text-center">
-                            <h6 class="mb-0">{{ question.votes }}</h6>
-                            <p class="small">Votes</p>
+                <div class="card p-3 mb-2">
+                    <div class="row mb-4">
+                        <div class="col-lg-1 col-md-2 col-sm-2 d-none d-sm-block">
+                            <div class="text-center">
+                                <h6 class="mb-0">{{ question.votes }}</h6>
+                                <p class="small">Votes</p>
 
-                            {% if question.accepted %}
-                                <div class="answer-container accepted-container">
-                            {% else %}
-                                <div class="answer-container unanswered-container">
-                            {% endif %}
+                                {% if question.accepted %}
+                                    <div class="answer-container accepted-container">
+                                {% else %}
+                                    <div class="answer-container unanswered-container">
+                                {% endif %}
 
-                                <h6 class="mb-0">{{ question.answers }}</h6>
-                                <p class="small">Ans</p>
+                                    <h6 class="mb-0">{{ question.answers }}</h6>
+                                    <p class="small">Ans</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 question">
-                        <h6><a href="{% url 'questions:view' question.id %}" class="text-decoration-none">{{ question.title }}</a></h6>
-                        <p>{{ question.body|truncatechars:255 }}</p>
-                        <span class="float-right"><small class="text-muted"><a href="{% url 'user:profile' question.author.id %}" data-toggle="tooltip" data-placement="top" title="Additional Info">{{ question.author.username }}</a> - 200<br>{{ question.published_date }}</small></span>
-                        
-                        {% for tag in question.tags %}
-                            <span class="badge badge-primary"><a href="{% url 'questions:index' %}?tag={{ tag }}" class="text-decoration-none">{{ tag }}</a></span>
-                        {% endfor %}
+                        <div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 question">
+                            <h6><a href="{% url 'questions:view' question.id %}" class="text-decoration-none">{{ question.title }}</a></h6>
+                            <p>{{ question.body|truncatechars:255 }}</p>
+                            <span class="float-right"><small class="text-muted"><a href="{% url 'user:profile' question.author.id %}" data-toggle="tooltip" data-placement="top" title="Additional Info">{{ question.author.username }}</a> - 200<br>{{ question.published_date }}</small></span>
+                            
+                            {% for tag in question.tags %}
+                                <span class="badge badge-primary"><a href="{% url 'questions:index' %}?tag={{ tag }}" class="text-decoration-none">{{ tag }}</a></span>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
