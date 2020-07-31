@@ -15,7 +15,7 @@
     <div class="row">
         <div class="col-lg-9 card">
             <div class="row">
-                <div class="col-lg-1 col-sm-1 d-none d-sm-block">
+                <div class="col-lg-1 col-sm-1 d-none d-sm-block pt-4">
                     <div class="upvote-container text-center">
                         {% if user.is_authenticated %}
                             <a class="upVote" data-post="{{ question.id }}" href="javascript:;"><img src="{% static '/img/open-iconic/svg/caret-top.svg' %}" alt="Up vote" class="upvote" title="+1 vote"></a>
@@ -84,7 +84,7 @@
 
                 {% for post in answers %}
                     <div id="p{{ post.id }}" class="row mb-4">
-                        <div class="col-lg-1 col-sm-1 d-none d-sm-block">
+                        <div class="col-lg-1 col-sm-1 d-none d-sm-block pt-4">
                             <div class="upvote-container text-center">
                                 {% if user.is_authenticated %}
                                     <a class="upVote" data-post="{{ post.id }}" href="javascript:;"><img src="{% static '/img/open-iconic/svg/caret-top.svg' %}" alt="Up vote" class="upvote" title="+1 vote"></a>
