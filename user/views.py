@@ -82,5 +82,5 @@ def settings(request, uid):
 
             return HttpResponseRedirect(reverse('user:settings', args=(request.user.id,)))
         else:
-            context = {}
+            context = {'uid': uid}
             return render(request, 'user/settings.html', context)
