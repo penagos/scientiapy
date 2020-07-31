@@ -149,7 +149,7 @@ def save(request):
                               author=request.user,
                               body=comment)
             comment.save()
-            qid = post.parent_id.id
+            qid = post.parent_id
             anchor = '#c' + str(comment.pk)
         elif pid:
             # Update existing answer or question
