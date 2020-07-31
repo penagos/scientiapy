@@ -3,7 +3,7 @@
 {% block content %}
 {% load static %}
 <div class="container mt-4" id="content">
-    <div class="row">
+    <div class="row mb-4">
         <div class="col-lg-9">
             <div id="p{{ question.id }}" class="row">
                 <div class="col-lg-12">
@@ -60,6 +60,11 @@
 
             <div class="row mb-2">
                 <div class="col-lg-12">
+                    {% if answers|length == 1%}
+                    <h4>1 Answer</h4>
+                {% else %}
+                    <h4>{{ answers|length }} Answers</h4>
+                {% endif %}
                     <ul class="nav nav-tabs justify-content-end">
                         <li class="nav-item">
                             <a id="sortByVotes" class="nav-link active" href="#">Votes</a>
@@ -75,11 +80,7 @@
             </div>
 
             <div class="tab-content">
-                {% if answers|length == 1%}
-                    <h4>1 Answer</h4>
-                {% else %}
-                    <h4>{{ answers|length }} Answers</h4>
-                {% endif %}
+
 
                 {% for post in answers %}
                     <div id="p{{ post.id }}" class="row mb-4">
