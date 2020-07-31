@@ -63,7 +63,7 @@
                             </div>
                         </div>
                         <div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 question">
-                            <h6>Posted in <a href="{% url 'questions:view' question.parent_id.id %}" class="text-decoration-none">{{ question.parent_id.title }}</a></h6>
+                            <h6>Posted in <a href="{% url 'questions:view' question.parent_id %}" class="text-decoration-none">{{ question.parent_id.title }}</a></h6>
                             <p>{{ question.body|truncatechars:255 }}</p>
                             <span class="float-right"><small class="text-muted"><a href="{% url 'user:profile' question.author.id %}" data-toggle="tooltip" data-placement="top" title="Additional Info">{{ question.author.username }}</a> - 200<br>{{ question.published_date }}</small></span>
                         </div>

@@ -161,7 +161,7 @@ def save(request):
                 
                 qid = post.id
             else:
-                qid = post.parent_id.id
+                qid = post.parent_id
 
             post.body = body
             post.edit_date = datetime.now()
