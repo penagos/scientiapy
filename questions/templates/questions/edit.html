@@ -39,26 +39,34 @@
                 </div>
                 <div id="questionTagsContainer" class="form-group">
                     <label for="questionTags"><strong>Tags</strong></label>
-                    <input id="questionTags" type="text" class="form-control typeahead" name="tags" placeholder="Enter to add" value="{{ post.tags }}">
+                    <input id="questionTags" type="text" class="form-control typeahead" name="tags" placeholder="Enter to add" value="{{ post.tags }}" data-role="tagsinput">
                     <script type="text/javascript">
-                        const tags = new Bloodhound({
-                            datumTokenizer: datum => Bloodhound.tokenizers.whitespace(datum.value),
-                            queryTokenizer: Bloodhound.tokenizers.whitespace,
-                            remote: {
-                                wildcard: '%QUERY',
-                                url: 'http://api.themoviedb.org/3/search/movie?query=%QUERY&api_key=f22e6ce68f5e5002e71c20bcba477e7d',
-                                // Map the remote source JSON array to a JavaScript object array
-                                transform: response => $.map(response.results, movie => ({
-                                    value: movie.original_title
-                                }))
+                        
+                        $(document).ready(function() {
+
+                            var countries = new Bloodhound({
+                        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+                        queryTokenizer: Bloodhound.tokenizers.whitespace,
+                        prefetch: {
+                            url: '/static/countries.json',
+                            filter: function(list) {
+                            return $.map(list, function(name) {
+                                return { name: name }; });
                             }
+                        }
+                        });
+                        countries.initialize();
+
+                        $('#questionTags').tagsinput({
+                        typeaheadjs: {
+                            name: 'countries',
+                            displayKey: 'name',
+                            valueKey: 'name',
+                            source: countries.ttAdapter()
+                        }
+                        });
                         });
 
-                        // Instantiate the Typeahead UI
-                        $('.typeahead').typeahead(null, {
-                            display: 'value',
-                            source: tags
-                        });
                     </script>
                 </div>
                 {% endif %}
