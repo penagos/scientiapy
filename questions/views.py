@@ -208,9 +208,15 @@ def unanswered(request):
 
 def tags(request):
     # Fetch tags and question counts
+    json = request.GET.get('json')
     tags = PostTag.getAllTags()
-    context = {'tags': tags}
-    return render(request, 'questions/tags.html', context)
+    if json is None:
+        
+        context = {'tags': tags}
+        return render(request, 'questions/tags.html', context)
+    else:
+        # Map resultset to JSON format
+        return JsonResponse([x["tag__title"] for x in list(tags)], safe=False)
 
 def delete(request, pid):
     context = {'post': pid}
