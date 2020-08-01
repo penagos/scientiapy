@@ -9,7 +9,7 @@
     </div>
     <div class="row">
         <div class="col-lg-9 card p-3">
-            <form method="POST" action="{% url 'questions:save' %}">
+            <form id="postEditorForm" method="POST" action="{% url 'questions:save' %}">
                 <input type="hidden" name="pid" value="{{ post.id|default_if_none:"0" }}">
                 {% csrf_token %}
 
@@ -47,27 +47,30 @@
                             var tags = new Bloodhound({
                                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
                                 queryTokenizer: Bloodhound.tokenizers.whitespace,
-                                prefetch: {
-                                    url: "{% url 'questions:tags' %}?json=1",
+                                remote: {
+                                    url: "{% url 'questions:tags' %}?json=1&query=%QUERY",
+                                    wildcard: '%QUERY',
                                     filter: function(list) {
+                                        
                                     return $.map(list, function(name) {
-                                        return { name: name }; });
+                                        console.log(name);
+                                        return { 'name': name };
+                                        });
                                     }
                                 }
                             });
 
                             tags.initialize();
 
-                        $('#questionTags').tagsinput({
-                            typeaheadjs: {
-                                name: 'tags',
-                                displayKey: 'name',
-                                valueKey: 'name',
-                                source: tags.ttAdapter()
-                            }
+                            $('#questionTags').tagsinput({
+                                typeaheadjs: {
+                                    name: 'tags',
+                                    displayKey: 'name',
+                                    source: tags.ttAdapter()
+                                },
+                                cancelConfirmKeysOnEmpty: false
                             });
                         });
-
                     </script>
                 </div>
                 {% endif %}
