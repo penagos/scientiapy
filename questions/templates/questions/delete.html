@@ -4,15 +4,24 @@
 <div class="container mt-4" id="content">
     <div class="row">
         <div class="col-lg-12">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2>Delete Post Confirmation</h2>
-                    <p>Are you sure you want to delete <strong>post name</strong>?<p>
-                    <form method="POST" action="{% url 'questions:delete' %}">
-                        <input type="submit" class="btn btn-danger">Delete Post</button>
-                    </form>
-                </div>
+            <h2>Delete Post Confirmation</h2>
+            <p>Are you sure you want to delete the post below? If the post is a question, all answers and comments posted under that question will be deleted. <strong>This action is permanent and cannot be undone.</strong></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card p-3">
+            <div class="col-lg-12">
+                {{ post.body|markdownify|safe }}
             </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-lg-12 text-center">
+            <form method="POST" action="{% url 'questions:delete' post.id %}">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-danger" value="Delete Post">
+                <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">Cancel</a>
+            </form>
         </div>
     </div>
 </div>

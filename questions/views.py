@@ -222,7 +222,8 @@ def tags(request):
         return JsonResponse([x.title for x in list(tags)], safe=False)
 
 def delete(request, pid):
-    context = {'post': pid}
+    post = get_object_or_404(Post, pk=pid)
+    context = {'post': post}
     return render(request, 'questions/delete.html', context)
 
 def edit(request, pid):
