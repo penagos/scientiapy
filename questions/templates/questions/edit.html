@@ -35,7 +35,7 @@
                 {% if post.title or isNewQuestion %}
                 <div class="form-group">
                     <label for="userTags"><strong>Tag Users</strong> <span class="text-muted">(optionally notify these users when there is any activity)</span></label>
-                    <input type="text" id="userTags" class="form-control" name="userTags" placeholder="Enter to add" data-role="tagsinput" value="">
+                    <input type="text" id="notify" class="form-control" name="notify" placeholder="Enter to add" data-role="tagsinput" value="">
                 </div>
                 <div id="questionTagsContainer" class="form-group">
                     <label for="questionTags"><strong>Tags</strong></label>
@@ -43,7 +43,6 @@
                     <script type="text/javascript">
                         
                         $(document).ready(function() {
-
                             var tags = new Bloodhound({
                                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
                                 queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -53,20 +52,43 @@
                                     filter: function(list) {
                                         
                                     return $.map(list, function(name) {
-                                        console.log(name);
-                                        return { 'name': name };
+                                            return { 'name': name };
+                                        });
+                                    }
+                                }
+                            });
+
+                            var notify = new Bloodhound({
+                                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+                                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                                remote: {
+                                    url: "{% url 'user:all' %}?json=1&query=%QUERY",
+                                    wildcard: '%QUERY',
+                                    filter: function(list) {
+                                        return $.map(list, function(name) {
+                                            return { 'name': name };
                                         });
                                     }
                                 }
                             });
 
                             tags.initialize();
+                            notify.initialize();
 
                             $('#questionTags').tagsinput({
                                 typeaheadjs: {
                                     name: 'tags',
                                     displayKey: 'name',
                                     source: tags.ttAdapter()
+                                },
+                                cancelConfirmKeysOnEmpty: false
+                            });
+
+                            $('#notify').tagsinput({
+                                typeaheadjs: {
+                                    name: 'notify',
+                                    displayKey: 'name',
+                                    source: notify.ttAdapter()
                                 },
                                 cancelConfirmKeysOnEmpty: false
                             });

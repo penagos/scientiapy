@@ -44,7 +44,10 @@ class Post(models.Model):
     body = models.TextField()
 
     # We cache tags on each question to avoid needing to traverse tags table
-    tags = models.CharField(max_length=256, null=True, blank=True)
+    tags = models.CharField(max_length=512, null=True, blank=True)
+
+    # List of usernames to email once there's any activity on a question
+    notify = models.CharField(max_length=512, null=True, blank=True)
 
     # Cache vote count on each question for easy access
     votes = models.IntegerField(default=0)

@@ -158,7 +158,7 @@ def save(request):
             # If this is a question, update the title
             if post.post_type == PostType.QUESTION:
                 post.title = request.POST['title']
-                
+                post.notify = request.POST['notify'].lower()
                 qid = post.id
             else:
                 qid = post.parent_id
@@ -180,6 +180,7 @@ def save(request):
 
             question.save()
             question.tags = handleTags(question, tags)
+            question.notify = request.POST['notify'].lower()
             question.save()
             qid = question.pk
             anchor = '#p' + str(qid)

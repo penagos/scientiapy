@@ -84,3 +84,8 @@ def settings(request, uid):
         else:
             context = {'uid': uid}
             return render(request, 'user/settings.html', context)
+
+def all(request):
+    query = request.GET.get('query')
+    users = User.objects.filter(username__icontains=query)
+    return JsonResponse([x.username for x in list(users)], safe=False)
