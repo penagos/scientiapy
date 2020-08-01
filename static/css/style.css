@@ -78,6 +78,10 @@ ul.sidelist li {
     height: 36px;
 }
 
+a.no-underline {
+    text-decoration: none;
+}
+
 .answer-container {
     color: #FFFFFF;
     padding: 4px;

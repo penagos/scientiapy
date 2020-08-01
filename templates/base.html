@@ -6,7 +6,7 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap-4.5.0/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap-toggle.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static '/css/fontawesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/fontawesome/all.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/css/fancybox3/jquery.fancybox.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/css/easymde/easymde.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/css/tagsinput.css' %}">
@@ -26,7 +26,7 @@
                 <div class="input-group">
                     <input type="text" name="q" class="form-control border border-right-0" placeholder="Search...">
                     <span class="input-group-append">
-                        <button class="btn btn-outline-dark border border-left-0" type="button">
+                        <button class="btn btn-outline-dark border border-left-0" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
                     </span>
@@ -65,8 +65,8 @@
 
     {% block content %}{% endblock %}
 
-    <div class="container mt-5" id="footer">
-        <span class="text-muted font-weight-light">&copy; Scientiapy 2020. Designed by <a href="http://www.penagos.co" target="_blank">Luis</a>.</span>
+    <div class="container mt-5 mb-4 pb-4 text-center" id="footer">
+        <span class="text-muted font-weight-light">&copy; Scientiapy 2020. Designed by <a href="http://www.github.com/penagos" target="_blank">Luis</a>.</span>
     </div>
 
     <!--<script src="{% static '/js/bootstrap-4.5.0/bootstrap.min.js' %}"></script>-->

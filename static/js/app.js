@@ -70,7 +70,7 @@ $('.commentPoster').on('click', function(event) {
     // Show mini comment poster textbox
     var target = $(this).data('target');
     var postid = $(this).data('postid');
-    var poster = `<input type="hidden" name="pid" value="${postid}"><input type="text" class="form-control" name="comment" placeholder="Comment">`;
+    var poster = `<div class="text-right"><input type="hidden" name="pid" value="${postid}"><textarea class="form-control" name="comment" placeholder="Enter Comment" rows="3"></textarea><input type="submit" value="Post Comment" class="btn-sm btn btn-primary mt-2"></div>`;
 
     $(`#${target}`).html(poster);
     event.preventDefault();
