@@ -32,7 +32,7 @@ pre code {
     transition: visibility 0s 2s, opacity 2s linear;
 }
 .postFlash {
-    background: #ffca60;
+    background: #ffe6b5;
     -webkit-transition:background 1.5s;
     -moz-transition:background 1.5s;
     -o-transition:background 1.5s;

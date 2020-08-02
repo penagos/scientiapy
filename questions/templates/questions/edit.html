@@ -18,6 +18,10 @@
                     <label><strong>Title</strong></label>
                     <input type="text" class="form-control" name="title" placeholder="Question Title" value="{{ post.title|default_if_none:"" }}" required>
                 </div>
+                {% elif post.parent_id != 0 %}
+                <div class="form-group">
+                    <label><strong>Posted in: </strong> <a href="#"></a></label>
+                </div>
                 {% endif %}
                 <div class="form-group">
                     <label><strong>Post</strong></label>
@@ -35,7 +39,7 @@
                 {% if post.title or isNewQuestion %}
                 <div class="form-group">
                     <label for="userTags"><strong>Tag Users</strong> <span class="text-muted">(optionally notify these users when there is any activity)</span></label>
-                    <input type="text" id="notify" class="form-control" name="notify" placeholder="Enter to add" data-role="tagsinput" value="">
+                    <input type="text" id="notify" class="form-control" name="notify" placeholder="Enter to add" data-role="tagsinput" value="{{ post.notify }}">
                 </div>
                 <div id="questionTagsContainer" class="form-group">
                     <label for="questionTags"><strong>Tags</strong></label>

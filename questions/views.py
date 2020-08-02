@@ -1,10 +1,12 @@
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
+from django.core.mail import send_mail
 from django.core.paginator import Paginator
 from django.db.models import Count, Q
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
+from django.template.loader import render_to_string
 from django.urls import reverse
 from itertools import chain
 from .models import Comment, Post, PostTag, PostType, Tag
@@ -184,6 +186,8 @@ def save(request):
             question.save()
             qid = question.pk
             anchor = '#p' + str(qid)
+
+            handleNotify(request, question)
         else:
             question = get_object_or_404(Post, pk=qid)
             post = Post(author=request.user,
@@ -192,6 +196,9 @@ def save(request):
                         post_type=PostType.ANSWER)
             post.save()
             anchor = '#p' + str(post.pk)
+
+            # Notify anyone on question notifylist
+            handleNotify(request, question)
 
         return HttpResponseRedirect(reverse('questions:view', args=(qid,)) + anchor)
 
@@ -257,3 +264,28 @@ def handleTags(post, tags):
             Post.updateTag(post, tag)
     
     return tags
+
+def handleNotify(request, post):
+    # If any users are on the notifylist, send them an email
+    if post.notify != "":
+        usersSplit = post.notify.split(',')
+        bccList = []
+        for user in usersSplit:
+            # Ensure this is a valid user
+            userHandle = get_object_or_404(User, username=user)
+
+            # Get email, add to running BCC list
+            bccList.append(userHandle.email)
+
+        subject = '[Scientiapy]: ' + post.title
+        messageTxt = "New question txt"
+        home_link = request.build_absolute_uri()
+        action_link = request.build_absolute_uri(reverse('questions:view', args=(post.id,)))
+        message = render_to_string('email/newQuestion.html', {'post': post, 'home_link': home_link, 'action_link': action_link})
+        send_mail(
+            subject, 
+            messageTxt, 
+            'noreply@penagos.co',
+            bccList,
+            fail_silently=False,
+            html_message=message)

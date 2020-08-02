@@ -49,9 +49,9 @@
                                 <a href="#" class="no-underline ml-3"><i class="fas fa-lock"></i> Lock</a><br>
                             {% endif %}
                             <p class="text-muted">
-                                Posted {{ question.published_date }} by <a href="{% url 'user:profile' question.author.id %}">{{ question.author.username }}</a>
-                                {% if post.author_edit %}
-                                Last edited on {{ question.edit_date }} by <a href="{% url 'user:profile' question.author_edit.id %}">{{ question.author_edit.username }}</a>.
+                                Posted {{ question.published_date }} by <a href="{% url 'user:profile' question.author.id %}" data-toggle="tooltip" data-placement="top" title="{{ question.author.profile.reputation }} rep">{{ question.author.username }}</a>
+                                {% if question.author_edit %}
+                                <br>Last edited on {{ question.edit_date }} by <a href="{% url 'user:profile' question.author_edit.id %}" data-toggle="tooltip" data-placement="top" title="{{ question.author_edit.profile.reputation }} rep">{{ question.author_edit.username }}</a>.
                                 {% endif %}
                             </p>
                         </div>
@@ -66,14 +66,12 @@
             </div>
 
             {% if answers|length > 0%}
-            <div class="row mb-2">
+            <div class="row mb-2 mt-4">
                 <div class="col-lg-12">
-                    {% if answers|length == 1%}
-                        <h4>1 Answer</h4>
-                    {% else %}
-                        <h4>{{ answers|length }} Answers</h4>
-                    {% endif %}
-                    <ul class="nav nav-tabs justify-content-end">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item mr-auto">
+                            <h4>{{ answers|length }} Answer{% if answers|length != 1%}s{% endif %}</h4>
+                        </li>
                         <li class="nav-item">
                             <a id="sortByVotes" class="nav-link active" href="#">Votes</a>
                         </li>
@@ -135,9 +133,9 @@
                                             <a href="{% url 'questions:delete' post.id %}" class="no-underline ml-3"><i class="far fa-trash-alt"></i> Delete</a><br>
                                         {% endif %}
                                         <p class="text-muted">
-                                            Posted {{ post.published_date }} by <a href="{% url 'user:profile' post.author.id %}">{{ post.author.username }}</a>
+                                            Posted {{ post.published_date }} by <a href="{% url 'user:profile' post.author.id %}" data-toggle="tooltip" data-placement="top" title="{{ post.author.profile.reputation }} rep">{{ post.author.username }}</a>
                                             {% if post.author_edit %}
-                                            Last edited on {{ post.edit_date }} by <a href="{% url 'user:profile' post.author_edit.id %}">{{ post.author_edit.username }}</a>.
+                                            <br>Last edited on {{ post.edit_date }} by <a href="{% url 'user:profile' post.author_edit.id %}" data-toggle="tooltip" data-placement="top" title="{{ post.author_edit.profile.reputation }} rep">{{ post.author_edit.username }}</a>.
                                             {% endif %}
                                         </p>
                                     </div>
@@ -152,11 +150,13 @@
                                         </p>
                                         <div class="d-flex justify-content-between">
                                             <div class="small">
+                                                <!--
                                                 <a href="#" class="no-underline"><i class="far fa-edit"></i> Edit</a>
                                                 <a href="#" class="no-underline ml-3"><i class="far fa-trash-alt"></i> Delete</a>
+                                                -->
                                             </div>
                                             <div class="small">
-                                                <span class="text-muted">Posted {{ comment.date }} by <a href="{% url 'user:profile' comment.author.id %}">{{ comment.author.username }}</a></span>
+                                                <span class="text-muted">Posted {{ comment.date }} by <a href="{% url 'user:profile' comment.author.id %} data-toggle="tooltip" data-placement="top" title="{{ comment.author.profile.reputation }} rep"">{{ comment.author.username }}</a></span>
                                             </div>
                                         </div>
                                         <hr>
