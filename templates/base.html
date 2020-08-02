@@ -46,6 +46,10 @@
                             <div class="dropdown-menu" aria-labelledby="accountActions">
                                 <a class="dropdown-item" href="{% url 'user:profile' user.id %}">Profile</a>
                                 <a class="dropdown-item" href="{% url 'user:settings' user.id %}">Settings</a>
+
+                                {% if user.is_superuser %}
+                                <a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a>
+                                {% endif %}
                                 <a class="dropdown-item" href="{% url 'user:logout' %}">Logout</a>
                             </div>
                         </li>

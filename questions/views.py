@@ -279,7 +279,7 @@ def handleNotify(request, post):
 
         subject = '[Scientiapy]: ' + post.title
         messageTxt = "New question txt"
-        home_link = request.build_absolute_uri()
+        home_link = request.build_absolute_uri('/')
         action_link = request.build_absolute_uri(reverse('questions:view', args=(post.id,)))
         message = render_to_string('email/newQuestion.html', {'post': post, 'home_link': home_link, 'action_link': action_link})
         send_mail(

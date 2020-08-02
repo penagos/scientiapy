@@ -14,6 +14,10 @@ class Tag(models.Model):
     def getOrCreate(name):
         return Tag.objects.update_or_create(title=name)[0]
 
+    # For admin
+    def __str__(self):
+        return self.title
+
 class PostTag(models.Model):
     post = models.ForeignKey('Post', on_delete=models.CASCADE)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
@@ -109,6 +113,14 @@ class Post(models.Model):
         # Get X most recent answers by user
         return Post.objects.filter(post_type=PostType.ANSWER, author=uid).order_by('-published_date')[:count]
 
+    # For admin
+    def __str__(self):
+        if self.title is not None:
+            return self.title
+        else:
+            return 'RE: ' + self.parent.title
+
+
 class Vote(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -119,3 +131,7 @@ class Comment(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date = models.DateTimeField(default=datetime.now)
     body = models.TextField()
+
+    # For admin
+    def __str__(self):
+        return 'RE: ' + self.post.parent.title
