@@ -198,7 +198,7 @@ def save(request):
             anchor = '#p' + str(post.pk)
 
             # Notify anyone on question notifylist
-            handleNotify(request, question)
+            handleNotify(request, question, reply=post)
 
         return HttpResponseRedirect(reverse('questions:view', args=(qid,)) + anchor)
 
@@ -265,7 +265,7 @@ def handleTags(post, tags):
     
     return tags
 
-def handleNotify(request, post):
+def handleNotify(request, post, reply=None):
     # If any users are on the notifylist, send them an email
     if post.notify != "":
         usersSplit = post.notify.split(',')
@@ -277,11 +277,19 @@ def handleNotify(request, post):
             # Get email, add to running BCC list
             bccList.append(userHandle.email)
 
-        subject = '[Scientiapy]: ' + post.title
-        messageTxt = "New question txt"
-        home_link = request.build_absolute_uri('/')
+        # Choose the right email template and title
+        if reply is None:
+            subject = '[Scientiapy]: ' + post.title
+            template = 'email/newQuestion.html'
+            home_link = request.build_absolute_uri('/')
+        else:
+            subject = '[Scientiapy]: RE: ' + post.title
+            template = 'email/newAnswer.html'
+            home_link = request.build_absolute_uri(reverse('questions:view', args=(post.id,))
+
+        messageTxt = "Scientiapy notification"
         action_link = request.build_absolute_uri(reverse('questions:view', args=(post.id,)))
-        message = render_to_string('email/newQuestion.html', {'post': post, 'home_link': home_link, 'action_link': action_link})
+        message = render_to_string(template, {'post': post, 'home_link': home_link, 'action_link': action_link, 'reply': reply})
         send_mail(
             subject, 
             messageTxt, 
