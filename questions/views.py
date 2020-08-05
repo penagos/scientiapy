@@ -338,7 +338,7 @@ def handleReputationDeletion(post):
 
     # Walk the postXvotes table and update the user table votes cache
     votes = Vote.objects.filter(post_id=post.id)
+    profile = post.author.profile
     for vote in votes:
-        user = get_object_or_404(User, pk=vote.user_id)
-        user.reputation -= vote.amount
-        user.save()
+        profile.reputation -= vote.amount
+        profile.save()
