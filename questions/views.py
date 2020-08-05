@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404, render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from itertools import chain
-from .models import Comment, Post, PostTag, PostType, Tag
+from .models import Comment, Post, PostTag, PostType, Tag, Vote
 from user.models import Profile
 
 # Create your views here.
@@ -234,10 +234,16 @@ def delete(request, pid):
     else:
         # IF POST request, proceed to delete post
         if request.method == "POST":
-            pid = request.GET['pid']
             post = get_object_or_404(Post, pk=pid)
             handleReputationDeletion(post)
-            Post.objects.filter(pk=post.id).delete()
+            post.delete()
+
+            # If a question was removed, redirect back to index page, otherwise
+            # redirect to question page
+            if post.post_type == PostType.QUESTION:
+                return HttpResponseRedirect(reverse('questions:index'))
+            else:
+                return HttpResponseRedirect(reverse('questions:view', args=(post.parent_id,)))
         else:
             post = get_object_or_404(Post, pk=pid)
             context = {'post': post}
@@ -310,7 +316,7 @@ def handleNotify(request, post, reply=None):
 # This can be called on either an answer or a question. In the cases that it is
 # called on a question, take into consideration all answers which have this post
 # as a parent
-def handleReputationDeletion(request, post):
+def handleReputationDeletion(post):
     # Build up a list of all answers as well
     posts = [post]
 
