@@ -125,6 +125,7 @@ class Vote(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date = models.DateTimeField(default=datetime.now)
+    amount = models.IntegerField()
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)

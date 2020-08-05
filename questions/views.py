@@ -229,9 +229,19 @@ def tags(request):
         return JsonResponse([x.title for x in list(tags)], safe=False)
 
 def delete(request, pid):
-    post = get_object_or_404(Post, pk=pid)
-    context = {'post': post}
-    return render(request, 'questions/delete.html', context)
+    if not request.user.is_authenticated:
+        raise PermissionDenied
+    else:
+        # IF POST request, proceed to delete post
+        if request.method == "POST":
+            pid = request.GET['pid']
+            post = get_object_or_404(Post, pk=pid)
+            handleReputationDeletion(post)
+            Post.objects.filter(pk=post.id).delete()
+        else:
+            post = get_object_or_404(Post, pk=pid)
+            context = {'post': post}
+            return render(request, 'questions/delete.html', context)
 
 def edit(request, pid):
     # Ensure user is logged in
@@ -285,15 +295,32 @@ def handleNotify(request, post, reply=None):
         else:
             subject = '[Scientiapy]: RE: ' + post.title
             template = 'email/newAnswer.html'
-            home_link = request.build_absolute_uri(reverse('questions:view', args=(post.id,))
+            home_link = request.build_absolute_uri(reverse('questions:view', args=(post.id,)))
 
-        messageTxt = "Scientiapy notification"
         action_link = request.build_absolute_uri(reverse('questions:view', args=(post.id,)))
         message = render_to_string(template, {'post': post, 'home_link': home_link, 'action_link': action_link, 'reply': reply})
         send_mail(
             subject, 
-            messageTxt, 
+            'Scientiapy notification', 
             'noreply@penagos.co',
             bccList,
             fail_silently=False,
             html_message=message)
+
+# This can be called on either an answer or a question. In the cases that it is
+# called on a question, take into consideration all answers which have this post
+# as a parent
+def handleReputationDeletion(request, post):
+    # Build up a list of all answers as well
+    posts = [post]
+
+    if post.post_type == PostType.QUESTION:
+        answers = Post.objects.filter(parent_id=post.id)
+        posts.append([answer.id for answer in answers])
+
+    # Walk the postXvotes table and update the user table votes cache
+    votes = Vote.objects.filter(post_id=post.id)
+    for vote in votes:
+        user = get_object_or_404(User, pk=vote.user_id)
+        user.reputation -= vote.amount
+        user.save()

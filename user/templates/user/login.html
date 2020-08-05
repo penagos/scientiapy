@@ -1,12 +1,7 @@
 {% load static %}
-<div class="container" style="max-width: 800px;">
+<div class="container" style="max-width: 500px;">
     <div class="row no-gutter">
-        <!-- The image half -->
-        <div class="col-md-6 d-none d-md-flex" id="loginBackground"></div>
-
-
-        <!-- The content half -->
-        <div class="col-md-6 bg-light">
+        <div class="col-md-12 bg-light">
             <div class="login d-flex align-items-center py-5">
 
                 <!-- Demo content-->
@@ -35,7 +30,7 @@
                                     <label for="rememberPassword" class="custom-control-label">Remember me</label>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm">Sign in</button>
-                                <div class="text-center d-flex justify-content-between mt-2">
+                                <div class="text-center mt-4">
                                     <p class="small">
                                         <a href="{% url 'user:forgotpassword' %}">Forgot your password?</a><br>
                                         <a href="{% url 'user:join' %}">Don't have an account?</a>
