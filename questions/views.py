@@ -100,25 +100,35 @@ def vote(request):
         raise PermissionDenied
     else:
         # Find post, update vote count
-        # TODO: do not let a user vote more than once
-        # TODO: add error handling
         pid = request.POST['pid']
-        voteType = int(request.POST['type'])
-        post = get_object_or_404(Post, pk=pid)
-        user = get_object_or_404(User, pk=post.author.id)
-        user.profile = Profile.objects.get_or_create(user=user)[0]
 
-        if voteType == 1:
-            voteType = 1
-            post.votes += 1
+        # Prevent vote change if one is already registered
+        oldVote = Vote.objects.filter(Q(post_id=pid) & Q(user_id=request.user.id))
+
+        if not oldVote:
+            voteType = int(request.POST['type'])
+            post = get_object_or_404(Post, pk=pid)
+            user = get_object_or_404(User, pk=post.author.id)
+            user.profile = Profile.objects.get_or_create(user=user)[0]
+
+            if voteType == 1:
+                voteType = 1
+                post.votes += 1
+            else:
+                voteType = -1
+                post.votes -= 1
+
+            post.save()
+            user.profile.reputation += voteType
+            user.profile.save()
+
+            # Create a new vote entry
+            vote = Vote(post=post,
+                        user=request.user,
+                        amount=voteType)
+            vote.save()
         else:
-            voteType = -1
-            post.votes -= 1
-
-        post.save()
-
-        user.profile.reputation += voteType
-        user.profile.save()
+            voteType = 0
 
         return JsonResponse({'success': True,
                              'type': voteType})
@@ -298,12 +308,14 @@ def handleNotify(request, post, reply=None):
             subject = '[Scientiapy]: ' + post.title
             template = 'email/newQuestion.html'
             home_link = request.build_absolute_uri('/')
+            anchor = ''
         else:
             subject = '[Scientiapy]: RE: ' + post.title
             template = 'email/newAnswer.html'
             home_link = request.build_absolute_uri(reverse('questions:view', args=(post.id,)))
+            anchor = '#p' + str(post.pk)
 
-        action_link = request.build_absolute_uri(reverse('questions:view', args=(post.id,)))
+        action_link = request.build_absolute_uri(reverse('questions:view', args=(post.id,)) + anchor)
         message = render_to_string(template, {'post': post, 'home_link': home_link, 'action_link': action_link, 'reply': reply})
         send_mail(
             subject, 
