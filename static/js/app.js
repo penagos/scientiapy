@@ -66,6 +66,27 @@ function acceptAnswer(questionID, postID) {
     });
 }
 
+function fetchPosts(questionID, order) {
+    $.post({
+        data: {
+            pid: postID,
+            qid: questionID
+        },
+        url:  '/questions/posts/',
+        success: function(response) {
+            // Update post vote count with +1. Even though someone else could
+            // have also upvoted in the same time, if we fetch the latest count
+            // from the DB it may not "seem" like our vote was successfully
+            // applied
+            if (response.success) {
+                window.location.reload();
+            } else {
+                alert('error');
+            }
+        }
+    });
+}
+
 $('.commentPoster').on('click', function(event) {
     // Show mini comment poster textbox
     var target = $(this).data('target');
@@ -81,18 +102,24 @@ $('.load-more').on('click', function(event) {
     event.preventDefault();
 });
 
+const POST_ORDER = {
+    OLD: 1,
+    NEW: 2,
+    VOTES: 3
+};
+
 $('#sortByVotes').on('click', function(event) {
-    alert("sort by votes clicked");
+    fetchPosts($(this).data('qid'), POST_ORDER.VOTES);
     event.preventDefault();
 });
 
 $('#sortByNew').on('click', function(event) {
-    alert("sort by new clicked");
+    fetchPosts($(this).data('qid'), POST_ORDER.NEW);
     event.preventDefault();
 });
 
 $('#sortByOld').on('click', function(event) {
-    alert("sort by old clicked");
+    fetchPosts($(this).data('qid'), POST_ORDER.OLD);
     event.preventDefault();
 });
 
