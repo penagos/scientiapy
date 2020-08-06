@@ -66,6 +66,8 @@ function acceptAnswer(questionID, postID) {
             }
         }
     });
+
+    return false;
 }
 
 function fetchPosts(questionID, order) {
@@ -113,13 +115,6 @@ $('#sortByNew').on('click', function(event) {
 
 $('#sortByOld').on('click', function(event) {
     fetchPosts($(this).data('qid'), POST_ORDER.OLD);
-    event.preventDefault();
-});
-
-$('.accept').on('click', function(event) {
-    var postID = $(this).data('post');
-    var questionID = $(this).data('question');
-    acceptAnswer(questionID, postID);
     event.preventDefault();
 });
 
