@@ -18,6 +18,7 @@ from django.urls import include, path
 
 from . import views
 
+app_name = 'scientiapy'
 urlpatterns = [
     path('', include('questions.urls')),
     path('questions/', include('questions.urls')),

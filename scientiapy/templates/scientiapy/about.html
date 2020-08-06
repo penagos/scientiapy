@@ -1,5 +1,74 @@
-Credits:
-https://github.com/Nodws/bootstrap4-tagsinput
-https://github.com/js-cookie/js-cookie/
-https://www.bootstraptoggle.com/
-https://github.com/leemunroe/responsive-html-email-template
+{% extends "base.html" %}
+{% load markdown %}
+{% block content %}
+{% load static %}
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">Scientiapy</h1>
+        <p class="lead text-muted">Welcome to the <strong>free</strong>, open source knowledge sharing website.</p>
+        <p>
+        <a href="http://www.github.com/penagos/scientiapy" class="btn btn-primary my-2" target="_blank">Download on GitHub</a>
+        </p>
+    </div>
+</section>
+<div class="container mt-4" id="content">
+    <div class="row mb-4">
+        <div class="col-lg-12">
+            <h2>About Scientiapy</h2>
+            <p>
+                This is designed to be a modern, light-weight, open source answer exchange website. This site is written in Python ontop of the excellent Django Framework. It uses the Django ORM for its data model, as such, it can be easily retargeted to use other database backends.
+            </p>
+        </div>
+    </div>
+<hr>
+    <div class="row">
+        <div class="col-lg-12">
+            <h3>Features</h3>
+            <p>
+                This is a non exhaustive list. Please refer to GitHub for the most up-to-date information.
+            </p>
+
+            <ul>
+                <li>Written in Python (may or may not be of value to you)</li>
+                <li>Clear abstraction of views and controller logic</li>
+                <li>Small data model</li>
+                <li>Responsive layout</li>
+                <li>Supports commenting on answers</li>
+                <li>Upvoting of questions and answers</li>
+                <li>User notification lists for questions (email users on new question or new answer posts)</li>
+                <li>Ability to tag questions</li>
+                <li>Full integration with the Django admin site</li>
+                <li>Very small and light-weight</li>
+                <li><strong>... and its open source</strong></li>
+            </ul>
+        </div>
+    </div>
+<hr>
+    <div class="row">
+        <div class="col-lg-12">
+            <h3>Contributing</h3>
+            <p>
+                See something broken? Please create an issue on <a href="http://www.github.com/penagos/scientiapy" target="_blank">GitHub</a>! Want to fix something? Feel free to send a PR request.
+            </p>
+        </div>
+    </div>
+<hr>
+    <div class="row">
+        <div class="col-lg-12">
+            <h3>Acknowledgements</h3>
+            <p>
+                Scientiapy would not have been possible without the help of the following resources (listed in no particular order):
+            </p>
+        
+            <ul>
+                <li><a href="https://github.com/Nodws/bootstrap4-tagsinput" target="_blank">https://github.com/Nodws/bootstrap4-tagsinput</a></li>
+                <li><a href="https://github.com/js-cookie/js-cookie/" target="_blank">https://github.com/js-cookie/js-cookie/</a></li>
+                <li><a href="https://www.bootstraptoggle.com/" target="_blank">https://www.bootstraptoggle.com/</a></li>
+                <li><a href="https://github.com/leemunroe/responsive-html-email-template" target="_blank">https://github.com/leemunroe/responsive-html-email-template</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
