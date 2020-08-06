@@ -69,33 +69,24 @@ function acceptAnswer(questionID, postID) {
 function fetchPosts(questionID, order) {
     $.post({
         data: {
-            pid: postID,
-            qid: questionID
+            sort: order
         },
-        url:  '/questions/posts/',
+        url:  `/questions/posts/${questionID}/`,
         success: function(response) {
-            // Update post vote count with +1. Even though someone else could
-            // have also upvoted in the same time, if we fetch the latest count
-            // from the DB it may not "seem" like our vote was successfully
-            // applied
             if (response.success) {
-                window.location.reload();
+                $('#answersContainer').html(response.posts);
             } else {
-                alert('error');
+                alert(response.mesage);
             }
         }
     });
 }
 
-$('.commentPoster').on('click', function(event) {
-    // Show mini comment poster textbox
-    var target = $(this).data('target');
-    var postid = $(this).data('postid');
+function postComment(target, postid) {
     var poster = `<div class="text-right"><input type="hidden" name="pid" value="${postid}"><textarea class="form-control" name="comment" placeholder="Enter Comment" rows="3"></textarea><input type="submit" value="Post Comment" class="btn-sm btn btn-primary mt-2"></div>`;
-
     $(`#${target}`).html(poster);
-    event.preventDefault();
-});
+    return false;
+}
 
 $('.load-more').on('click', function(event) {
     alert("load more clicked");

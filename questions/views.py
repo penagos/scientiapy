@@ -92,6 +92,10 @@ def accept(request):
         answer = get_object_or_404(Post, pk=pid)
         question.accepted = answer
         question.save()
+
+        # For sorting answers we cache to which question this was accepted for
+        answer.accepted = question
+        answer.save()
         return JsonResponse({'success': True})
 
 def vote(request):
@@ -277,6 +281,31 @@ def edit(request, pid):
         context = {'post': post, 'action': action}
         return render(request, 'questions/edit.html', context)
 
+def posts(request,qid):
+    sortOrder = int(request.POST.get('sort'))
+    post = get_object_or_404(Post, pk=qid)
+
+    # Return all answers on this post sorted by desired order
+    answers = Post.getPosts(post.id)
+
+    if sortOrder == 1:
+        # Sort oldest first
+        answers = answers.order_by('published_date')
+    elif sortOrder == 2:
+        # Sort by newest first
+        answers = answers.order_by('-published_date')
+    elif sortOrder == 3:
+        # Sort by votes (default)
+        answers = answers.order_by('-accepted_id', '-votes', 'published_date')
+    else:
+        # Unknown pattern
+        JsonResponse({'success': False, 'message': 'Unknown sort order'})
+
+    # Render HTML serverside to reuse view template
+    postsHTML = render_to_string('questions/answers.html', {'answers': answers, 'question': post}, request=request)
+    return JsonResponse({'success': True, 'posts': postsHTML}, safe=False)
+
+    # 
 # Utility functions
 def handleTags(post, tags):
     # Handle tags

@@ -58,7 +58,11 @@ class Post(models.Model):
 
     @staticmethod
     def getPosts(qid):
-        return Post.objects.prefetch_related('comment_set').filter(parent_id=qid)
+        # Get answers for a question default sort order is:
+        # (1) Accepted
+        # (2) Vote count
+        # (3) Post date
+        return Post.objects.prefetch_related('comment_set').filter(parent_id=qid).order_by('-accepted_id', '-votes', 'published_date')
 
     @staticmethod
     def updateTag(post, tag):

@@ -1,0 +1,91 @@
+{% load markdown %}
+{% load static %}
+{% for post in answers %}
+<div id="p{{ post.id }}" class="row mb-4">
+    <div class="col-lg-1 col-sm-1 d-none d-sm-block pt-4">
+        <div class="upvote-container text-center">
+            {% if user.is_authenticated %}
+                <a class="upVote" data-post="{{ post.id }}" href="javascript:;"><img src="{% static '/img/open-iconic/svg/caret-top.svg' %}" alt="Up vote" class="upvote" title="+1 vote"></a>
+            {% else %}
+                <a data-fancybox data-type="ajax" data-src="{% url 'user:login' %}" href="javascript:;">
+                    <img src="{% static '/img/open-iconic/svg/caret-top.svg' %}" alt="Up vote" class="upvote" title="+1 vote">
+                </a>
+            {% endif %}
+
+            <h5 id="postVotes{{ post.id }}" class="upvote-count">{{ post.votes }}</h5>
+
+            {% if user.is_authenticated %}
+                <a class="downVote" data-post="{{ post.id }}" href="javascript:;"><img src="{% static '/img/open-iconic/svg/caret-bottom.svg' %}" alt="Down vote" class="upvote" title="-1 vote"></a>
+            {% else %}
+                <a data-fancybox data-type="ajax" data-src="{% url 'user:login' %}" href="javascript:;">
+                    <img src="{% static '/img/open-iconic/svg/caret-bottom.svg' %}" alt="Down vote" class="upvote" title="-1 vote">
+                </a>
+            {% endif %}
+        </div>
+        {% if user.is_authenticated and not question.accepted %}
+        <div class="text-center">
+            <a class="accept" data-post="{{ post.id }}" data-question="{{ question.id }}" href="javascript:;"><img src="{% static '/img/open-iconic/svg/check.svg' %}" alt="Accepted answer" class="accepted" title="Accepted answer"></a>
+        </div>
+        {% endif %}
+
+        {% if question.accepted.id == post.id %}
+        <div class="text-center">
+            <img src="{% static '/img/open-iconic/svg/check.svg' %}" alt="Accepted answer" class="accepted filter-green" title="Accepted answer">
+        </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-11 col-sm-11 col-xs-12">
+        <div class="post">
+            <p class="text-dark">{{ post.body|markdownify|safe }}</p>
+            <div class="float-right mb-2">
+                <div class="small text-right">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'questions:edit' post.id %}" class="no-underline"><i class="far fa-edit"></i> Edit</a>
+                        <a href="{% url 'questions:delete' post.id %}" class="no-underline ml-3"><i class="far fa-trash-alt"></i> Delete</a><br>
+                    {% endif %}
+                    <p class="text-muted">
+                        Posted {{ post.published_date }} by <a href="{% url 'user:profile' post.author.id %}" data-toggle="tooltip" data-placement="top" title="{{ post.author.profile.reputation }} rep">{{ post.author.username }}</a>
+                        {% if post.author_edit %}
+                        <br>Last edited on {{ post.edit_date }} by <a href="{% url 'user:profile' post.author_edit.id %}" data-toggle="tooltip" data-placement="top" title="{{ post.author_edit.profile.reputation }} rep">{{ post.author_edit.username }}</a>.
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            <hr style="clear:both;">
+        </div>
+        <div class="comments">
+            {% for comment in post.comment_set.all %}
+                <div class="comment" id="c{{ comment.id }}">
+                    <p class="small mb-2">
+                        {{ comment.body }}.
+                    </p>
+                    <div class="d-flex justify-content-between">
+                        <div class="small">
+                            <!--
+                            <a href="#" class="no-underline"><i class="far fa-edit"></i> Edit</a>
+                            <a href="#" class="no-underline ml-3"><i class="far fa-trash-alt"></i> Delete</a>
+                            -->
+                        </div>
+                        <div class="small">
+                            <span class="text-muted">Posted {{ comment.date }} by <a href="{% url 'user:profile' comment.author.id %} data-toggle="tooltip" data-placement="top" title="{{ comment.author.profile.reputation }} rep"">{{ comment.author.username }}</a></span>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            {% endfor %}
+            <div class="comment-poster">
+                {% if user.is_authenticated %}
+                    <form method="POST" action="{% url 'questions:save' %}">
+                    {% csrf_token %}
+                    <div id="comment{{ post.id }}">
+                        <p class="small"><a href="#" class="commentPoster" onclick="return postComment('comment{{ post.id }}', {{ post.id }});">Post comment</a></p>
+                    </div>
+                    </form>
+                {% else %}
+                    <p class="small">Please <a data-fancybox data-type="ajax" data-src="{% url 'user:login' %}" href="javascript:;">login</a> to post a comment.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
