@@ -43,6 +43,8 @@ function votePost(postID, voteType) {
             }
         }
     });
+
+    return false;
 }
 
 function acceptAnswer(questionID, postID) {
@@ -111,18 +113,6 @@ $('#sortByNew').on('click', function(event) {
 
 $('#sortByOld').on('click', function(event) {
     fetchPosts($(this).data('qid'), POST_ORDER.OLD);
-    event.preventDefault();
-});
-
-$('.upVote').on('click', function(event) {
-    var postID = $(this).data('post');
-    votePost(postID, 1);
-    event.preventDefault();
-});
-
-$('.downVote').on('click', function(event) {
-    var postID = $(this).data('post');
-    votePost(postID, 2);
     event.preventDefault();
 });
 
