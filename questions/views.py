@@ -250,11 +250,12 @@ def delete(request, pid):
         if request.method == "POST":
             post = get_object_or_404(Post, pk=pid)
             handleReputationDeletion(post)
+            postType = post.post_type
             post.delete()
 
             # If a question was removed, redirect back to index page, otherwise
             # redirect to question page
-            if post.post_type == PostType.QUESTION:
+            if postType == PostType.QUESTION:
                 return HttpResponseRedirect(reverse('questions:index'))
             else:
                 return HttpResponseRedirect(reverse('questions:view', args=(post.parent_id,)))
