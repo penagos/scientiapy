@@ -33,7 +33,7 @@
                                 <div class="text-center mt-4">
                                     <p class="small">
                                         <a href="{% url 'user:forgotpassword' %}">Forgot your password?</a><br>
-                                        <a href="{% url 'user:join' %}">Don't have an account?</a>
+                                        <a data-fancybox data-type="ajax" data-src="{% url 'user:join' %}" href="javascript:;">Don't have an account?</a>
                                     </p>
                                 </div>
                             </form>
