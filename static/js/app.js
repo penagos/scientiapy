@@ -103,21 +103,6 @@ const POST_ORDER = {
     VOTES: 'votes'
 };
 
-$('#sortByVotes').on('click', function(event) {
-    fetchPosts($(this).data('qid'), POST_ORDER.VOTES);
-    event.preventDefault();
-});
-
-$('#sortByNew').on('click', function(event) {
-    fetchPosts($(this).data('qid'), POST_ORDER.NEW);
-    event.preventDefault();
-});
-
-$('#sortByOld').on('click', function(event) {
-    fetchPosts($(this).data('qid'), POST_ORDER.OLD);
-    event.preventDefault();
-});
-
 $(document).ready(function() {
     $('[data-toggle="tooltip"]').tooltip();
     var csrftoken = Cookies.get('csrftoken');
