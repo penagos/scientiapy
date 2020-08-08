@@ -73,13 +73,13 @@
                             <h4>{{ answers|length }} Answer{% if answers|length != 1%}s{% endif %}</h4>
                         </li>
                         <li class="nav-item">
-                            <a id="sortByVotes" class="nav-link active" href="#" data-qid="{{ question.id }}">Votes</a>
+                            <a class="nav-link active" href="#" onclick="return fetchPosts({{ question.id }}, POST_ORDER.VOTES);">Votes</a>
                         </li>
                         <li class="nav-item">
-                            <a id="sortByNew" class="nav-link" href="#" data-qid="{{ question.id }}">New</a>
+                            <a id="sortByNew" class="nav-link" href="#" onclick="return fetchPosts({{ question.id }}, POST_ORDER.NEW);">New</a>
                         </li>
                         <li class="nav-item">
-                            <a id="sortByOld" class="nav-link" href="#" data-qid="{{ question.id }}">Old</a>
+                            <a id="sortByOld" class="nav-link" href="#" onclick="return fetchPosts({{ question.id }}, POST_ORDER.OLD);">Old</a>
                         </li>
                     </ul>
                 </div>

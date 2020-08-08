@@ -283,19 +283,18 @@ def edit(request, pid):
         return render(request, 'questions/edit.html', context)
 
 def posts(request, qid, order):
-    sortOrder = int(request.POST.get('sort'))
     post = get_object_or_404(Post, pk=qid)
 
     # Return all answers on this post sorted by desired order
     answers = Post.getPosts(post.id)
 
-    if sortOrder == 'old':
+    if order == 'old':
         # Sort oldest first
         answers = answers.order_by('published_date')
-    elif sortOrder == 'new':
+    elif order == 'new':
         # Sort by newest first
         answers = answers.order_by('-published_date')
-    elif sortOrder == 'votes':
+    elif order == 'votes':
         # Sort by votes (default)
         answers = answers.order_by('-accepted_id', '-votes', 'published_date')
     else:

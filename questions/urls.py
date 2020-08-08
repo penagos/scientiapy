@@ -15,5 +15,5 @@ urlpatterns = [
     path('questions/delete/<int:pid>/', views.delete, name="delete"),
     path('questions/vote/', views.vote, name="vote"),
     path('questions/accept/', views.accept, name="accept"),
-    path('questions/posts/<int:qid>/<slug:order>', views.posts, name="posts"),
+    path('questions/posts/<int:qid>/<slug:order>/', views.posts, name="posts"),
 ]

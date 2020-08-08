@@ -72,7 +72,8 @@ function acceptAnswer(questionID, postID) {
 
 function fetchPosts(questionID, order) {
     $.post({
-        url:  `/questions/posts/${questionID}/${order}/`,
+        url: `/questions/posts/${questionID}/${order}/`,
+        data: {},
         success: function(response) {
             if (response.success) {
                 $('#answersContainer').html(response.posts);
@@ -81,6 +82,8 @@ function fetchPosts(questionID, order) {
             }
         }
     });
+
+    return false;
 }
 
 function postComment(target, postid) {
