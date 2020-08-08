@@ -22,8 +22,6 @@ def login(request):
         else:
             # Failure
             return JsonResponse({'success': False, 'message': 'Could not log you in'})
-
-        
     else:
         context = {}
         return render(request, 'user/login.html', context)
@@ -40,12 +38,36 @@ def join(request):
             password2 = request.POST['password2']
             email = request.POST['email']
 
-            user = User.objects.create_user(username, email, password)
-            user.save()
+            # Make sure passwords match
+            if password != password2:
+                return JsonResponse({'success': False, 'message': 'Passwords must match'})
 
-            user = authenticate(username=username,password=password)
-            auth_login(request, user)
-            return redirect('questions:index')
+            # Even though the frontend checks this for us, we check again to be
+            # on the safe side
+            if email == "":
+                return JsonResponse({'success': False, 'message': 'Email cannot be empty'})
+
+            if username == "":
+                return JsonResponse({'success': False, 'message': 'Username cannot be empty'})
+
+            if len(password) < 6:
+                return JsonResponse({'success': False, 'message': 'Password must be at least 6 characters long'})
+
+            # Check if username exists
+            usr = User.objects.filter(username=username)
+
+            if usr.exists():
+                return JsonResponse({'success': False, 'message': 'Username already taken'})
+            else:
+                try:
+                    user = User.objects.create_user(username, email, password)
+                    user.save()
+                except:
+                    return JsonResponse({'success': False, 'message': 'An unexpected error occurred'})
+
+                user = authenticate(username=username,password=password)
+                auth_login(request, user)
+                return JsonResponse({'success': True})
         else:
             context = {}
             return render(request, 'user/join.html', context)
