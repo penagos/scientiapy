@@ -72,10 +72,7 @@ function acceptAnswer(questionID, postID) {
 
 function fetchPosts(questionID, order) {
     $.post({
-        data: {
-            sort: order
-        },
-        url:  `/questions/posts/${questionID}/`,
+        url:  `/questions/posts/${questionID}/${order}/`,
         success: function(response) {
             if (response.success) {
                 $('#answersContainer').html(response.posts);
@@ -98,9 +95,9 @@ $('.load-more').on('click', function(event) {
 });
 
 const POST_ORDER = {
-    OLD: 1,
-    NEW: 2,
-    VOTES: 3
+    OLD: 'old',
+    NEW: 'new',
+    VOTES: 'votes'
 };
 
 $('#sortByVotes').on('click', function(event) {
