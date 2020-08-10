@@ -50,8 +50,8 @@ def join(request):
             if username == "":
                 return JsonResponse({'success': False, 'message': 'Username cannot be empty'})
 
-            if len(password) < 6:
-                return JsonResponse({'success': False, 'message': 'Password must be at least 6 characters long'})
+            if len(password) < 4:
+                return JsonResponse({'success': False, 'message': 'Password must be at least 4 characters long'})
 
             # Check if username exists
             usr = User.objects.filter(username=username)
