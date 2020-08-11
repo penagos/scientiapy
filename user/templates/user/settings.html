@@ -21,12 +21,12 @@
                         {% csrf_token %}
                         <div class="form-group">
                           <label for="exampleInputEmail1">Weekly Email Digests</label>
-                          <input type="checkbox" name="receive_digests" checked data-toggle="toggle">
+                          <input type="checkbox" name="receive_digests" data-toggle="toggle" {{ receive_digests }}>
                           <small id="emailHelp" class="form-text text-muted">Receive a summary of all new questions weekly</small>
                         </div>
                         <div class="form-group">
                             <label for="aboutMe">About Me</label>
-                            <textarea id="aboutMe" name="about" class="form-control"></textarea>
+                            <textarea id="aboutMe" name="about" class="form-control" rows="5">{{ aboutme }}</textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Save</button>
                       </form>

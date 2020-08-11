@@ -95,20 +95,27 @@ def settings(request, uid):
     if not request.user.is_authenticated:
         raise PermissionDenied
     else:
+        user = get_object_or_404(User, pk=uid)
+        user.setting = Setting.objects.get_or_create(user=user)[0]
         if request.method == "POST":
-            setting = Profile.objects.get_or_create(user=uid)[0]
-
             if 'receive_digests' in request.POST:
                 # Enable
-                setting.receive_digests = True
+                user.setting.receive_digests = True
             else:
                 # Disable
-                setting.receive_digests = False
+                user.setting.receive_digests = False
 
-            setting.save()
+            user.profile.about = request.POST['about']
+            user.setting.save()
+            user.profile.save()
             return HttpResponseRedirect(reverse('user:settings', args=(request.user.id,))+'?success=1')
         else:
-            context = {'uid': uid}
+            if user.setting.receive_digests:
+                receive_digests = 'checked'
+            else:
+                receive_digests = ''
+
+            context = {'uid': uid, 'receive_digests': receive_digests, 'aboutme': user.profile.about}
             return render(request, 'user/settings.html', context)
 
 def all(request):

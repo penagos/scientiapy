@@ -6,6 +6,7 @@ from django.db import models
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     reputation = models.IntegerField(default=0)
+    about = models.TextField(default='')
     email_confirmed = models.DateTimeField(null=True, blank=True)
 
 class Setting(models.Model):
