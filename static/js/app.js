@@ -105,7 +105,7 @@ function commentCancel() {
 function commentEditor(id, postID) {
     if (id) {
         // Edit comment
-        comment = $(`#commentBody${id}`).text();
+        comment = $(`#commentBody${id}`).text().trim();
         commentID = `<input type="hidden" name="cid" value="${id}">`;
         target = `#comment${id}`;
     } else {
