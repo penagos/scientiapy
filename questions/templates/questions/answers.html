@@ -56,15 +56,15 @@
         <div class="comments">
             {% for comment in post.comment_set.all %}
                 <div class="comment" id="c{{ comment.id }}">
-                    <p class="small mb-2">
-                        {{ comment.body }}.
-                    </p>
+                    <form id="comment{{ comment.id }}" method="POST" action="{% url 'questions:save' %}">
+                        <p id="commentBody{{ comment.id }}" class="small mb-2">
+                            {{ comment.body }}.
+                        </p>
+                    </form>
                     <div class="d-flex justify-content-between">
                         <div class="small">
-                            <!--
-                            <a href="#" class="no-underline"><i class="far fa-edit"></i> Edit</a>
-                            <a href="#" class="no-underline ml-3"><i class="far fa-trash-alt"></i> Delete</a>
-                            -->
+                            <a href="#" class="no-underline" onclick="return commentEdit({{comment.id}});"><i class="far fa-edit"></i> Edit</a>
+                            <a href="#" class="no-underline ml-3" onclick="return commentDelete({{comment.id}});"><i class="far fa-trash-alt"></i> Delete</a>
                         </div>
                         <div class="small">
                             <span class="text-muted">Posted {{ comment.date }} by <a href="{% url 'user:profile' comment.author.id %} data-toggle="tooltip" data-placement="top" title="{{ comment.author.profile.reputation }} rep"">{{ comment.author.username }}</a></span>
@@ -77,8 +77,8 @@
                 {% if user.is_authenticated %}
                     <form method="POST" action="{% url 'questions:save' %}">
                     {% csrf_token %}
-                    <div id="comment{{ post.id }}">
-                        <p class="small"><a href="#" class="commentPoster" onclick="return postComment('comment{{ post.id }}', {{ post.id }});">Post comment</a></p>
+                    <div id="commentPoster{{ post.id }}">
+                        <p class="small"><a href="#" class="commentPoster" onclick="return postComment({{ post.id }});">Post comment</a></p>
                     </div>
                     </form>
                 {% else %}

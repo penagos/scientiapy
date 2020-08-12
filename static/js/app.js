@@ -86,9 +86,36 @@ function fetchPosts(questionID, order) {
     return false;
 }
 
-function postComment(target, postid) {
-    var poster = `<div class="text-right"><input type="hidden" name="pid" value="${postid}"><textarea class="form-control" name="comment" placeholder="Enter Comment" rows="3"></textarea><input type="submit" value="Post Comment" class="btn-sm btn btn-primary mt-2"></div>`;
-    $(`#${target}`).html(poster);
+function commentEdit(id) {
+    commentEditor(id, 0);
+    return false;
+}
+
+function commentDelete(id) {
+    alert("Comment delete");
+    return false;
+}
+
+// Create HTML form on the fly for editing/posting comments
+function commentEditor(id, postID) {
+    if (id) {
+        // Edit comment
+        comment = $(`#commentBody${id}`).text();
+        controller = `name="cid" value="${id}"`;
+        target = `#comment${id}`;
+    } else {
+        // New comment
+        comment = '';
+        controller = `name="pid" value="${postID}`;
+        target = `#commentPoster${postID}`;
+    }
+
+    var poster = `<div class="text-right"><input type="hidden" ${controller}"><textarea class="form-control" name="comment" placeholder="Enter Comment" rows="3">${comment}</textarea><a href="#" class="btn btn-sm btn-secondary mt-2 mr-2">Cancel</a><input type="submit" value="Post Comment" class="btn-sm btn btn-primary mt-2"></div>`;
+    $(target).html(poster);
+}
+
+function postComment(postid) {
+    commentEditor(0, postid);
     return false;
 }
 
