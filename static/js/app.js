@@ -127,7 +127,8 @@ function commentEditor(id, postID) {
         target = `#commentPoster${postID}`;
     }
 
-    var posterName = `poster${postID}${commentID}`;
+    var posterName = `poster${postID}${id}`;
+    alert(posterName);
     var poster = `<div class="text-right"><input type="hidden" name="pid" value="${postID}">${commentID}<textarea id="${posterName}" class="form-control" name="comment" placeholder="Enter Comment" rows="3" autofocus required>${comment}</textarea><a href="#" class="btn btn-sm btn-secondary mt-2 mr-2" tabindex="1" onclick="return commentCancel();">Cancel</a><input type="submit" value="Post Comment" tabindex="0" class="btn-sm btn btn-primary mt-2"></div>`;
     $(target).html(poster);
     $(`#${posterName}`).focus();
