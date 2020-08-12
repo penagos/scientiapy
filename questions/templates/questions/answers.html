@@ -30,7 +30,7 @@
 
         {% if question.accepted.id == post.id %}
         <div class="text-center">
-            <img src="{% static '/img/open-iconic/svg/check.svg' %}" alt="Accepted answer" class="accepted filter-green" title="Accepted answer">
+            <img src="{% static '/img/open-iconic/svg/check.svg' %}" alt="Accepted answer" class="accepted filter-green" data-toggle="tooltip" data-placement="top" title="Accepted by {{ question.accepted_author.username }} on {{ question.accepted_date }}">
         </div>
         {% endif %}
     </div>

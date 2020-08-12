@@ -91,6 +91,8 @@ def accept(request):
         question = get_object_or_404(Post, pk=qid)
         answer = get_object_or_404(Post, pk=pid)
         question.accepted = answer
+        question.accepted_author = request.user
+        question.accepted_date = datetime.now()
         question.save()
 
         # For sorting answers we cache to which question this was accepted for
@@ -132,6 +134,7 @@ def vote(request):
                         amount=voteType)
             vote.save()
         else:
+            # Update existing vote
             voteType = 0
 
         return JsonResponse({'success': True,
