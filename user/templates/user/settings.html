@@ -20,10 +20,15 @@
                     <form method="POST" action="{% url 'user:settings' uid %}">
                         {% csrf_token %}
                         <div class="form-group">
-                          <label for="exampleInputEmail1">Weekly Email Digests</label>
-                          <input type="checkbox" name="receive_digests" data-toggle="toggle" {{ receive_digests }}>
-                          <small id="emailHelp" class="form-text text-muted">Receive a summary of all new questions weekly</small>
+                          <label for="weeklyDigests">Weekly Email Digests</label>
+                          <input id="weeklyDigests" type="checkbox" name="receive_digests" data-toggle="toggle" {{ receive_digests }}>
+                          <small class="form-text text-muted">Receive a summary of all new questions weekly</small>
                         </div>
+                        <div class="form-group">
+                            <label for="darkMode">Dark Mode</label>
+                            <input type="checkbox" name="dark_mode" data-toggle="toggle">
+                            <small class="form-text text-muted">Browse Scientiapy with a dark colorscheme</small>
+                          </div>
                         <div class="form-group">
                             <label for="aboutMe">About Me</label>
                             <textarea id="aboutMe" name="about" class="form-control" rows="5">{{ aboutme }}</textarea>
