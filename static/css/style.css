@@ -4,10 +4,11 @@ pre {
     background: #F7F7F7;
     border: 1px solid #EBEBEB;
     border-radius: 4px;
+    overflow-x: auto;
 }
 pre code {
     padding: 0px;
-    white-space: pre-wrap;
+    /* white-space: pre-wrap; */
 }
 
 .filter-green{
