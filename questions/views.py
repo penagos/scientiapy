@@ -176,7 +176,11 @@ def save(request):
                                 author=request.user,
                                 body=comment)
 
-            qid = post.parent_id
+            if post.post_type == PostType.QUESTION:
+                qid = post.id
+            else:
+                qid = post.parent_id
+
             comment.save()
             anchor = '#c' + str(comment.pk)
         elif pid:

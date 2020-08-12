@@ -1,0 +1,41 @@
+{% load markdown %}
+{% load static %}
+{% for comment in post.comment_set.all %}
+    <div class="comment" id="c{{ comment.id }}">
+        <form method="POST" action="{% url 'questions:save' %}">
+            {% csrf_token %}
+            <div id="comment{{ comment.id }}">
+                <p id="commentBody{{ comment.id }}" class="small mb-2">
+                    {{ comment.body }}
+                </p>
+            </div>
+        </form>
+        <div class="d-flex justify-content-between">
+            <div class="small">
+                <a href="#" class="no-underline" onclick="return commentEdit({{ post.id }}, {{comment.id}});"><i class="far fa-edit"></i> Edit</a>
+                <a href="#" class="no-underline ml-3" onclick="return commentDelete({{comment.id}});"><i class="far fa-trash-alt"></i> Delete</a>
+            </div>
+            <div class="small">
+                <span class="text-muted">
+                    Posted {{ comment.date }} by <a href="{% url 'user:profile' comment.author.id %} data-toggle="tooltip" data-placement="top" title="{{ comment.author.profile.reputation }} rep"">{{ comment.author.username }}</a>
+                    {% if comment.author_edit %}
+                        <i class="fas fa-pen m1-2" data-toggle="tooltip" data-placement="top" title="Last edited by {{ comment.author_edit.username }} on {{ comment.edit_date }}"></i>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        <hr>
+    </div>
+{% endfor %}
+<div class="comment-poster">
+    {% if user.is_authenticated %}
+        <form method="POST" action="{% url 'questions:save' %}">
+        {% csrf_token %}
+        <div id="commentPoster{{ post.id }}">
+            <p class="small"><a href="#" class="commentPoster" onclick="return postComment({{ post.id }});">Post comment</a></p>
+        </div>
+        </form>
+    {% else %}
+        <p class="small">Please <a data-fancybox data-type="ajax" data-src="{% url 'user:login' %}" href="javascript:;">login</a> to post a comment.</p>
+    {% endif %}
+</div>

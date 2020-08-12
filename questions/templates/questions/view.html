@@ -56,12 +56,19 @@
                             </p>
                         </div>
                     </div>
-                    <hr style="clear:both;">
+                    <br style="clear:both;">
 
 
                     {% for tag in question.tags %}
                         <span class="badge badge-primary"><a href="{% url 'questions:index' %}?tag={{ tag }}">{{ tag }}</a></span>
                     {% endfor %}
+
+                    <hr>
+                    <div class="comments">
+                        {% with post=question %}
+                        {% include "questions/comments.html" %}
+                        {% endwith %}
+                    </div>
                 </div>
             </div>
 
