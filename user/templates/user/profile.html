@@ -13,7 +13,7 @@
                             <h3 class="card-title">{{ user.username }}</h3>
                             <h6><span class="badge badge-success">{{ user.profile.reputation }}</span> Reputation</h6>
                             <h6><span class="small">Joined {{ user.date_joined }}</span></h6>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <p class="card-text">{{ user.profile.about }}</p>
                         </div>
                     </div>
                 </div>
@@ -60,8 +60,15 @@
                         <div class="row">
                             <div class="col-lg-1 col-md-2 col-sm-2 d-none d-sm-block">
                                 <div class="text-center">
+
+                                    {% if question.accepted %}
+                                    <div class="answer-container accepted-container">
+                                    {% else %}
+                                        <div class="answer-container"">
+                                    {% endif %}
                                     <h6 class="mb-0">{{ question.votes }}</h6>
                                     <p class="small">Votes</p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-11 col-md-10 col-sm-10 col-xs-12 question">
