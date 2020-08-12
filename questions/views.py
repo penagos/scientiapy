@@ -161,11 +161,23 @@ def save(request):
         # posting a reply. Otherwise we are posting a new question
         if comment != "":
             post = get_object_or_404(Post, pk=pid)
-            comment = Comment(post=post,
-                              author=request.user,
-                              body=comment)
-            comment.save()
+
+            # If commment ID is set, update existing comment
+            cid = request.POST.get('cid', 0)
+            if cid:
+                cid = int(cid)
+                commentStr = comment
+                comment = get_object_or_404(Comment, pk=cid)
+                comment.body = commentStr
+                comment.edit_date = datetime.now()
+                comment.author_edit = request.user
+            else:
+                comment = Comment(post=post,
+                                author=request.user,
+                                body=comment)
+
             qid = post.parent_id
+            comment.save()
             anchor = '#c' + str(comment.pk)
         elif pid:
             # Update existing answer or question

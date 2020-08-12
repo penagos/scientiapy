@@ -86,8 +86,8 @@ function fetchPosts(questionID, order) {
     return false;
 }
 
-function commentEdit(id) {
-    commentEditor(id, 0);
+function commentEdit(postID, id) {
+    commentEditor(id, postID);
     return false;
 }
 
@@ -96,21 +96,26 @@ function commentDelete(id) {
     return false;
 }
 
+function commentCancel() {
+    alert("Cancel clicked");
+    return false;
+}
+
 // Create HTML form on the fly for editing/posting comments
 function commentEditor(id, postID) {
     if (id) {
         // Edit comment
         comment = $(`#commentBody${id}`).text();
-        controller = `name="cid" value="${id}"`;
+        commentID = `<input type="hidden" name="cid" value="${id}">`;
         target = `#comment${id}`;
     } else {
         // New comment
         comment = '';
-        controller = `name="pid" value="${postID}`;
+        commentID = '';
         target = `#commentPoster${postID}`;
     }
 
-    var poster = `<div class="text-right"><input type="hidden" ${controller}"><textarea class="form-control" name="comment" placeholder="Enter Comment" rows="3">${comment}</textarea><a href="#" class="btn btn-sm btn-secondary mt-2 mr-2">Cancel</a><input type="submit" value="Post Comment" class="btn-sm btn btn-primary mt-2"></div>`;
+    var poster = `<div class="text-right"><input type="hidden" name="pid" value="${postID}">${commentID}<textarea class="form-control" name="comment" placeholder="Enter Comment" rows="3" required>${comment}</textarea><a href="#" class="btn btn-sm btn-secondary mt-2 mr-2" onclick="return commentCancel();">Cancel</a><input type="submit" value="Post Comment" class="btn-sm btn btn-primary mt-2"></div>`;
     $(target).html(poster);
 }
 

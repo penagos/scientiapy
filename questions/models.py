@@ -135,6 +135,8 @@ class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date = models.DateTimeField(default=datetime.now)
+    author_edit = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, related_name='author_editid_comment')
+    edit_date = models.DateTimeField(null=True, blank=True)
     body = models.TextField()
 
     # For admin
