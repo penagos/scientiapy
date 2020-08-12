@@ -276,6 +276,14 @@ def delete(request, pid):
             context = {'post': post}
             return render(request, 'questions/delete.html', context)
 
+def deleteComment(request, cid):
+    if not request.user.is_authenticated:
+        raise PermissionDenied
+    else:
+        comment = get_object_or_404(Comment, pk=cid)
+        comment.delete()
+        return JsonResponse({'success': True})
+
 def edit(request, pid):
     # Ensure user is logged in
     if not request.user.is_authenticated:

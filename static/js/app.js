@@ -92,7 +92,19 @@ function commentEdit(postID, id) {
 }
 
 function commentDelete(id) {
-    alert("Comment delete");
+    if (confirm('Are you sure you want to delete this comment?')) {
+        $.post({
+            url:  `/questions/deletecomment/${id}/`,
+            success: function(response) {
+                if (response.success) {
+                    window.location.reload();
+                } else {
+                    alert('error');
+                }
+            }
+        });
+    }
+
     return false;
 }
 
