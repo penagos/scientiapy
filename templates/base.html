@@ -25,7 +25,7 @@
             <a class="nav-link" href="{% url 'questions:tags' %}">Tags</a>
             <form class="mr-2 my-auto w-100 d-inline-block order-1" method="GET" action="{% url 'questions:index' %}">
                 <div class="input-group">
-                    <input type="text" name="q" class="form-control border border-right-0" placeholder="Search...">
+                    <input type="text" name="q" class="form-control border border-right-0" required="" placeholder="Search...">
                     <span class="input-group-append">
                         <button class="btn btn-outline-dark border border-left-0" type="submit">
                             <i class="fas fa-search"></i>
