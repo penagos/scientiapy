@@ -59,6 +59,14 @@ class Post(models.Model):
     votes = models.IntegerField(default=0)
 
     @staticmethod
+    def getQuestionsCount():
+        return Post.objects.filter(post_type=PostType.QUESTION).count()
+
+    @staticmethod
+    def getAnswersCount():
+        return Post.objects.filter(post_type=PostType.ANSWER).count()
+
+    @staticmethod
     def getPosts(qid):
         # Get answers for a question default sort order is:
         # (1) Accepted

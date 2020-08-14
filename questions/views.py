@@ -57,7 +57,13 @@ def index(request):
     # Unanswered questions sidebar
     unanswered = Post.getUnansweredQuestions()
 
+    # Get some stats for the homepage
+    questions_count = Post.getQuestionsCount()
+    answers_count = Post.getAnswersCount()
+
     context = {'questions': page_obj,
+               'questions_count': questions_count,
+               'answers_count': answers_count,
                'count': len(questions),
                'title': title,
                'recent': recent,
