@@ -12,6 +12,17 @@ Then you can install all PiP dependencies with the following command (issued in 
 pip install -r requirements.txt
 ```
 
+To build the database needed by Scientiapy, you will need to run:
+```
+python3.7 manage.py makemigrations
+python3.7 manage.py migrate
+```
+
+Lastly, to start the development server locally:
+```
+python3.7 manage.py runserver
+```
+
 ## Features
 * Full markdown support
 * Tagging questions
