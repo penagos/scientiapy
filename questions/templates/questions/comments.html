@@ -12,10 +12,6 @@
         </form>
         <div class="d-flex justify-content-between">
             <div class="small">
-                <a href="#" class="no-underline" onclick="return commentEdit({{ post.id }}, {{comment.id}});"><i class="far fa-edit"></i> Edit</a>
-                <a href="#" class="no-underline ml-3" onclick="return commentDelete({{comment.id}});"><i class="far fa-trash-alt"></i> Delete</a>
-            </div>
-            <div class="small">
                 <span class="text-muted">
                     Posted {{ comment.date }} by <a href="{% url 'user:profile' comment.author.id %} data-toggle="tooltip" data-placement="top" title="{{ comment.author.profile.reputation }} rep"">{{ comment.author.username }}</a>
                     {% if comment.author_edit %}
@@ -23,6 +19,12 @@
                     {% endif %}
                 </span>
             </div>
+            {% if user.is_authenticated %}
+            <div class="small">
+                <a href="#" class="no-underline" onclick="return commentEdit({{ post.id }}, {{comment.id}});"><i class="far fa-edit"></i> Edit</a>
+                <a href="#" class="no-underline ml-3" onclick="return commentDelete({{comment.id}});"><i class="far fa-trash-alt"></i> Delete</a>
+            </div>
+            {% endif %}
         </div>
         <hr>
     </div>
