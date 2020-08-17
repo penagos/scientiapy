@@ -39,7 +39,7 @@
                 {% if post.title or isNewQuestion %}
                 <div class="form-group">
                     <label for="userTags"><strong>Tag Users</strong> <span class="text-muted">(optionally notify these users when there is any activity)</span></label>
-                    <input type="text" id="notify" class="form-control" name="notify" placeholder="Enter to add" data-role="tagsinput" value="{{ post.notify }}">
+                    <input type="text" id="notify" class="form-control" name="notify" placeholder="Enter to add" data-role="tagsinput" value="{{ notifyList }}">
                 </div>
                 <div id="questionTagsContainer" class="form-group">
                     <label for="questionTags"><strong>Tags</strong></label>

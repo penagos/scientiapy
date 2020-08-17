@@ -242,7 +242,7 @@ def save(request):
         return HttpResponseRedirect(reverse('questions:view', args=(qid,)) + anchor)
 
 def ask(request):
-    context = {'action': 'New Question', 'isNewQuestion': True}
+    context = {'action': 'New Question', 'isNewQuestion': True, 'notifyList': request.user.username}
     return render(request, 'questions/edit.html', context)
 
 def new(request):
@@ -306,13 +306,15 @@ def edit(request, pid):
 
         if post.post_type == PostType.ANSWER:
             action = 'Editing Answer'
+            notifyList = ''
         else:
             action = 'Editing Question'
+            notifyList = post.notify
 
         if post.tags is None:
             post.tags = ''
 
-        context = {'post': post, 'action': action}
+        context = {'post': post, 'action': action, 'notifyList': notifyList}
         return render(request, 'questions/edit.html', context)
 
 def posts(request, qid, order):
