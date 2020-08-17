@@ -28,8 +28,14 @@ def index(request):
         questionsFiltered = []
         for q in questions:
             if q.post_type != PostType.QUESTION.value:
-                q = Post.objects.filter(pk=q.parent_id).annotate(answers=Count('post')).order_by('-post_type')[0]
-            questionsFiltered.append(q)
+                # Do not add duplicate results
+                if not any(x.id == q.parent_id for x in questionsFiltered):
+                    q = Post.objects.filter(pk=q.parent_id).annotate(answers=Count('post')).order_by('-post_type')[0]
+                else:
+                    q = None
+
+            if q is not None:
+                questionsFiltered.append(q)
         questions = questionsFiltered
     elif request.GET.get('tag') is not None:
         query = request.GET.get('tag')
