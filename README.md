@@ -18,6 +18,11 @@ You will need the following packages:
 sudo apt-get install python3-dev libmysqlclient-dev
 ```
 
+If you are on CentOS, you can use:
+```
+sudo yum install mariadb-devel gcc python36u-devel
+```
+
 Then you can install all PiP dependencies with the following command (issued in the project root):
 ```
 pip install -r requirements.txt
