@@ -383,7 +383,8 @@ def handleNotify(request, post, reply=None):
             anchor = '#p' + str(post.pk)
 
         action_link = request.build_absolute_uri(reverse('questions:view', args=(post.id,)) + anchor)
-        message = render_to_string(template, {'post': post, 'home_link': home_link, 'action_link': action_link, 'reply': reply})
+        unsubscribe_link = request.build_absolute_uri(reverse('user:settings', args=(request.user.id,)))
+        message = render_to_string(template, {'post': post, 'home_link': home_link, 'action_link': action_link, 'reply': reply, 'unsubscribe_link': unsubscribe_link})
         send_mail(
             subject, 
             'Scientiapy notification', 
