@@ -1,6 +1,17 @@
 # Scientiapy
 An open source knowledge sharing website written in Python 3 using the Django framework.
 
+## Features
+* Written in Python 3 on a modern framework (Django)
+* Small data model
+* Responsive (bootstrap) layout
+* Allows commenting on questions and answers
+* Upvoting of questions and answers
+* User notification lists for new questions and answers (email based)
+* Ability to tag questions
+* Leverages Django admin panel
+* Full markdown support
+
 ## Installation
 You will need the following packages:
 ```
@@ -22,13 +33,3 @@ Lastly, to start the development server locally:
 ```
 python3.7 manage.py runserver
 ```
-
-## Features
-* Full markdown support
-* Tagging questions
-* Upvoting questions and answers
-* Post comments
-* Responsive layout
-* Lightweight database
-* Small application
-* (coming soon) email notifications
