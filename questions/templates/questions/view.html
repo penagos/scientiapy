@@ -51,7 +51,7 @@
                             <p class="text-muted">
                                 Posted {{ question.published_date }} by <a href="{% url 'user:profile' question.author.id %}" data-toggle="tooltip" data-placement="top" title="{{ question.author.profile.reputation }} rep">{{ question.author.username }}</a>
                                 {% if question.author_edit %}
-                                <br>Last edited on {{ question.edit_date }} by <a href="{% url 'user:profile' question.author_edit.id %}" data-toggle="tooltip" data-placement="top" title="{{ question.author_edit.profile.reputation }} rep">{{ question.author_edit.username }}</a>.
+                                <i class="fas fa-pen m1-2" data-toggle="tooltip" data-placement="top" title="Last edited by {{ question.author_edit.username }} on {{ question.edit_date }}"></i>
                                 {% endif %}
                             </p>
                         </div>
