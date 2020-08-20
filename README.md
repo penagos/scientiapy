@@ -28,7 +28,7 @@ Then you can install all PiP dependencies with the following command (issued in 
 pip install -r requirements.txt
 ```
 
-To build the database needed by Scientiapy, you will need to run:
+To build the database needed by Scientiapy, you will need to run the commands below. Note: the default Scientiapy configuration ships with the MySQL backend (this requires you have access to a MySQL server). If you would like to use a different database backend, you can modify the `settings.py` file (such as SQLITE).
 ```
 python3.7 manage.py makemigrations
 python3.7 manage.py migrate
