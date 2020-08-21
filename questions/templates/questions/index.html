@@ -17,7 +17,24 @@
 <div class="container" id="content">
     <div class="row">
         <div class="col-lg-9">
-            <h2>{{ title }}</h2>
+            <div class="d-flex justify-content-between pb-4">
+                <div>
+                    <h2>{{ title }}</h2>
+                </div>
+                <div>
+                    <ul class="nav nav-pills" style="border: 1px solid #CCCCCC; border-radius: .25rem;">
+                        <li class="nav-item">
+                          <small><a class="nav-link active" href="#">Newest</a></small>
+                        </li>
+                        <li class="nav-item">
+                          <small><a class="nav-link" href="#">Hot</a></small>
+                        </li>
+                        <li class="nav-item">
+                          <small><a class="nav-link" href="#">Unanswered</a></small>
+                        </li>
+                      </ul>
+                </div>
+            </div>
 
             {% if count > 0 %}
                 {% for question in questions %}

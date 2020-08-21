@@ -348,7 +348,7 @@ def posts(request, qid, order):
     postsHTML = render_to_string('questions/answers.html', {'answers': answers, 'question': post}, request=request)
     return JsonResponse({'success': True, 'posts': postsHTML}, safe=False)
 
-    # 
+
 # Utility functions
 def handleTags(post, tags):
     # Handle tags
