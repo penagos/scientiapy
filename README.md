@@ -23,18 +23,18 @@ If you are on CentOS, you can use:
 sudo yum install mariadb-devel gcc python36u-devel
 ```
 
-Then you can install all PiP dependencies with the following command (issued in the project root):
+Note you need to be using Python 3 and Pip 3. You can install all PiP dependencies with the following command (issued in the project root):
 ```
 pip install -r requirements.txt
 ```
 
 To build the database needed by Scientiapy, you will need to run the commands below. Note: the default Scientiapy configuration ships with the MySQL backend (this requires you have access to a MySQL server). If you would like to use a different database backend, you can modify the `settings.py` file (such as SQLITE).
 ```
-python3.7 manage.py makemigrations
-python3.7 manage.py migrate
+python manage.py makemigrations
+python manage.py migrate
 ```
 
 Lastly, to start the development server locally:
 ```
-python3.7 manage.py runserver
+python manage.py runserver
 ```
