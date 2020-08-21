@@ -38,3 +38,9 @@ Lastly, to start the development server locally:
 ```
 python manage.py runserver
 ```
+
+If you wish to bind the server to a an IP other than `127.0.0.1` and the port `8000` you can explicitly pass them to the `runserver` command as:
+
+```
+python manage.py runserver IP:PORT
+```
