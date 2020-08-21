@@ -10,7 +10,7 @@ RE: {{ post.title }}
 {% endblock %}
 
 {% block leadtext %}
-A new reply was posted in <a href="{{ home_url }}" target="_blank">{{ post.title }}</a> by <strong>{{ reply.author.username }}</strong> and you are on the question notifylist. The reply posted was:
+A new reply was posted in <a href="{{ action_link }}" target="_blank">{{ post.title }}</a> by <strong>{{ reply.author.username }}</strong> and you are on the question notifylist. The reply posted was:
 {% endblock %}
 
 {% block body %}
