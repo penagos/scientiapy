@@ -14,7 +14,7 @@
         <div class="d-flex justify-content-between">
             <div class="small">
                 <span class="text-muted">
-                    Posted {{ comment.date }} by <a href="{% url 'user:profile' comment.author.id %} data-toggle="tooltip" data-placement="top" title="{{ comment.author.profile.reputation }} rep"">{{ comment.author.username }}</a>
+                    Posted {{ comment.date }} by <a href="{% url 'user:profile' comment.author.id %}" data-toggle="tooltip" data-placement="top" title="{{ comment.author.profile.reputation }} rep"">{{ comment.author.username }}</a>
                     {% if comment.author_edit %}
                         <i class="fas fa-pen m1-2" data-toggle="tooltip" data-placement="top" title="Last edited by {{ comment.author_edit.username }} on {{ comment.edit_date }}"></i>
                     {% endif %}
