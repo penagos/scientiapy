@@ -75,6 +75,9 @@
                             <ul class="pagination pagination-sm justify-content-end">
                                 {% if questions.has_previous %}
                                 <li class="page-item">
+                                    <a class="page-link" href="?page=1">&laquo;</a>
+                                </li>
+                                <li class="page-item">
                                     <a class="page-link" href="?page={{ questions.previous_page_number }}" tabindex="-1" aria-disabled="true">Previous</a>
                                 </li>
                                 {% endif %}
@@ -82,6 +85,9 @@
                                 {% if questions.has_next %}
                                 <li class="page-item">
                                     <a class="page-link" href="?page={{ questions.next_page_number }}">Next</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ questions.paginator.num_pages }}">&raquo;</a>
                                 </li>
                                 {% endif %}
                             </ul>
