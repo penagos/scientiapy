@@ -108,8 +108,12 @@ function commentDelete(id) {
     return false;
 }
 
-function commentCancel() {
-    alert("Cancel clicked");
+function commentCancel(restore, target) {
+    if (restore != '') {
+        $(restore).show();
+    }
+
+    $(target).hide();
     return false;
 }
 
@@ -119,17 +123,23 @@ function commentEditor(id, postID) {
         // Edit comment
         comment = $(`#commentBody${id}`).text().trim();
         commentID = `<input type="hidden" name="cid" value="${id}">`;
-        target = `#comment${id}`;
+        target = `#commentPosterTarget${id}`;
+
+        // Hide original comment
+        $(`#commentBody${id}`).hide();
+        restore = `#commentBody${id}`;
     } else {
         // New comment
         comment = '';
         commentID = '';
         target = `#commentPoster${postID}`;
+        restore = '';
     }
 
     var posterName = `poster${postID}${id}`;
-    var poster = `<div class="text-right"><input type="hidden" name="pid" value="${postID}">${commentID}<textarea id="${posterName}" class="form-control" name="comment" placeholder="Enter Comment" rows="8" autofocus required>${comment}</textarea><a href="#" class="btn btn-sm btn-secondary mt-2 mr-2" tabindex="1" onclick="return commentCancel();">Cancel</a><input type="submit" value="Post Comment" tabindex="0" class="btn-sm btn btn-primary mt-2"></div>`;
+    var poster = `<div class="text-right"><input type="hidden" name="pid" value="${postID}">${commentID}<textarea id="${posterName}" class="form-control" name="comment" placeholder="Enter Comment" rows="8" autofocus required>${comment}</textarea><a href="#" class="btn btn-sm btn-secondary mt-2 mr-2" tabindex="1" onclick="return commentCancel('${restore}', '${target}');">Cancel</a><input type="submit" value="Post Comment" tabindex="0" class="btn-sm btn btn-primary mt-2"></div>`;
     $(target).html(poster);
+    $(target).show();
     $(`#${posterName}`).focus();
 }
 
