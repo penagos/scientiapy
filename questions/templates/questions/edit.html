@@ -103,6 +103,10 @@
                 <div class="form-group text-right">
                     <button type="submit" class="btn btn-primary">Save</button>
                     <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">Cancel</a>
+
+                    {% if post.id %}
+                    <a href="{% url 'questions:delete' post.id %}" class="btn btn-danger">Delete</a>
+                    {% endif %}
                 </div>
             </form>
         </div>
