@@ -20,7 +20,7 @@
                 </div>
                 {% elif post.parent_id != 0 %}
                 <div class="form-group">
-                    <label><strong>Posted in: </strong> <a href="#"></a></label>
+                    <label><strong>Posted in: </strong> <a href="{% url 'questions:view' post.parent_id %}" target="_blank">{{ post.parent.title }}</a></label>
                 </div>
                 {% endif %}
                 <div class="form-group">
