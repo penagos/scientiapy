@@ -44,3 +44,12 @@ If you wish to bind the server to a an IP other than `127.0.0.1` and the port `8
 ```
 python manage.py runserver IP:PORT
 ```
+
+## Acknowledgements
+Scientiapy makes use of the resources listed below, in no particular order:
+
+* https://github.com/Nodws/bootstrap4-tagsinput
+* https://github.com/js-cookie/js-cookie/
+* https://www.bootstraptoggle.com
+* https://github.com/leemunroe/responsive-html-email-template
+* https://highlightjs.org/
