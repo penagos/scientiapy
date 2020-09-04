@@ -11,6 +11,7 @@ An open source knowledge sharing website written in Python 3 using the Django fr
 * Ability to tag questions
 * Leverages Django admin panel
 * Full markdown support
+* Basic question search functionality
 
 ## Installation
 You will need the following packages:
