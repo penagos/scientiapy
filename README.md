@@ -1,5 +1,5 @@
 # Scientiapy
-An open source knowledge sharing website written in Python 3 using the Django framework.
+An open source community Q&A website written in Python 3 using the Django framework.
 
 ## Features
 * Written in Python 3 on a modern framework (Django)
