@@ -16,6 +16,7 @@ from user.models import Profile
 def index(request):
     # If a search was made, filter on needle
     title = 'Questions'
+    subtitle = ''
 
     # Handle sorting of results if specified
     sort = request.GET.get('sort', '')
@@ -37,17 +38,24 @@ def index(request):
 
         # Walk result set and prune accordingly
         questionsFiltered = []
+        numQuestions = 0
+        numAnswers = 0
         for q in questions:
             if q.post_type != PostType.QUESTION.value:
+                numAnswers += 1
+
                 # Do not add duplicate results
                 if not any(x.id == q.parent_id for x in questionsFiltered):
                     q = Post.objects.filter(pk=q.parent_id).annotate(answers=Count('post')).order_by('-post_type')[0]
                 else:
                     q = None
+            else:
+                numQuestions += 1
 
             if q is not None:
                 questionsFiltered.append(q)
         questions = questionsFiltered
+        subtitle = '<h3>Matched {} questions and {} answers</h3>'.format(numQuestions).format(numAnswers)
     elif request.GET.get('tag') is not None:
         query = request.GET.get('tag')
         title = 'Questions tagged "{}"'.format(query)
@@ -85,6 +93,7 @@ def index(request):
                'users_count': users_count,
                'count': len(questions),
                'title': title,
+               'subtitle': subtitle,
                'recent': recent,
                'hot': hot,
                'unanswered': unanswered}
