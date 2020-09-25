@@ -26,7 +26,7 @@ def index(request):
     elif sort == 'hot':
         sort = 'published_date'
     else:
-        sort = '-post_id'
+        sort = '-id'
 
     if request.GET.get('q') is not None:
         # Search across tags, answers and questions
