@@ -105,6 +105,13 @@ def settings(request, uid):
                 # Disable
                 user.setting.receive_digests = False
 
+            if 'subscribe_all' in request.POST:
+                # Enable
+                user.setting.subscribe_all = True
+            else:
+                # Disable
+                user.setting.subscribe_all = False
+
             user.profile.about = request.POST['about']
             user.setting.save()
             user.profile.save()
@@ -115,7 +122,15 @@ def settings(request, uid):
             else:
                 receive_digests = ''
 
-            context = {'uid': uid, 'receive_digests': receive_digests, 'aboutme': user.profile.about}
+            if user.setting.subscribe_all:
+                subscribe_all = 'checked'
+            else:
+                subscribe_all = ''
+
+            context = {'uid': uid,
+                       'receive_digests': receive_digests,
+                       'subscribe_all': subscribe_all,
+                       'aboutme': user.profile.about}
             return render(request, 'user/settings.html', context)
 
 def all(request):

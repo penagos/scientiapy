@@ -12,3 +12,4 @@ class Profile(models.Model):
 class Setting(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     receive_digests = models.BooleanField(default=True)
+    subscribe_all = models.BooleanField(default=False)
