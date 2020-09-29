@@ -13,3 +13,7 @@ class Setting(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     receive_digests = models.BooleanField(default=True)
     subscribe_all = models.BooleanField(default=False)
+
+    @staticmethod
+    def getGlobalNotifyList():
+        return Setting.objects.filter(subscribe_all=True)
