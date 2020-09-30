@@ -395,6 +395,9 @@ def handleNotify(request, post, reply=None):
         # Append all users on global notify list
         globalNotifyList = Setting.getGlobalNotifyList()
 
+        for user in globalNotifyList:
+            bccList.append(user.user.email)
+
         for user in usersSplit:
             # Ensure this is a valid user
             userHandle = get_object_or_404(User, username=user)
