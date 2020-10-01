@@ -96,6 +96,7 @@ def settings(request, uid):
         raise PermissionDenied
     else:
         user = get_object_or_404(User, pk=uid)
+        user.profile = Profile.objects.get_or_create(user=user)[0]
         user.setting = Setting.objects.get_or_create(user=user)[0]
         if request.method == "POST":
             if 'receive_digests' in request.POST:
