@@ -9,8 +9,8 @@ from django.shortcuts import get_object_or_404, render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from itertools import chain
-from .models import Comment, Post, PostTag, PostType, Tag, Vote, Setting
-from user.models import Profile
+from .models import Comment, Post, PostTag, PostType, Tag, Vote
+from user.models import Profile, Setting
 
 # Create your views here.
 def index(request):
