@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404, render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from itertools import chain
-from .models import Comment, Post, PostTag, PostType, Tag, Vote, User
+from .models import Comment, Post, PostTag, PostType, Tag, Vote, Setting
 from user.models import Profile
 
 # Create your views here.
