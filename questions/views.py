@@ -49,7 +49,7 @@ def index(request):
         questionsFiltered = []
         numQuestions = 0
         numAnswers = 0
-        for q in questions.objects.all():
+        for q in questions:
             if q.post_type != PostType.QUESTION.value:
                 numAnswers += 1
 
