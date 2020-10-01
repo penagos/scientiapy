@@ -1,5 +1,6 @@
 # Scientiapy
 An open source community Q&A website written in Python 3 using the Django framework.
+
 [Live Demo](https://scientiapy.penagos.co).
 
 ## Features
