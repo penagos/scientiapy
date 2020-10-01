@@ -36,20 +36,20 @@ def index(request):
 
         # Unless search string is quoted, search for each word independently
         quoted = (query[0] == '"' and query[-1] == '"')
-        questions = []
+        questions = Post.objects.none()
 
         if quoted:
             questions = Post.objects.filter(Q(title__icontains=query) | Q(body__icontains=query) | Q(tags__icontains=query)).annotate(answers=Count('post')).order_by(sort)
         else:
             queries = query.split()
             for query in queries:
-                questions.append(Post.objects.filter(Q(title__icontains=query) | Q(body__icontains=query) | Q(tags__icontains=query)).annotate(answers=Count('post')).order_by(sort))
+                questions = questions | (Post.objects.filter(Q(title__icontains=query) | Q(body__icontains=query) | Q(tags__icontains=query)).annotate(answers=Count('post')).order_by(sort))
 
         # Walk result set and prune accordingly
         questionsFiltered = []
         numQuestions = 0
         numAnswers = 0
-        for q in questions.objects.all():
+        for q in questions:
             if q.post_type != PostType.QUESTION.value:
                 numAnswers += 1
 

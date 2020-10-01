@@ -17,7 +17,7 @@ tests/coverage_html/
 tests/.coverage
 build/
 tests/report/
-
+venv/
 # Migrations won't be committed until first public release
 # TODO: remove me before flight!
 **/migrations/*
