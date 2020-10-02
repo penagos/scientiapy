@@ -1,0 +1,22 @@
+{% extends "email/email_base.html" %}
+{% load markdown %}
+
+{% block preview %}
+A new comment was posted in "{{ post.title }}" by <strong>{{ reply.author.username }}</strong> and you are on the question notifylist.
+{% endblock %}
+
+{% block title %}
+RE: {{ post.title }}
+{% endblock %}
+
+{% block leadtext %}
+A new comment was posted in <a href="{{ action_link }}" target="_blank">{{ post.title }}</a> by <strong>{{ reply.author.username }}</strong> and you are on the question notifylist. The comment posted was:
+{% endblock %}
+
+{% block body %}
+{{ reply.body|markdownify|safe }}
+{% endblock %}
+
+{% block actionbutton %}
+<a href="{{ action_link }}" target="_blank" style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #3498db; border-radius: 5px; display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-transform: capitalize; border-color: #3498db;">View Question</a>
+{% endblock %}

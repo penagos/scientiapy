@@ -229,6 +229,8 @@ def save(request):
 
             comment.save()
             anchor = '#c' + str(comment.pk)
+
+            handleNotify(request, question, comment=comment)
         elif pid:
             # Update existing answer or question
             post = get_object_or_404(Post, pk=pid)
@@ -395,7 +397,7 @@ def handleTags(post, tags):
     
     return tags
 
-def handleNotify(request, post, reply=None):
+def handleNotify(request, post, reply=None, comment=None):
     # If any users are on the notifylist, send them an email
     if post.notify != "":
         usersSplit = post.notify.split(',')
@@ -415,12 +417,21 @@ def handleNotify(request, post, reply=None):
             bccList.append(userHandle.email)
 
         # Choose the right email template and title
-        if reply is None:
+        if reply is None and comment is None:
+            # New questsion
             subject = '[Scientiapy]: ' + post.title
             template = 'email/newQuestion.html'
             home_link = request.build_absolute_uri('/')
             anchor = ''
+        else if reply is None:
+            # New comment
+            subject = '[Scientiapy]: RE: ' + post.title
+            template = 'email/newComment.html'
+            home_link = request.build_absolute_uri(reverse('questions:view', args=(post.id,)))
+            anchor = '#p' + str(post.pk)
+            reply = comment
         else:
+            # New post
             subject = '[Scientiapy]: RE: ' + post.title
             template = 'email/newAnswer.html'
             home_link = request.build_absolute_uri(reverse('questions:view', args=(post.id,)))
