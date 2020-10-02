@@ -423,7 +423,7 @@ def handleNotify(request, post, reply=None, comment=None):
             template = 'email/newQuestion.html'
             home_link = request.build_absolute_uri('/')
             anchor = ''
-        else if reply is None:
+        elif reply is None:
             # New comment
             subject = '[Scientiapy]: RE: ' + post.title
             template = 'email/newComment.html'
