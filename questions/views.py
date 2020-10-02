@@ -230,6 +230,7 @@ def save(request):
             comment.save()
             anchor = '#c' + str(comment.pk)
 
+            question = get_object_or_404(Post, pk=qid)
             handleNotify(request, question, comment=comment)
         elif pid:
             # Update existing answer or question
@@ -428,7 +429,7 @@ def handleNotify(request, post, reply=None, comment=None):
             subject = '[Scientiapy]: RE: ' + post.title
             template = 'email/newComment.html'
             home_link = request.build_absolute_uri(reverse('questions:view', args=(post.id,)))
-            anchor = '#p' + str(post.pk)
+            anchor = '#c' + str(comment.pk)
             reply = comment
         else:
             # New post
