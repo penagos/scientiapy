@@ -35,7 +35,10 @@
         <form method="POST" action="{% url 'questions:save' %}">
         {% csrf_token %}
         <div id="commentPoster{{ post.id }}">
-            <p class="small"><a href="#" class="commentPoster" onclick="return postComment({{ post.id }});">Post comment</a></p>
+            <div id="commentPosterBody{{ post.id }}"></div>
+            <div id="commentPosterActions{{ post.id }}">
+                <p class="small"><a href="#" class="commentPoster" onclick="return postComment({{ post.id }});">Post comment</a></p>
+            </div>
         </div>
         </form>
     {% else %}
