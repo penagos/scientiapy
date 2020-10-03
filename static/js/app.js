@@ -128,16 +128,18 @@ function commentEditor(id, postID) {
         // Hide original comment
         $(`#commentBody${id}`).hide();
         restore = `#commentBody${id}`;
+        action = `Save Comment`;
     } else {
         // New comment
         comment = '';
         commentID = '';
         target = `#commentPosterBody${postID}`;
         restore = `#commentPosterActions${postID}`;
+        action = `Post Comment`;
     }
 
     var posterName = `poster${postID}${id}`;
-    var poster = `<div class="text-right"><input type="hidden" name="pid" value="${postID}">${commentID}<textarea id="${posterName}" class="form-control" name="comment" placeholder="Enter Comment" rows="8" autofocus required>${comment}</textarea><a href="#" class="btn btn-sm btn-secondary mt-2 mr-2" tabindex="1" onclick="return commentCancel('${restore}', '${target}');">Cancel</a><input type="submit" value="Post Comment" tabindex="0" class="btn-sm btn btn-primary mt-2"></div>`;
+    var poster = `<div class="text-right"><input type="hidden" name="pid" value="${postID}">${commentID}<textarea id="${posterName}" class="form-control" name="comment" placeholder="Enter Comment" rows="8" autofocus required>${comment}</textarea><a href="#" class="btn btn-sm btn-secondary mt-2 mr-2" tabindex="1" onclick="return commentCancel('${restore}', '${target}');">Cancel</a><input type="submit" value="${action}" tabindex="0" class="btn-sm btn btn-primary mt-2"></div>`;
     $(target).html(poster);
     $(target).show();
     $(restore).hide();
