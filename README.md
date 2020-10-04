@@ -9,7 +9,7 @@ An open source community Q&A website written in Python 3 using the Django framew
 * Responsive (bootstrap) layout
 * Allows commenting on questions and answers
 * Upvoting of questions and answers
-* User notification lists for new questions and answers (email based)
+* User notification lists for new questions, comments and answers (email based)
 * Ability to tag questions
 * Leverages Django admin panel
 * Full markdown support
