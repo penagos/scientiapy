@@ -39,6 +39,7 @@ def index(request):
         questions = Post.objects.none()
 
         if quoted:
+            query = query[1:-1]
             questions = Post.objects.filter(Q(title__icontains=query) | Q(body__icontains=query) | Q(tags__icontains=query)).annotate(answers=Count('post')).order_by(sort)
         else:
             queries = query.split()
@@ -64,7 +65,7 @@ def index(request):
             if q is not None:
                 questionsFiltered.append(q)
         questions = questionsFiltered
-        subtitle = '<h3>Matched {} questions and {} answers</h3>'.format(numQuestions).format(numAnswers)
+        subtitle = f"Matched {numQuestions} questions and {numAnswers} answers"
     elif request.GET.get('tag') is not None:
         query = request.GET.get('tag')
         title = 'Questions tagged "{}"'.format(query)
