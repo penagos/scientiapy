@@ -48,6 +48,39 @@ If you wish to bind the server to a an IP other than `127.0.0.1` and the port `8
 python manage.py runserver IP:PORT
 ```
 
+## Production Hosting
+You can host this application using the WSGI Apache mod. First ensure you have the mod enabled in `httpd.conf`. Assuming use of a virtualhost, you can use something like:
+```
+<VirtualHost *:443>
+  ServerName YourServerName
+	DocumentRoot /path/to/scientiapy
+  ErrorLog /path/to/errors.log
+
+  <Directory /path/to/scientiapy>
+      <Files wsgi.py>
+          Require all granted
+      </Files>
+  </Directory>
+
+  Alias /static/ /path/to/scientiapy/static/
+  Alias /static/admin /path/to/scientiapy/static/
+    
+  <Directory /path/to/scientiapy/static> 
+      Order allow,deny
+      Allow from all
+  </Directory> 
+
+  WSGIDaemonProcess scientiapy python-path=/path/to/scientiapy:/path/to/scientiapy/venv/lib/python3.6/site-packages
+  WSGIProcessGroup scientiapy
+  WSGIScriptAlias / /path/to/scientiapy/scientiapy/wsgi.py
+  SSLCertificateFile cert.pem
+  SSLCertificateKeyFile privkey.pem
+  Include options-ssl-apache.conf
+  SSLCertificateChainFile chain.pem
+</VirtualHost>
+```
+Note this assumes that you have an SSL certificate and that a virtual environment has been setup (with Python 3.6). The configuration above should be easily adaptable to other server configs.
+
 ## Acknowledgements
 Scientiapy makes use of the resources listed below, in no particular order:
 
