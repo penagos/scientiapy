@@ -131,7 +131,8 @@ def settings(request, uid):
             context = {'uid': uid,
                        'receive_digests': receive_digests,
                        'subscribe_all': subscribe_all,
-                       'aboutme': user.profile.about}
+                       'aboutme': user.profile.about,
+                       'email': user.email}
             return render(request, 'user/settings.html', context)
 
 def all(request):
