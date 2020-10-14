@@ -12,6 +12,7 @@ from itertools import chain
 from .models import Comment, Post, PostTag, PostType, Tag, Vote
 from user.models import Profile, Setting
 
+
 # Create your views here.
 def index(request):
     # If a search was made, filter on needle
@@ -40,11 +41,17 @@ def index(request):
 
         if quoted:
             query = query[1:-1]
-            questions = Post.objects.filter(Q(title__icontains=query) | Q(body__icontains=query) | Q(tags__icontains=query)).annotate(answers=Count('post')).order_by(sort)
+            questions = Post.objects.filter(
+                Q(title__icontains=query) | Q(body__icontains=query)
+                | Q(tags__icontains=query)).annotate(
+                    answers=Count('post')).order_by(sort)
         else:
             queries = query.split()
             for query in queries:
-                questions = questions | (Post.objects.filter(Q(title__icontains=query) | Q(body__icontains=query) | Q(tags__icontains=query)).annotate(answers=Count('post')).order_by(sort))
+                questions = questions | (Post.objects.filter(
+                    Q(title__icontains=query) | Q(body__icontains=query)
+                    | Q(tags__icontains=query)).annotate(
+                        answers=Count('post')).order_by(sort))
 
         # Walk result set and prune accordingly
         questionsFiltered = []
@@ -56,7 +63,8 @@ def index(request):
 
                 # Do not add duplicate results
                 if not any(x.id == q.parent_id for x in questionsFiltered):
-                    q = Post.objects.filter(pk=q.parent_id).annotate(answers=Count('post')).order_by('-post_type')[0]
+                    q = Post.objects.filter(pk=q.parent_id).annotate(
+                        answers=Count('post')).order_by('-post_type')[0]
                 else:
                     q = None
             else:
@@ -69,9 +77,11 @@ def index(request):
     elif request.GET.get('tag') is not None:
         query = request.GET.get('tag')
         title = 'Questions tagged "{}"'.format(query)
-        questions = Post.objects.filter(Q(tags__icontains=query)).annotate(answers=Count('post'))
+        questions = Post.objects.filter(
+            Q(tags__icontains=query)).annotate(answers=Count('post'))
     else:
-        questions = Post.objects.filter(post_type=PostType.QUESTION).annotate(answers=Count('post')).order_by(sort)
+        questions = Post.objects.filter(post_type=PostType.QUESTION).annotate(
+            answers=Count('post')).order_by(sort)
 
     # Convert comma separated tags to list for easy display
     for post in questions:
@@ -97,17 +107,20 @@ def index(request):
     answers_count = Post.getAnswersCount()
     users_count = User.objects.all().count()
 
-    context = {'questions': page_obj,
-               'questions_count': questions_count,
-               'answers_count': answers_count,
-               'users_count': users_count,
-               'count': len(questions),
-               'title': title,
-               'subtitle': subtitle,
-               'recent': recent,
-               'hot': hot,
-               'unanswered': unanswered}
+    context = {
+        'questions': page_obj,
+        'questions_count': questions_count,
+        'answers_count': answers_count,
+        'users_count': users_count,
+        'count': len(questions),
+        'title': title,
+        'subtitle': subtitle,
+        'recent': recent,
+        'hot': hot,
+        'unanswered': unanswered
+    }
     return render(request, 'questions/index.html', context)
+
 
 def view(request, qid):
     question = get_object_or_404(Post, pk=qid)
@@ -120,10 +133,9 @@ def view(request, qid):
     # Fetch related questions
     related = Post.getRelated(question)
 
-    context = {'question': question,
-               'answers': posts,
-               'related': related}
+    context = {'question': question, 'answers': posts, 'related': related}
     return render(request, 'questions/view.html', context)
+
 
 def accept(request):
     # User must be logged in
@@ -144,6 +156,7 @@ def accept(request):
         answer.save()
         return JsonResponse({'success': True})
 
+
 def vote(request):
     # User must be logged in
     if not request.user.is_authenticated:
@@ -153,7 +166,8 @@ def vote(request):
         pid = request.POST['pid']
 
         # Prevent vote change if one is already registered
-        oldVote = Vote.objects.filter(Q(post_id=pid) & Q(user_id=request.user.id))
+        oldVote = Vote.objects.filter(
+            Q(post_id=pid) & Q(user_id=request.user.id))
 
         if not oldVote:
             voteType = int(request.POST['type'])
@@ -173,16 +187,14 @@ def vote(request):
             user.profile.save()
 
             # Create a new vote entry
-            vote = Vote(post=post,
-                        user=request.user,
-                        amount=voteType)
+            vote = Vote(post=post, user=request.user, amount=voteType)
             vote.save()
         else:
             # Update existing vote
             voteType = 0
 
-        return JsonResponse({'success': True,
-                             'type': voteType})
+        return JsonResponse({'success': True, 'type': voteType})
+
 
 def save(request):
     # User must be logged in
@@ -219,9 +231,7 @@ def save(request):
                 comment.edit_date = datetime.now()
                 comment.author_edit = request.user
             else:
-                comment = Comment(post=post,
-                                author=request.user,
-                                body=comment)
+                comment = Comment(post=post, author=request.user, body=comment)
 
             if post.post_type == PostType.QUESTION:
                 qid = post.id
@@ -280,19 +290,28 @@ def save(request):
             # Notify anyone on question notifylist
             handleNotify(request, question, reply=post)
 
-        return HttpResponseRedirect(reverse('questions:view', args=(qid,)) + anchor)
+        return HttpResponseRedirect(
+            reverse('questions:view', args=(qid, )) + anchor)
+
 
 def ask(request):
-    context = {'action': 'New Question', 'isNewQuestion': True, 'notifyList': request.user.username}
+    context = {
+        'action': 'New Question',
+        'isNewQuestion': True,
+        'notifyList': request.user.username
+    }
     return render(request, 'questions/edit.html', context)
+
 
 def new(request):
     context = {}
     return render(request, 'questions/edit.html', context)
 
+
 def unanswered(request):
     context = {}
     return render(request, 'questions/edit.html', context)
+
 
 def tags(request):
     # Fetch tags and question counts
@@ -307,6 +326,7 @@ def tags(request):
         query = request.GET.get('query')
         tags = Tag.objects.filter(title__icontains=query)
         return JsonResponse([x.title for x in list(tags)], safe=False)
+
 
 def delete(request, pid):
     if not request.user.is_authenticated:
@@ -324,11 +344,13 @@ def delete(request, pid):
             if postType == PostType.QUESTION:
                 return HttpResponseRedirect(reverse('questions:index'))
             else:
-                return HttpResponseRedirect(reverse('questions:view', args=(post.parent_id,)))
+                return HttpResponseRedirect(
+                    reverse('questions:view', args=(post.parent_id, )))
         else:
             post = get_object_or_404(Post, pk=pid)
             context = {'post': post}
             return render(request, 'questions/delete.html', context)
+
 
 def deleteComment(request, cid):
     if not request.user.is_authenticated:
@@ -337,6 +359,7 @@ def deleteComment(request, cid):
         comment = get_object_or_404(Comment, pk=cid)
         comment.delete()
         return JsonResponse({'success': True})
+
 
 def edit(request, pid):
     # Ensure user is logged in
@@ -358,6 +381,7 @@ def edit(request, pid):
         context = {'post': post, 'action': action, 'notifyList': notifyList}
         return render(request, 'questions/edit.html', context)
 
+
 def posts(request, qid, order):
     post = get_object_or_404(Post, pk=qid)
 
@@ -378,7 +402,11 @@ def posts(request, qid, order):
         JsonResponse({'success': False, 'message': 'Unknown sort order'})
 
     # Render HTML serverside to reuse view template
-    postsHTML = render_to_string('questions/answers.html', {'answers': answers, 'question': post}, request=request)
+    postsHTML = render_to_string('questions/answers.html', {
+        'answers': answers,
+        'question': post
+    },
+                                 request=request)
     return JsonResponse({'success': True, 'posts': postsHTML}, safe=False)
 
 
@@ -396,8 +424,9 @@ def handleTags(post, tags):
 
     for tag in tagsSplit:
         Post.updateTag(post, tag)
-    
+
     return tags
+
 
 def handleNotify(request, post, reply=None, comment=None):
     # If any users are on the notifylist, send them an email
@@ -429,26 +458,37 @@ def handleNotify(request, post, reply=None, comment=None):
             # New comment
             subject = '[Scientiapy]: RE: ' + post.title
             template = 'email/newComment.html'
-            home_link = request.build_absolute_uri(reverse('questions:view', args=(post.id,)))
+            home_link = request.build_absolute_uri(
+                reverse('questions:view', args=(post.id, )))
             anchor = '#c' + str(comment.pk)
             reply = comment
         else:
             # New post
             subject = '[Scientiapy]: RE: ' + post.title
             template = 'email/newAnswer.html'
-            home_link = request.build_absolute_uri(reverse('questions:view', args=(post.id,)))
+            home_link = request.build_absolute_uri(
+                reverse('questions:view', args=(post.id, )))
             anchor = '#p' + str(post.pk)
 
-        action_link = request.build_absolute_uri(reverse('questions:view', args=(post.id,)) + anchor)
-        unsubscribe_link = request.build_absolute_uri(reverse('user:settings', args=(request.user.id,)))
-        message = render_to_string(template, {'post': post, 'home_link': home_link, 'action_link': action_link, 'reply': reply, 'unsubscribe_link': unsubscribe_link})
-        send_mail(
-            subject, 
-            'Scientiapy notification', 
-            'noreply@penagos.co',
-            bccList,
-            fail_silently=False,
-            html_message=message)
+        action_link = request.build_absolute_uri(
+            reverse('questions:view', args=(post.id, )) + anchor)
+        unsubscribe_link = request.build_absolute_uri(
+            reverse('user:settings', args=(request.user.id, )))
+        message = render_to_string(
+            template, {
+                'post': post,
+                'home_link': home_link,
+                'action_link': action_link,
+                'reply': reply,
+                'unsubscribe_link': unsubscribe_link
+            })
+        send_mail(subject,
+                  'Scientiapy notification',
+                  'noreply@penagos.co',
+                  bccList,
+                  fail_silently=False,
+                  html_message=message)
+
 
 # This can be called on either an answer or a question. In the cases that it is
 # called on a question, take into consideration all answers which have this post

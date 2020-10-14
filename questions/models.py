@@ -5,6 +5,7 @@ from django.conf import settings
 from django.db import models
 from django.db.models import Count, Q
 
+
 # Create your models here.
 class Tag(models.Model):
     title = models.CharField(max_length=32)
@@ -18,6 +19,7 @@ class Tag(models.Model):
     def __str__(self):
         return self.title
 
+
 class PostTag(models.Model):
     post = models.ForeignKey('Post', on_delete=models.CASCADE)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
@@ -28,20 +30,38 @@ class PostTag(models.Model):
 
     @staticmethod
     def getAllTags():
-        return PostTag.objects.values('tag__title', 'tag__description').annotate(posts=Count('post')).order_by('-posts')
+        return PostTag.objects.values(
+            'tag__title', 'tag__description').annotate(
+                posts=Count('post')).order_by('-posts')
+
 
 class PostType(models.TextChoices):
     QUESTION = 'QQ', 'question'
     ANSWER = 'AA', 'answer'
 
+
 class Post(models.Model):
     post_type = models.CharField(max_length=2, choices=PostType.choices)
     title = models.CharField(max_length=255, null=True, blank=True)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    author_edit = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, related_name='author_editid')
-    parent = models.ForeignKey('Post', blank=True, null=True, on_delete=models.CASCADE)
-    accepted = models.ForeignKey('Post', blank=True, null=True, on_delete=models.CASCADE, related_name='accepted_idfk')
-    accepted_author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, related_name='author_acceptid')
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               on_delete=models.CASCADE)
+    author_edit = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                    on_delete=models.CASCADE,
+                                    null=True,
+                                    related_name='author_editid')
+    parent = models.ForeignKey('Post',
+                               blank=True,
+                               null=True,
+                               on_delete=models.CASCADE)
+    accepted = models.ForeignKey('Post',
+                                 blank=True,
+                                 null=True,
+                                 on_delete=models.CASCADE,
+                                 related_name='accepted_idfk')
+    accepted_author = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                        on_delete=models.CASCADE,
+                                        null=True,
+                                        related_name='author_acceptid')
     accepted_date = models.DateTimeField(null=True, blank=True)
 
     # Need to pass function and not function() to eval at insertion time
@@ -72,7 +92,8 @@ class Post(models.Model):
         # (1) Accepted
         # (2) Vote count
         # (3) Post date
-        return Post.objects.prefetch_related('comment_set').filter(parent_id=qid).order_by('-accepted_id', '-votes', 'published_date')
+        return Post.objects.prefetch_related('comment_set').filter(
+            parent_id=qid).order_by('-accepted_id', '-votes', 'published_date')
 
     @staticmethod
     def updateTag(post, tag):
@@ -100,32 +121,42 @@ class Post(models.Model):
             else:
                 keywords += post.tags.split(',')
 
-        return Post.objects.filter(reduce(lambda x, y: x | y, [Q(title__icontains=word) for word in keywords]), post_type=PostType.QUESTION).annotate(answers=Count('post'))[:10]
+        return Post.objects.filter(
+            reduce(lambda x, y: x | y,
+                   [Q(title__icontains=word) for word in keywords]),
+            post_type=PostType.QUESTION).annotate(answers=Count('post'))[:10]
 
     @staticmethod
     def getHotQuestions():
         # Get "hot" questions
-        return Post.objects.filter(post_type=PostType.QUESTION).annotate(answers=Count('post')).order_by('-answers')[:5]
+        return Post.objects.filter(post_type=PostType.QUESTION).annotate(
+            answers=Count('post')).order_by('-answers')[:5]
 
     @staticmethod
     def getRecentQuestions():
         # Get new questions
-        return Post.objects.filter(post_type=PostType.QUESTION).annotate(answers=Count('post')).order_by('-published_date')[:5]
+        return Post.objects.filter(post_type=PostType.QUESTION).annotate(
+            answers=Count('post')).order_by('-published_date')[:5]
 
     @staticmethod
     def getUnansweredQuestions():
         # Get unanswered questions
-        return Post.objects.filter(post_type=PostType.QUESTION).annotate(answers=Count('post')).order_by('answers')[:5]
+        return Post.objects.filter(post_type=PostType.QUESTION).annotate(
+            answers=Count('post')).order_by('answers')[:5]
 
     @staticmethod
     def getRecentQuestionsByUser(uid, count):
         # Get X most recent questions by user
-        return Post.objects.filter(post_type=PostType.QUESTION, author=uid).annotate(answers=Count('post')).order_by('-published_date')[:count]
+        return Post.objects.filter(
+            post_type=PostType.QUESTION, author=uid).annotate(
+                answers=Count('post')).order_by('-published_date')[:count]
 
     @staticmethod
     def getRecentAnswersByUser(uid, count):
         # Get X most recent answers by user
-        return Post.objects.filter(post_type=PostType.ANSWER, author=uid).order_by('-published_date')[:count]
+        return Post.objects.filter(
+            post_type=PostType.ANSWER,
+            author=uid).order_by('-published_date')[:count]
 
     # For admin
     def __str__(self):
@@ -137,15 +168,21 @@ class Post(models.Model):
 
 class Vote(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
     date = models.DateTimeField(default=datetime.now)
     amount = models.IntegerField()
 
+
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               on_delete=models.CASCADE)
     date = models.DateTimeField(default=datetime.now)
-    author_edit = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, related_name='author_editid_comment')
+    author_edit = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                    on_delete=models.CASCADE,
+                                    null=True,
+                                    related_name='author_editid_comment')
     edit_date = models.DateTimeField(null=True, blank=True)
     body = models.TextField()
 
