@@ -25,13 +25,13 @@
                 <div>
                     <ul class="nav nav-pills" style="border: 1px solid #CCCCCC; border-radius: .25rem;">
                         <li class="nav-item">
-                          <small><a class="nav-link {% if request.GET.sort == 'new' or not request.GET.sort %} active {% endif %}" href="?sort=new">Newest</a></small>
+                          <small><a class="nav-link {% if request.GET.sort == 'new' or not request.GET.sort %} active {% endif %}" href="?sort=new{{ query }}">Newest</a></small>
                         </li>
                         <li class="nav-item">
-                          <small><a class="nav-link {% if request.GET.sort == 'hot' %} active {% endif %}" href="?sort=hot">Hot</a></small>
+                          <small><a class="nav-link {% if request.GET.sort == 'hot' %} active {% endif %}" href="?sort=hot{{ query }}">Hot</a></small>
                         </li>
                         <li class="nav-item">
-                          <small><a class="nav-link {% if request.GET.sort == 'unanswered' %} active {% endif %}" href="?sort=unanswered">Unanswered</a></small>
+                          <small><a class="nav-link {% if request.GET.sort == 'unanswered' %} active {% endif %}" href="?sort=unanswered{{ query }}">Unanswered</a></small>
                         </li>
                       </ul>
                 </div>

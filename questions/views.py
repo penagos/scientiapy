@@ -18,6 +18,7 @@ def index(request):
     # If a search was made, filter on needle
     title = 'Questions'
     subtitle = ''
+    searchQuery = ''
 
     # Handle sorting of results if specified
     sort = request.GET.get('sort', '')
@@ -33,6 +34,7 @@ def index(request):
         # Search across tags, answers and questions
         # Puts questions before answer hits
         query = request.GET.get('q')
+        searchQuery = '&q={}'.format(query)
         title = 'Search Results for "{}"'.format(query)
 
         # Unless search string is quoted, search for each word independently
@@ -79,6 +81,7 @@ def index(request):
         title = 'Questions tagged "{}"'.format(query)
         questions = Post.objects.filter(
             Q(tags__icontains=query)).annotate(answers=Count('post'))
+        searchQuery = '&tag={}'.format(query)
     else:
         questions = Post.objects.filter(post_type=PostType.QUESTION).annotate(
             answers=Count('post')).order_by(sort)
@@ -117,7 +120,8 @@ def index(request):
         'subtitle': subtitle,
         'recent': recent,
         'hot': hot,
-        'unanswered': unanswered
+        'unanswered': unanswered,
+        'query': searchQuery
     }
     return render(request, 'questions/index.html', context)
 
