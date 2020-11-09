@@ -70,6 +70,9 @@ def index(request):
                 else:
                     q = None
             else:
+                if any(x.id == q.id for x in questionsFiltered):
+                    q = None
+
                 numQuestions += 1
 
             if q is not None:
