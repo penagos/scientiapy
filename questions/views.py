@@ -253,9 +253,13 @@ def save(request):
         elif pid:
             # Update existing answer or question
             post = get_object_or_404(Post, pk=pid)
+            oldNotify = ''
+            notify = False
 
             # If this is a question, update the title
             if post.post_type == PostType.QUESTION:
+                notify = True
+                oldNotify = post.notify
                 post.title = request.POST['title']
                 post.notify = request.POST['notify'].lower()
                 qid = post.id
@@ -266,8 +270,13 @@ def save(request):
             post.edit_date = datetime.now()
             post.tags = handleTags(post, tags)
             post.author_edit = request.user
-
             post.save()
+
+            if notify:
+                # Send out emails to new people on the notify list if there's
+                # any new additions
+                handleNotify(request, post, oldNotify=oldNotify)
+
             anchor = '#p' + str(pid)
         elif qid == 0:
             # New question
@@ -435,11 +444,16 @@ def handleTags(post, tags):
     return tags
 
 
-def handleNotify(request, post, reply=None, comment=None):
+def handleNotify(request, post, oldNotify=None, reply=None, comment=None):
     # If any users are on the notifylist, send them an email
     if post.notify != "":
         usersSplit = post.notify.split(',')
         bccList = []
+        oldUsers = []
+
+        # Filter out users which were previously notified
+        if oldNotify is not None:
+            oldUsers = oldNotify.split(',')
 
         # Append all users on global notify list
         globalNotifyList = Setting.getGlobalNotifyList()
@@ -448,54 +462,55 @@ def handleNotify(request, post, reply=None, comment=None):
             bccList.append(user.user.email)
 
         for user in usersSplit:
-            # Ensure this is a valid user
-            userHandle = get_object_or_404(User, username=user)
+            if user not in oldUsers:
+                # Ensure this is a valid user
+                userHandle = get_object_or_404(User, username=user)
 
-            # Get email, add to running BCC list
-            bccList.append(userHandle.email)
+                # Get email, add to running BCC list
+                bccList.append(userHandle.email)
 
         # Choose the right email template and title
         if reply is None and comment is None:
             # New questsion
-            subject = '[Scientiapy]: ' + post.title
+            subject = '[Coderflow]: ' + post.title
             template = 'email/newQuestion.html'
             home_link = request.build_absolute_uri('/')
             anchor = ''
         elif reply is None:
             # New comment
-            subject = '[Scientiapy]: RE: ' + post.title
+            subject = '[Coderflow]: RE: ' + post.title
             template = 'email/newComment.html'
-            home_link = request.build_absolute_uri(
-                reverse('questions:view', args=(post.id, )))
+            home_link = request.build_absolute_uri(reverse('questions:view', args=(post.id,)))
             anchor = '#c' + str(comment.pk)
             reply = comment
         else:
             # New post
-            subject = '[Scientiapy]: RE: ' + post.title
+            subject = '[Coderflow]: RE: ' + post.title
             template = 'email/newAnswer.html'
-            home_link = request.build_absolute_uri(
-                reverse('questions:view', args=(post.id, )))
+            home_link = request.build_absolute_uri(reverse('questions:view', args=(post.id,)))
             anchor = '#p' + str(post.pk)
 
-        action_link = request.build_absolute_uri(
-            reverse('questions:view', args=(post.id, )) + anchor)
-        unsubscribe_link = request.build_absolute_uri(
-            reverse('user:settings', args=(request.user.id, )))
-        message = render_to_string(
-            template, {
-                'post': post,
-                'home_link': home_link,
-                'action_link': action_link,
-                'reply': reply,
-                'unsubscribe_link': unsubscribe_link
-            })
-        send_mail(subject,
-                  'Scientiapy notification',
-                  'noreply@penagos.co',
-                  bccList,
-                  fail_silently=False,
-                  html_message=message)
+        sendNotifyEmail(request, post, subject, template, home_link, anchor, reply, bccList)
 
+def sendNotifyEmail(request, post, subject, template, home_link, anchor, reply, bccList):
+    action_link = request.build_absolute_uri(
+        reverse('questions:view', args=(post.id, )) + anchor)
+    unsubscribe_link = request.build_absolute_uri(
+        reverse('user:settings', args=(request.user.id, )))
+    message = render_to_string(
+        template, {
+            'post': post,
+            'home_link': home_link,
+            'action_link': action_link,
+            'reply': reply,
+            'unsubscribe_link': unsubscribe_link
+        })
+    send_mail(subject,
+                'Scientiapy notification',
+                'noreply@penagos.co',
+                bccList,
+                fail_silently=False,
+                html_message=message)
 
 # This can be called on either an answer or a question. In the cases that it is
 # called on a question, take into consideration all answers which have this post

@@ -49,6 +49,14 @@ python manage.py runserver IP:PORT
 ```
 
 ## Production Hosting
+
+python3.6 -m venv /path/to/venv
+source /path/to/venv/bin/activate
+pip3 install -r requirements
+
+yum install httpd-devel
+python3.6 -m pip install mod_wsgi
+
 You can host this application using the WSGI Apache mod. First ensure you have the mod enabled in `httpd.conf`. Assuming use of a virtualhost, you can use something like:
 ```
 <VirtualHost *:443>
