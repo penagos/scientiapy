@@ -24,7 +24,7 @@ SECRET_KEY = '@k!&v#*ka#t$&3k8$#^ws&m-^nhje965=kcq)lyz68o=v^9a+)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '192.168.1.112']
+ALLOWED_HOSTS = ['localhost', '192.168.1.112', 'scientiapy.penagos.co']
 
 # Application definition
 
@@ -77,8 +77,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'scientiapy',
-        'USER': 'luis',
-        'PASSWORD': 'password',
+        'USER': 'science',
+        'PASSWORD': 'masterchemist',
         'HOST': 'localhost',
         'PORT': '3306'
     }

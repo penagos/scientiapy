@@ -116,3 +116,9 @@ a.no-underline {
 #joinBackground {
     background-color: #86af49;
 }
+
+.sticky {
+    position: fixed;
+    top: 50px;
+    right: 0px;
+}

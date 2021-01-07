@@ -140,7 +140,7 @@
         <div class="col-lg-3">
             <div class="mb-4">
                 <h6 class="font-weight-bold">Related Questions</h6>
-                <ul class="sidelist">
+                <ul class="sidelist" data-spy="affix" data-offset-top="205">
                     {% for q in related %}
                         {% if q.answers %}
                             <li><span class="badge badge-success">{{ q.answers }}</span> <a href="{% url 'questions:view' q.id %}">{{ q.title }}</a></li>
