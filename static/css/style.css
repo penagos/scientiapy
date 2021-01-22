@@ -125,9 +125,11 @@ a.no-underline {
     position: fixed;
     top: 50px;
     right: 0px;
+    z-index: 1;
 }
 .sticky-top {
     position: sticky;
+    z-index: 1;
 }
 
 /*
