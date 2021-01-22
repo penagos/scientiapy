@@ -104,10 +104,16 @@
         </div>
     </script>
 
+    <script id="footer-template" type="text/x-handlebars-template">
+        <div class="result-card bg-light">
+            <a href="#">See all results</a>
+        </div>
+    </script>
+
     <script>
         hljs.initHighlightingOnLoad();
 
-        var engine, template, empty;
+        var engine, template, empty, footer;
 
         $.support.cors = true;
 
@@ -128,6 +134,7 @@
 
         template = Handlebars.compile($("#result-template").html());
         empty = Handlebars.compile($("#empty-template").html());
+        footer = Handlebars.compile($("#footer-template").html());
 
         $('#main-search').typeahead({
             hint: $('.Typeahead-hint'),
@@ -145,7 +152,8 @@
             displayKey: 'title',
             templates: {
                 suggestion: template,
-                empty: empty
+                empty: empty,
+                footer: footer
             }
         })
 

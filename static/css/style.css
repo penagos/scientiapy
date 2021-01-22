@@ -202,7 +202,6 @@ a.no-underline {
     z-index: 100;
     display: none;
     width: 95%;
-    margin-bottom: 20px;
     overflow: hidden;
     background-color: #fff;
     -webkit-border-radius: 8px;
@@ -239,4 +238,8 @@ a.no-underline {
   
   .twitter-typeahead {
       width: 90%;
+  }
+
+  .tt-menu {
+      padding-bottom: 0px;
   }
