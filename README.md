@@ -14,6 +14,7 @@ An open source community Q&A website written in Python 3 using the Django framew
 * Leverages Django admin panel
 * Full markdown support
 * Basic question search functionality
+* Supports search as you type with dropdown results
 
 ## Installation
 You will need the following packages:
