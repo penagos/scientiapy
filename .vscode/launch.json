@@ -11,6 +11,7 @@
             "program": "${workspaceFolder}/manage.py",
             "args": [
                 "runserver",
+                "scientiapy.penagos.co:8080",
                 "--noreload"
             ],
             "django": true

@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.contrib.auth.models import User
+from django.core import serializers
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
@@ -94,6 +95,26 @@ def index(request):
         if post.tags is not None and post.tags is not '':
             post.tags = post.tags.split(',')
 
+    # AJAX requests are fulfilled with a JSON response we can return early as
+    # we do not need any of the additional processing done below
+    if request.GET.get('ajax') is not None:
+        response = []
+
+        for post in questions:
+            serialized = {}
+            serialized['qid'] =  post.id if post.post_type == PostType.QUESTION.value else post.parent.id
+            serialized['pid'] = post.id
+            serialized['title'] = post.title
+            serialized['description'] = (post.body[:150] + '..') if len(post.body) > 150 else post.body
+            serialized['tags'] = post.tags
+            serialized['url'] = reverse('questions:view', args=(serialized['qid'], ))
+            serialized['author'] = post.author.username
+            serialized['published_date'] = post.published_date
+
+            response.append(serialized)
+
+        return JsonResponse(response, safe=False)
+
     # TODO: make this setting customizable from admin panel
     paginator = Paginator(questions, 10)
     page_number = request.GET.get('page')
@@ -126,6 +147,7 @@ def index(request):
         'unanswered': unanswered,
         'query': searchQuery
     }
+
     return render(request, 'questions/index.html', context)
 
 
