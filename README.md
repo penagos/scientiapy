@@ -98,3 +98,4 @@ Scientiapy makes use of the resources listed below, in no particular order:
 * https://www.bootstraptoggle.com
 * https://github.com/leemunroe/responsive-html-email-template
 * https://highlightjs.org/
+* https://github.com/twitter/typeahead.js/
