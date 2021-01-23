@@ -229,7 +229,7 @@ a.no-underline {
     position: relative;
     padding: 8px;
   }
-  .resuld-card:hover, .is-active {
+  .result-card:hover, .is-active {
       background: #F7F7F7;
   }
   .result-card p {
