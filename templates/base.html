@@ -100,13 +100,13 @@
             <p>
                 {% verbatim %}{{description}}{% endverbatim %}
             </p>
-            <small class="text-secondary">Posted by {% verbatim %}{{author}}{% endverbatim %} on {% verbatim %}{{published_date}}{% endverbatim %} </small>
+            <small class="text-secondary">Posted by <a href="{% verbatim %}{{author_url}}{% endverbatim %}">{% verbatim %}{{author}}{% endverbatim %}</a> on {% verbatim %}{{published_date}}{% endverbatim %} </small>
         </div>
     </script>
 
     <script id="footer-template" type="text/x-handlebars-template">
-        <div class="result-card bg-light">
-            <a href="#">See all results</a>
+        <div class="result-card bg-light text-center">
+            <a href="?q={% verbatim %} {{query}} {% endverbatim %}">See all results</a>
         </div>
     </script>
 
