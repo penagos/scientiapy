@@ -100,7 +100,7 @@
             <p>
                 {% verbatim %}{{description}}{% endverbatim %}
             </p>
-            <small class="text-secondary">Posted by <a href="{% verbatim %}{{author_url}}{% endverbatim %}">{% verbatim %}{{author}}{% endverbatim %}</a> on {% verbatim %}{{published_date}}{% endverbatim %} </small>
+            <small class="text-secondary">Posted by <a href="{% verbatim %}{{author_url}}{% endverbatim %}" data-toggle="tooltip" data-placement="top" title="{% verbatim %}{{ author_rep }}{% endverbatim %} rep">{% verbatim %}{{author}}{% endverbatim %}</a> on {% verbatim %}{{published_date}}{% endverbatim %} </small>
         </div>
     </script>
 

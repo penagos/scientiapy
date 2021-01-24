@@ -110,6 +110,7 @@ def index(request):
             serialized['url'] = reverse('questions:view', args=(serialized['qid'], ))
             serialized['author'] = post.author.username
             serialized['author_url'] = reverse('user:profile', args=(post.author.id, ))
+            serialized['author_rep'] = post.author.profile.reputation
             serialized['published_date'] = post.published_date
 
             response.append(serialized)
