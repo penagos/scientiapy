@@ -34,6 +34,12 @@
                                 <img src="{% static '/img/open-iconic/svg/caret-bottom.svg' %}" alt="Down vote" class="upvote" title="-1 vote">
                             </a>
                         {% endif %}
+
+                        {% if user.is_authenticated %}
+                            <a data-fancybox data-type="ajax" data-src="{% url 'user:login' %}" href="javascript:;">
+                                <img src="{% static '/img/open-iconic/svg/star.svg' %}" alt="Favorite" class="favorite filter-gold" title="Favorite">
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-lg-11 col-sm-11 col-xs-12">

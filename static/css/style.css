@@ -15,8 +15,16 @@ pre code {
     /* white-space: pre-wrap; */
 }
 
-.filter-green{
+.filter-green {
     filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(86deg) brightness(118%) contrast(119%);
+}
+
+.filter-gray {
+    filter: invert(90%) sepia(0%) saturate(733%) hue-rotate(149deg) brightness(85%) contrast(91%);
+}
+
+.filter-gold {
+    filter: invert(68%) sepia(50%) saturate(5252%) hue-rotate(16deg) brightness(113%) contrast(101%);
 }
 
 .fancybox-content {
@@ -81,6 +89,11 @@ ul.sidelist li {
 .upvote {
     width: 36px;
     height: 36px;
+}
+
+.favorite {
+    width: 24px;
+    height: 24px;
 }
 
 a.no-underline {
