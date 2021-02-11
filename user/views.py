@@ -118,7 +118,7 @@ def profile(request, uid):
     recentAnswers = Post.getRecentAnswersByUser(uid, 5)
 
     context = {
-        'user': user,
+        'profileUser': user,
         'recentQuestions': recentQuestions,
         'recentAnswers': recentAnswers
     }
