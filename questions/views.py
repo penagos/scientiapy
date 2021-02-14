@@ -421,6 +421,10 @@ def edit(request, pid):
         context = {'post': post, 'action': action, 'notifyList': notifyList}
         return render(request, 'questions/edit.html', context)
 
+def favorites(request):
+    # Show all favorited questions by logged in user
+    context = {}
+    return render(request, 'questions/favorites.html', context);
 
 def posts(request, qid, order):
     post = get_object_or_404(Post, pk=qid)

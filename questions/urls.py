@@ -19,4 +19,5 @@ urlpatterns = [
     path('questions/vote/', views.vote, name="vote"),
     path('questions/accept/', views.accept, name="accept"),
     path('questions/posts/<int:qid>/<slug:order>/', views.posts, name="posts"),
+    path('questions/favorites/', views.favorites, name="favorites"),
 ]

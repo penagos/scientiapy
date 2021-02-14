@@ -47,6 +47,7 @@
                                 {{ user.username }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="accountActions">
+                                <a class="dropdown-item" href="{% url 'questions:favorites' %}">Favorites</a>
                                 <a class="dropdown-item" href="{% url 'user:profile' user.id %}">Profile</a>
                                 <a class="dropdown-item" href="{% url 'user:settings' user.id %}">Settings</a>
 
