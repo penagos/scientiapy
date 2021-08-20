@@ -55,7 +55,7 @@ python manage.py runserver IP:PORT
 ```
 python3.6 -m venv /path/to/venv
 source /path/to/venv/bin/activate
-pip3 install -r requirements
+pip3 install -r requirements.txt
 ```
 
 ### CentOS installation instructions
