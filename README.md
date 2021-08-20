@@ -51,16 +51,24 @@ python manage.py runserver IP:PORT
 
 ## Production Hosting
 
+### Shared installation instructions
+```
 python3.6 -m venv /path/to/venv
 source /path/to/venv/bin/activate
 pip3 install -r requirements
-
-yum install httpd-devel
-python3.6 -m pip install mod_wsgi
-
-You can host this application using the WSGI Apache mod. First ensure you have the mod enabled in `httpd.conf`. Assuming use of a virtualhost, you can use something like:
 ```
-<VirtualHost *:443>
+
+### CentOS installation instructions
+```
+sudo yum install httpd-devel
+python3.6 -m pip install mod_wsgi
+```
+
+You can host this application using the WSGI Apache mod. First ensure you have the mod enabled in `httpd.conf`. To enable such mod, you can run `sudo a2enmod wsgi`. If you do not have the mod installed, you can install it with `sudo apt-get install python3-pip apache2 libapache2-mod-wsgi-py3`.
+
+Assuming use of a apache virtualhost, you can use something like:
+```
+<VirtualHost *:80>
   ServerName YourServerName
 	DocumentRoot /path/to/scientiapy
   ErrorLog /path/to/errors.log
@@ -82,13 +90,16 @@ You can host this application using the WSGI Apache mod. First ensure you have t
   WSGIDaemonProcess scientiapy python-path=/path/to/scientiapy:/path/to/scientiapy/venv/lib/python3.6/site-packages
   WSGIProcessGroup scientiapy
   WSGIScriptAlias / /path/to/scientiapy/scientiapy/wsgi.py
-  SSLCertificateFile cert.pem
-  SSLCertificateKeyFile privkey.pem
-  Include options-ssl-apache.conf
-  SSLCertificateChainFile chain.pem
 </VirtualHost>
 ```
-Note this assumes that you have an SSL certificate and that a virtual environment has been setup (with Python 3.6). The configuration above should be easily adaptable to other server configs.
+Note this assumes that a virtual environment has been setup (with Python 3.6). The configuration above should be easily adaptable to other server configurations.
+
+## Troubleshooting
+
+**Invalid command 'WSGIDaemonProcess'**
+
+Make sure you have installed the `mod_wsgi` apache extension and enabled it with `sudo a2enmod wsgi`.
+
 
 ## Acknowledgements
 Scientiapy makes use of the resources listed below, in no particular order:
