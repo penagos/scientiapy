@@ -32,7 +32,7 @@ Note you need to be using Python 3 and Pip 3. You can install all PiP dependenci
 pip install -r requirements.txt
 ```
 
-To build the database needed by Scientiapy, you will need to run the commands below. Note: the default Scientiapy configuration ships with the MySQL backend (this requires you have access to a MySQL server). If you would like to use a different database backend, you can modify the `settings.py` file (such as SQLITE).
+To build the database needed by Scientiapy, you will need to run the commands below. Note: the default Scientiapy configuration ships with the MySQL backend (this requires you have access to a MySQL server). If you would like to use a different database backend, you can modify the `settings.py` file (such as SQLITE). The default configuration assumes you have a MySQL table called `scientiapy` with a user `science` with password `masterchemist`. These connection defailts can be altered in `scientiapy/settings.py`.
 ```
 python manage.py makemigrations
 python manage.py migrate
